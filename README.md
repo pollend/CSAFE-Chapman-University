@@ -1,2 +1,0 @@
-# theDreamTeam
-The Dream Team
