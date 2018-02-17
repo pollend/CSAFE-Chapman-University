@@ -1,0 +1,19 @@
+current directory: /home/xavi/CSAFE-Chapman-University/csafe-app/vendor/bundle/gems/byebug-10.0.0/ext/byebug
+/usr/bin/ruby -r ./siteconf20180217-30820-n07d0d.rb extconf.rb
+creating Makefile
+
+current directory: /home/xavi/CSAFE-Chapman-University/csafe-app/vendor/bundle/gems/byebug-10.0.0/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /home/xavi/CSAFE-Chapman-University/csafe-app/vendor/bundle/gems/byebug-10.0.0/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.so
+
+current directory: /home/xavi/CSAFE-Chapman-University/csafe-app/vendor/bundle/gems/byebug-10.0.0/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20180217-30820-15swvh/byebug
