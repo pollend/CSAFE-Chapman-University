@@ -102,3 +102,7 @@ Look at the port. In this case it is **32769**.
 4. Type `docker-machine ip default` to find the IP that docker is deploying to.
 
 6. Access the rails app on your browser by navigating to: `ipaddress:32769`
+
+## Executing commands in your rails dev environment
+
+http://phase2.github.io/devtools/common-tasks/ssh-into-a-container/
