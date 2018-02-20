@@ -1,28 +1,8 @@
 # CSAFE-Chapman-University
 
-Description: Chapman University SE320 Project
+Chapman University Software Engineering 320
 
-## Getting started
+## Description
 
-Instructions for starting the rails server
+CSAFE intends to change Public Safety operations by giving students access to call PSafe officers when In need of safety assistance. Add more description here.....
 
-```sh
-$ cd csafe-app
-$ bin/rails server
-```
-
-## Docker Setup
-
-Instructions to Setup and Connect to Docker
-
-Install Docker for you machine Link: (https://docs.docker.com/install/)
-
-```sh
-$ git pull
-$ git checkout docker-setup
-$ cd csafe-app
-$ docker build -t demo .
-$ docker run -it --rm demo bundle exec rake test
-$ docker run -itP demo
-$ 
-``
