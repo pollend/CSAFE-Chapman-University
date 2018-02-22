@@ -113,3 +113,5 @@ http://phase2.github.io/devtools/common-tasks/ssh-into-a-container/
 If you are running Docker on Linux, the files rails new created are owned by root. This happens because the container runs as the root user. If this is the case, change the ownership of the new files.
 
 `sudo chown -R $USER:$USER .`
+
+How to use docker without using `sudo`: https://docs.docker.com/install/linux/linux-postinstall/
