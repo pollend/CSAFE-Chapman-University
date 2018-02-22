@@ -106,3 +106,10 @@ Look at the port. In this case it is **32769**.
 ## Executing commands in your rails dev environment
 
 http://phase2.github.io/devtools/common-tasks/ssh-into-a-container/
+- Use `docker ps` to get the name of the existing container
+- Use the command `docker exec -it <container name> /bin/bash` to get a bash shell in the container
+- Generically, use `docker exec -it <container name> <command>` to execute whatever command you specify in the container.
+
+If you are running Docker on Linux, the files rails new created are owned by root. This happens because the container runs as the root user. If this is the case, change the ownership of the new files.
+
+`sudo chown -R $USER:$USER .`
