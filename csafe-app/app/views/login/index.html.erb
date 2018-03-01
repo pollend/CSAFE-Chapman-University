@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Navbar</title>
+</head>
+<body>
+	<div class="container">
+		<h1>Login Page</h1>
+		<div align="left">
+			<% if user_signed_in? %>
+				<%= link_to "Account Info", edit_user_registration_path %>
+				<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+			<% else %>
+				<%= link_to "Sign Up", new_user_registration_path %>
+				<%= link_to "Login", new_user_session_path %>
+			<% end %>
+		</div>
+	</div>
+</body>
+</html>
