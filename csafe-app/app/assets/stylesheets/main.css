@@ -1,7 +1,4 @@
 
-
-
-
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
@@ -108,7 +105,7 @@ textarea {
 }
 
 nav {
-  box-shadow: 2px 2px 0.5px grey;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 textarea:focus, input:focus {
@@ -621,3 +618,48 @@ input.input100 {
   background: #333333;
   color: #fff;
 }
+
+
+
+
+/*==================================================================
+[ ANIMATION ON HOME PAGE ]*/
+
+
+#home{
+width: 100%;
+height: 100%;
+ background:url(http://pixelglimpse.designova.net/wp_redrice/images/hero.png);
+  animation:animateBackground 120s infinite;
+  -webkit-animation:animateBackground 120s infinite;
+}
+.bg{
+  display:flex;
+  display:-webkit-flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  height: 100%;
+  width: 100%;
+  background-image:-webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
+}
+article{
+  color:#fff;
+  font-family:Arial;
+}
+h1,h4,p{font-weight:normal;line-height:1.2}
+h4{text-transform:uppercase;}
+h1{margin:10px 0 20px}
+@keyframes animateBackground{
+  0%{background-position:0, 0}
+  50%{background-position:100% 0}
+  100%{background-position:0, 0}
+}
+@-webkit-keyframes animateBackground{
+  0%{background-position:0, 0}
+  50%{background-position:100% 0}
+  100%{background-position:0, 0}
+}
+
+/*==================================================================
+[ END ANIMATION ON HOME PAGE ]*/
