@@ -1,0 +1,10 @@
+//= require jquery-3.2.1.min.js
+//= require animsition.min.js
+//= require popper
+//= require perfect-scrollbar.min.js
+//= require select2
+//= require tooltip
+//= require bootstrap
+//= require countdowntime
+//= require moment
+//= require main
