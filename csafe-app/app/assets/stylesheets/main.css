@@ -45,8 +45,8 @@
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
+	margin: 0px;
+	padding: 0px;
 	box-sizing: border-box;
 }
 
@@ -105,6 +105,10 @@ input {
 textarea {
   outline: none;
   border: none;
+}
+
+nav {
+  box-shadow: 2px 2px 0.5px grey;
 }
 
 textarea:focus, input:focus {
@@ -198,7 +202,7 @@ iframe {
 }
 
 .container-login100 {
-  width: 100%;  
+  width: 100%;
   min-height: 100vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -259,7 +263,7 @@ iframe {
   width: 560px;
   min-height: 100vh;
   display: block;
-  background-color: #f7f7f7;
+  background-color: #FFF;
   padding: 173px 55px 55px 55px;
 }
 
@@ -601,7 +605,6 @@ input.input100 {
     opacity: 1;
   }
 }
-
 
 
 /*==================================================================
