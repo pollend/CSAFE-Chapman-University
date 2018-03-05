@@ -83,7 +83,7 @@ $ git pull
 $ git checkout dev
 $ cd csafe-app
 $ docker build -t demo .
-$ docker run -it --rm demo bundle exec rake test
+$ docker run -it --rm demo rake test
 $ docker run -itP -v $(pwd):/app demo
 ```
 
@@ -115,3 +115,17 @@ If you are running Docker on Linux, the files rails new created are owned by roo
 `sudo chown -R $USER:$USER .`
 
 How to use docker without using `sudo`: https://docs.docker.com/install/linux/linux-postinstall/
+
+## New Gems & Migrations Instructions
+
+If new gems are added, you would need to rebuild the docker image.
+
+```
+$ docker build -t demo .
+$ docker run -it --rm demo rake test
+$ docker run -itP -v $(pwd):/app demo
+```
+
+If you get a PendingMigrationsError, that means new models have been added and you will need to run migrations. When your container is running, find its name by doing a `docker ps`
+
+Then, run the migrations using this command: `docker exec -it <container name> rake db:migrate` and replace the container name.
