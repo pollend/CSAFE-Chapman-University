@@ -1,0 +1,10 @@
+//= require jquery-3.2.1.min.js
+//= require popper
+//= require tooltip
+//= require bootstrap
+//= require sb-admin/jquery.easing.min.js
+//= require sb-admin/Chart.min.js
+//= require sb-admin/jquery.dataTables.js
+//= require sb-admin/dataTables.bootstrap4.js
+//= require sb-admin/sb-admin.min.js
+//= require sb-admin/sb-admin-charts.min.js
