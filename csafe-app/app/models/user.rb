@@ -10,4 +10,12 @@ class User < ApplicationRecord
     self.role ||= :rider
   end
 
+  def set_role_admin
+    self.role = :admin
+  end
+
+  def set_role_driver
+    self.role = :driver
+  end
+
 end
