@@ -28,7 +28,7 @@ $ git push origin dev
 
 We use [Docker](https://www.docker.com/) to set up our rails dev environment. We referenced instructions from [here](https://blog.codeship.com/running-rails-development-environment-docker/) and [here](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) to build this documentation.
 
-Build the container using this command:
+First, the commands in this section are done inside `/csafe-app`. Make sure you're inside that directory. Then, build the container using this command:
 
 `docker-compose build app`
 
@@ -36,13 +36,11 @@ This command opens an interactive shell inside of your container, where you can 
 
 `docker-compose run --rm --service-ports app bash`
 
-To start all the containers, do this inside `/csafe-app`:
+To start all the containers:
 
 `docker-compose up`
 
-## Connecting to the mysql server
-
-Connect using DataGrip on `localhost:3306` using `username: root` `password: root`. This should be changed in a production environment.
+**To connect to the mysql server,** use DataGrip on `localhost:3306` using `username: root`, `password: root`, `db: csafe_dev`. This should be changed in a production environment.
 
 ### OSX
 
