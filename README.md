@@ -32,13 +32,17 @@ Build the container using this command:
 
 `docker-compose build app`
 
-This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`.
+This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`. This command spins up both the rails and mysql server.
 
 `docker-compose run --rm --service-ports app bash`
 
 To start all the containers, do this inside `/csafe-app`:
 
 `docker-compose up`
+
+## Connecting to the mysql server
+
+Connect using DataGrip on `localhost:3306` using `username: root` `password: root`. This should be changed in a production environment.
 
 ### OSX
 
@@ -136,15 +140,3 @@ $ docker-compose build app
 If you get a PendingMigrationsError, that means new models have been added and you will need to run migrations. When your container is running, find its name by doing a `docker ps`
 
 Then, run the migrations using this command: `docker exec -it <container name> rake db:migrate` and replace the container name.
-
-## Running the rails app and the mysql server
-
-We used [this guide](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) as a reference.
-
-This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`.
-
-`docker-compose run --rm --service-ports app bash`
-
-To start all the containers, do this inside `/csafe-app`:
-
-`docker-compose up`
