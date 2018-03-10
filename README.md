@@ -26,6 +26,17 @@ $ git push origin dev
 
 ## Setting up your rails dev environment
 
+TL;DR Version
+```
+cd csafe-app
+docker-compose build app
+docker-compose run --rm --service-ports app bash
+rake db:setup
+exit
+docker-compose up
+Then connect using DataGrip to localhost:3306 with username: root, password: root, and db: csafe_dev
+```
+
 We use [Docker](https://www.docker.com/) to set up our rails dev environment. We referenced instructions from [here](https://blog.codeship.com/running-rails-development-environment-docker/) and [here](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) to build this documentation.
 
 First, the commands in this section are done inside `/csafe-app`. Make sure you're inside that directory. Then, build the container using this command:
