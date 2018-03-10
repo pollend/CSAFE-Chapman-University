@@ -34,7 +34,11 @@ First, the commands in this section are done inside `/csafe-app`. Make sure you'
 
 This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`. This command spins up both the rails and mysql server.
 
-`docker-compose run --rm --service-ports app bash`
+```
+docker-compose run --rm --service-ports app bash
+rake db:create db:migrate db:seed
+exit
+```
 
 To start all the containers:
 
