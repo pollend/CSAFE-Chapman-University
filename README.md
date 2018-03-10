@@ -36,7 +36,7 @@ This command opens an interactive shell inside of your container, where you can 
 
 ```
 docker-compose run --rm --service-ports app bash
-rake db:create db:migrate db:seed
+rake db:setup
 exit
 ```
 
