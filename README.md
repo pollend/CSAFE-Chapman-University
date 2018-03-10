@@ -26,7 +26,19 @@ $ git push origin dev
 
 ## Setting up your rails dev environment
 
-We use [Docker](https://www.docker.com/) to set up our rails dev environment. We referenced instructions from [here](https://blog.codeship.com/running-rails-development-environment-docker/).
+We use [Docker](https://www.docker.com/) to set up our rails dev environment. We referenced instructions from [here](https://blog.codeship.com/running-rails-development-environment-docker/) and [here](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) to build this documentation.
+
+Build the container using this command:
+
+`docker-compose build app`
+
+This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`.
+
+`docker-compose run --rm --service-ports app bash`
+
+To start all the containers, do this inside `/csafe-app`:
+
+`docker-compose up`
 
 ### OSX
 
@@ -51,9 +63,7 @@ $ chmod +x /usr/local/bin/docker-machine
 $ git pull
 $ git checkout dev
 $ cd csafe-app
-$ docker build -t demo .
-$ docker run -it --rm demo bundle exec rake test
-$ docker run -itP -v $(pwd):/app demo
+$ docker-compose up
 ```
 
 Keep the terminal running. Then, open another terminal window and type:
@@ -82,9 +92,7 @@ Look at the port. In this case it is **32769**.
 $ git pull
 $ git checkout dev
 $ cd csafe-app
-$ docker build -t demo .
-$ docker run -it --rm demo rake test
-$ docker run -itP -v $(pwd):/app demo
+$ docker-compose up
 ```
 
 Keep the terminal running. Then, open another Docker Quickstart Terminal window and type:
@@ -121,11 +129,22 @@ How to use docker without using `sudo`: https://docs.docker.com/install/linux/li
 If new gems are added, you would need to rebuild the docker image.
 
 ```
-$ docker build -t demo .
-$ docker run -it --rm demo rake test
-$ docker run -itP -v $(pwd):/app demo
+$ cd csafe-app
+$ docker-compose build app
 ```
 
 If you get a PendingMigrationsError, that means new models have been added and you will need to run migrations. When your container is running, find its name by doing a `docker ps`
 
 Then, run the migrations using this command: `docker exec -it <container name> rake db:migrate` and replace the container name.
+
+## Running the rails app and the mysql server
+
+We used [this guide](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) as a reference.
+
+This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`.
+
+`docker-compose run --rm --service-ports app bash`
+
+To start all the containers, do this inside `/csafe-app`:
+
+`docker-compose up`
