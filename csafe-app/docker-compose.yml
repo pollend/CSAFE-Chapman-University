@@ -4,7 +4,7 @@ services:
     build: .
     command: bundle exec rails s -b 0.0.0.0
     volumes:
-      - .:/home/app
+      - .:/app
       - bundle:/bundle
     environment:
       RAILS_ENV: development
