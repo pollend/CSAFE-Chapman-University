@@ -1,1 +1,4 @@
 .idea/
+csafe-app/config/database.yml
+csafe-app/config/secrets.yml
+csafe-app/db/backups/
