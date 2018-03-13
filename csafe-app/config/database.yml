@@ -8,13 +8,10 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  database: csafe_dev
   pool: 5
-  username: csafe_admin #Username MySQL
-  password: SeinfeldnewportLAKETwinkle!@@! #Password MySQL
-  volumes:
-    - ./mysql:/var/lib/mysql
-  ports: 3306
+  username: TBA
+  password: TBA
+  host: mysql
 
 development:
   <<: *default
