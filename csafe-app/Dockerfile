@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   zlib1g-dev \
   libxslt-dev \
   mysql-client \
-  sqlite3
 
 # Configure the main working directory. This is the base 
 # directory used in any further RUN, COPY, and ENTRYPOINT 
