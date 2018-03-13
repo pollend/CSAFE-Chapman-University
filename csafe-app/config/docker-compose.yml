@@ -1,0 +1,10 @@
+version: '2'
+services:
+  mysql:
+    image: demo
+    ports:
+      - 8083:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
