@@ -129,3 +129,7 @@ $ docker run -itP -v $(pwd):/app demo
 If you get a PendingMigrationsError, that means new models have been added and you will need to run migrations. When your container is running, find its name by doing a `docker ps`
 
 Then, run the migrations using this command: `docker exec -it <container name> rake db:migrate` and replace the container name.
+
+## Running the seeds task
+
+`docker exec -it container_name rake db:drop db:create db:migrate db:seed`

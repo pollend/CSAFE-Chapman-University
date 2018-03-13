@@ -3,10 +3,24 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  
+  enum role: [:rider, :driver, :admin]
+  after_initialize :set_default_role, :if => :new_record?
+  def set_default_role
+    self.role ||= :rider
+  end
 
-         after_create:welcome_send
-         def welcome_send
-           WelcomeMailer.welcome_send(self).deliver
-         end
+  def set_role_admin
+    self.role = :admin
+  end
 
+  def set_role_driver
+    self.role = :driver
+  end
+  
+  after_create:welcome_send
+  def welcome_send
+    WelcomeMailer.welcome_send(self).deliver
+  end
+  
 end

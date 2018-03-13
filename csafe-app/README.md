@@ -1,3 +1,0 @@
-# README
-
-Login Functionality Branch
