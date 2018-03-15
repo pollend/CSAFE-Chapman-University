@@ -6,11 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <title></title>
+    <link href="stylesheets/topNav.css" rel="stylesheet">
     <link href="stylesheets/request_ride.css" rel="stylesheet">
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript" src="javascripts/request_ride.js"></script>
     <script type="text/javascript" src="javascripts/map_api.js"></script>
-
+    <script type="text/javascript" src="javascripts/topNav.js"></script>
 
   </head>
 
@@ -27,8 +28,8 @@
     <a href="#about" id="aboutTopNav">About</a>
     <%= link_to "Logout", destroy_user_session_path, method: :delete %>
     <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="respondToMenuPress()">&#9776;</a>
-
   </div>
+
 
     <div class="row">
         <div class="container">
@@ -42,197 +43,61 @@
                     <li>Arriving</li>
                 </ul>
                 <!-- fieldsets -->
-
+                <!--FirstStep - Request A Ride - PickupLoc-->
                 <fieldset>
                     <h2 class="fs-title">Request A Ride </h2>
                     <h3 class="fs-subtitle"> </h3>
-                    <fieldset id="map"> </fieldset>
+                    <div id="map" class="aMap"> </div>
                       <br>
 
                     <input type="text" name="phone"  id="crn_lcl"  placeholder="Current Location"/>
                     <input type="text" name="phone" placeholder="Enter Phone for Confirmation"/>
-                    <input type="button" name="next" class="next action-button" value="Request"/>
-
+                    <input type="button" name="next"  class="next action-button" value="Request"/>
                 </fieldset>
+              <!--SecondStep - Request A Ride - DropOffLoc-->
+              <fieldset>
+                <h2 class="fs-title">Request A Ride </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <div id="map"> </div>
+                <br>
+                <input type="text" name="phone"  id="crn_lcl"  placeholder="Current Location"/>
+                <input type="text" name="phone" placeholder="Enter Phone for Confirmation"/>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+              <!--ThirdStep - Passengers-->
+              <fieldset>
+                <h2 class="fs-title">Passengers </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <br>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+              <!--FourthStep - Ride On The Way-->
+              <fieldset>
+                <h2 class="fs-title">On Your Way </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <br>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+              <!--FifthStep - Ride Is Here-->
+              <fieldset>
+                <h2 class="fs-title">Your Ride is Here </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <br>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
             </form>
+
+
             <!-- link to designify.me code snippets -->
             <div class="dme_link">
-
             </div>
             <!-- /.link to designify.me code snippets -->
         </div>
     </div>
     <!-- /.MultiStep Form -->
 
-    <script>
-      // Note: This example requires that you consent to location sharing when
-      // prompted by your browser. If you see the error "The Geolocation service
-      // failed.", it means you probably did not give permission for the browser to
-      // locate you.
-
-      //We should probably have some pop-up explaining that^
-
-      var map, infoWindow;
-      var date = new Date();
-      var hour = date.getHours();
-      var default_location = {lat: 33.793348, lng: -117.851350};
-      var current_location_fiel = document.getElementById("crn_lcl")
-
-      function initMap() {
-
-        day_map = new google.maps.Map(document.getElementById('map'), {
-          center: default_location,
-          zoom: 13
-        });
-        map = nightMode(hour,day_map); //map depending on the time of the day
-
-        infoWindow = new google.maps.InfoWindow;
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-          //  infoWindow.setPosition(pos);
-            // Create a marker and set its position.
-             var marker = new google.maps.Marker({
-                 map: map,
-                 position: pos,
-              });
-             infoWindow.open(map);
-
-             map.setZoom(16);
-             map.setCenter(pos); //SET LOCATION
-
-            map.addListener('center_changed', function() {
-            // 3 seconds after the center of the map has changed, pan back to the
-            // marker.
-              window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
-              map.panTo(marker.getPosition());
-              }, 3000);
-            });
-
-            marker.addListener('click', function() { //ZOOM IN ON MARKER
-              map.setZoom(18);
-              map.setCenter(marker.getPosition());
-            });
-
-             current_location_fiel.value = map.getCenter(); //Location to be sent to PSAFE
-
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }
-
-      function geocodeLatLng(geocoder, map, infowindow) {
-            var input = document.getElementById('latlng').value;
-            var latlngStr = input.split(',', 2);
-            var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-            geocoder.geocode({'location': latlng}, function(results, status) {
-              if (status === 'OK') {
-                if (results[0]) {
-                  map.setZoom(11);
-                  var marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map
-                  });
-                  infowindow.setContent(results[0].formatted_address);
-                  infowindow.open(map, marker);
-                } else {
-                  window.alert('No results found');
-                }
-              } else {
-                window.alert('Geocoder failed due to: ' + status);
-              }
-            });
-          }
-
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) { //IF LOCATION FAILED
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
-    </script>
-
   </body>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap"
   async defer></script>
-
-  <!--Style for nav bar that re-sizes to menu on smaller screens-->
-  <style>
-
-    .topnav {
-      overflow: hidden;
-      background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
-      background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
-    }
-
-    .topnav a {
-      float: left;
-      display: block;
-      color: #f2f2f2;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-      font-size: 17px;
-    }
-
-    .topnav a:hover:nth-child(1n+2) {
-      background-color: #ddd;
-      color: black;
-    }
-
-
-    .activeNav {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .topnav .icon {
-      display: none;
-    }
-
-    @media screen and (max-width: 600px) {
-      .topnav a:not(:first-child) {display: none;}
-      .topnav a.icon {
-        float: right;
-        display: block;
-      }
-    }
-
-    @media screen and (max-width: 600px) {
-      .topnav.responsive {position: relative;}
-      .topnav.responsive .icon {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      .topnav.responsive a {
-        float: none;
-        display: block;
-        text-align: left;
-      }
-    }
-  </style>
-
-  <!--What happens when menu icon is pressed-->
-  <script>
-      function respondToMenuPress() {
-          var x = document.getElementById("myTopnav");
-          if (x.className === "topnav") {
-              x.className += " responsive";
-          } else {
-              x.className = "topnav";
-          }
-      }
-  </script>
 
 </html>
