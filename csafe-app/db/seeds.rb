@@ -30,4 +30,4 @@ admin.save!
 User.create!({:email => "2dieke102@mail.chapman.edu", :role => "rider", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
 User.create!({:email => "2yu322@chapman.edu", :role => "rider", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
 User.create!({:email => "2perki110@chapman.edu", :role => "driver", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
-User.create!({:email => "2german@chapman.edu", :role => "admin", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
+User.create!({:email => "2german@chapman.edu", :role => "admin", :password => "@#taawktljasktlw4aaglj", :password_confirmation  => "@#taawktljasktlw4aaglj" })
