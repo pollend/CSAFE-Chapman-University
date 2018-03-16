@@ -142,12 +142,12 @@ function initMap() {
         zoom: 13
     });
 
-    configMap(map);
-    configMap(map2);
+    configMap(map, current_location_fiel);
+    configMap(map2, current_location_fiel2);
 
 }
 
-function configMap(aMap){
+function configMap(aMap, currentLocField){
 
     map = nightMode(hour,aMap); //map depending on the time of the day
 
@@ -184,7 +184,7 @@ function configMap(aMap){
                 aMap.setCenter(marker.getPosition());
             });
 
-            current_location_fiel.value = aMap.getCenter(); //Location to be sent to PSAFE
+            currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
