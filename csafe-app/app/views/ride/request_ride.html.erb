@@ -1,0 +1,103 @@
+<!-- MultiStep Form -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title></title>
+    <link href="stylesheets/topNav.css" rel="stylesheet">
+    <link href="stylesheets/request_ride.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="javascripts/request_ride.js"></script>
+    <script type="text/javascript" src="javascripts/map_api.js"></script>
+    <script type="text/javascript" src="javascripts/topNav.js"></script>
+
+  </head>
+
+  <body>
+
+  <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav-->
+  <!--TopNav-->
+  <div class="topnav" id="myTopnav">
+    <a href="">CSafe</a>
+    <%= link_to "Account", edit_user_registration_path %>
+    <!--class="activeNav"-->
+    <!--Add the class above when the nav cell is selected-->
+    <a href="#contact" id="contactTopNav">Contact</a>
+    <a href="#about" id="aboutTopNav">About</a>
+    <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="respondToMenuPress()">&#9776;</a>
+  </div>
+
+
+    <div class="row">
+        <div class="container">
+            <form id="msform">
+                <!-- progressbar -->
+                <ul id="progressbar">
+                    <li class="active">Pick Up Location</li>
+                    <li>Drop Off Location</li>
+                    <li>Passengers</li>
+                    <li>On Your Way</li>
+                    <li>Arriving</li>
+                </ul>
+                <!-- fieldsets -->
+                <!--FirstStep - Request A Ride - PickupLoc-->
+                <fieldset>
+                    <h2 class="fs-title">Request A Ride </h2>
+                    <h3 class="fs-subtitle"> </h3>
+                    <div id="map" class="aMap"> </div>
+                      <br>
+
+                    <input type="text" name="phone"  id="crn_lcl"  placeholder="Current Location"/>
+                    <input type="text" name="phone" placeholder="Enter Phone for Confirmation"/>
+                    <input type="button" name="next"  class="next action-button" value="Request"/>
+                </fieldset>
+              <!--SecondStep - Request A Ride - DropOffLoc-->
+              <fieldset>
+                <h2 class="fs-title">Request A Ride </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <div id="map"> </div>
+                <br>
+                <input type="text" name="phone"  id="crn_lcl"  placeholder="Current Location"/>
+                <input type="text" name="phone" placeholder="Enter Phone for Confirmation"/>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+              <!--ThirdStep - Passengers-->
+              <fieldset>
+                <h2 class="fs-title">Passengers </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <br>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+              <!--FourthStep - Ride On The Way-->
+              <fieldset>
+                <h2 class="fs-title">On Your Way </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <br>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+              <!--FifthStep - Ride Is Here-->
+              <fieldset>
+                <h2 class="fs-title">Your Ride is Here </h2>
+                <h3 class="fs-subtitle"> </h3>
+                <br>
+                <input type="button" name="next"  class="next action-button" value="Request"/>
+              </fieldset>
+            </form>
+
+
+            <!-- link to designify.me code snippets -->
+            <div class="dme_link">
+            </div>
+            <!-- /.link to designify.me code snippets -->
+        </div>
+    </div>
+    <!-- /.MultiStep Form -->
+
+  </body>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap"
+  async defer></script>
+
+</html>

@@ -12,3 +12,6 @@
 //
 //= require rails-ujs
 //= require turbolinks
+// added below to avoid having to keep requiring new js files as we add them
+//= require_tree .
+
