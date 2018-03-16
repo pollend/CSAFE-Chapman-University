@@ -27,10 +27,11 @@ nav {
 }
 
 
-#map {
+.someMap {
   height: 650px;
   margin: auto;
 }
+
 
 /*form styles*/
 #msform {

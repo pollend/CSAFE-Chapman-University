@@ -123,19 +123,33 @@ function nightMode(time, theMap){ //NIGHT MODE FEATURE
 
 //We should probably have some pop-up explaining that^
 
-var map, infoWindow;
+var map,map2, infoWindow;
 var date = new Date();
 var hour = date.getHours();
 var default_location = {lat: 33.793348, lng: -117.851350};
 var current_location_fiel = document.getElementById("crn_lcl")
+var current_location_fiel2 = document.getElementById("crn_lcl2")
 
 function initMap() {
 
-    day_map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: default_location,
         zoom: 13
     });
-    map = nightMode(hour,day_map); //map depending on the time of the day
+
+    map2 = new google.maps.Map(document.getElementById('map2'), {
+        center: default_location,
+        zoom: 13
+    });
+
+    configMap(map, current_location_fiel);
+    configMap(map2, current_location_fiel2);
+
+}
+
+function configMap(aMap, currentLocField){
+
+    map = nightMode(hour,aMap); //map depending on the time of the day
 
     infoWindow = new google.maps.InfoWindow;
 
@@ -149,15 +163,15 @@ function initMap() {
             //  infoWindow.setPosition(pos);
             // Create a marker and set its position.
             var marker = new google.maps.Marker({
-                map: map,
+                map: aMap,
                 position: pos,
             });
             infoWindow.open(map);
 
-            map.setZoom(16);
-            map.setCenter(pos); //SET LOCATION
+            aMap.setZoom(16);
+            aMap.setCenter(pos); //SET LOCATION
 
-            map.addListener('center_changed', function() {
+            aMap.addListener('center_changed', function() {
                 // 3 seconds after the center of the map has changed, pan back to the
                 // marker.
                 window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
@@ -165,12 +179,12 @@ function initMap() {
                 }, 3000);
             });
 
-            marker.addListener('click', function() { //ZOOM IN ON MARKER
-                map.setZoom(18);
-                map.setCenter(marker.getPosition());
+            aMap.addListener('click', function() { //ZOOM IN ON MARKER
+                aMap.setZoom(18);
+                aMap.setCenter(marker.getPosition());
             });
 
-            current_location_fiel.value = map.getCenter(); //Location to be sent to PSAFE
+            currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
