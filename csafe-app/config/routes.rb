@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   root "login#index"
   get 'admin' => 'pages#admin'
   get 'ride/request_ride' => "ride#request_ride"
+  get 'admin/bounds' => "admin#bounds"
+  post 'admin/bounds' => "admin#bounds"
 end
