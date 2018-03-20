@@ -1,217 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Geolocation</title>
+<% content_for :page_head do %>
+  <title>Set Bounds</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <style>
-    /* Always set the map height explicitly to define the size of the div
-     * element that contains the map. */
-    #map {
-      height: 100%;
-    }
-
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    #addzone-panel {
-      position: absolute;
-      top: 10px;
-      left: 20%;
-      z-index: 5;
-      background-color: #fff;
-      padding: 5px;
-      border: 1px solid #999;
-      text-align: center;
-      font-family: 'Roboto', 'sans-serif';
-      line-height: 30px;
-      padding-left: 10px;
-    }
-
-    #removezone-panel {
-      position: absolute;
-      top: 10px;
-      left: 45%;
-      z-index: 5;
-      background-color: #fff;
-      padding: 5px;
-      border: 1px solid #999;
-      text-align: center;
-      font-family: 'Roboto', 'sans-serif';
-      line-height: 30px;
-      padding-left: 10px;
-    }
-
-    #legend-panel {
-      position: absolute;
-      top: 10px;
-      left: 60%;
-      z-index: 5;
-      background-color: #fff;
-      padding: 5px;
-      border: 1px solid #999;
-      text-align: center;
-      font-family: 'Roboto', 'sans-serif';
-      line-height: 30px;
-    }
-
-    .my-legend .legend-title {
-      text-align: left;
-      margin-bottom: 8px;
-      font-weight: bold;
-      font-size: 90%;
-    }
-
-    .my-legend .legend-scale ul {
-      margin: 0;
-      padding: 0;
-      float: left;
-      list-style: none;
-    }
-
-    .my-legend .legend-scale ul li {
-      display: block;
-      float: left;
-      width: 100px;
-      margin-bottom: 6px;
-      text-align: center;
-      font-size: 80%;
-      list-style: none;
-    }
-
-    .my-legend ul.legend-labels li span {
-      display: block;
-      float: left;
-      height: 15px;
-      width: 100px;
-    }
-
-    .my-legend .legend-source {
-      font-size: 70%;
-      color: #999;
-      clear: both;
-    }
-
-    .my-legend a {
-      color: #777;
-    }
-  </style>
-</head>
-<body>
+  <%= stylesheet_link_tag "bounds" %>
+<% end %>
 <div id="addzone-panel">
-  <input class="form-control" id="zone" type="text" aria-describedby="zoneHelp" placeholder="Enter zone name">
-  <input onclick="addRect();" type=button value="Add New Zone">
-  <input onclick="saveRect();" type=button value="Save All Zones">
-  <!--<%= button_to 'Save All Zones', '#', :onclick => 'alert(String(zones[0]));' %>-->
+  <input class="form-control" id="zone_name" type="text" aria-describedby="zoneHelp" placeholder="Enter zone name">
+  <input id="add_zone" type=button value="Add Zone">
+  <input id="save_zone" type=button value="Save Zone">
 </div>
 <div id="removezone-panel">
-  <select>
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="mercedes">Mercedes</option>
-    <option value="audi">Audi</option>
+  <select id="zone_list">
+    <% @zones.each do |zone| %>
+      <option value="<%= zone.name %>"><%= zone.name %></option>
+    <% end %>
   </select>
-  <input onclick="removeRect();" type=button value="Remove Zone">
+  <input id="remove_zone" type=button value="Remove Zone">
 </div>
 <div id="legend-panel">
   <div class='my-legend'>
     <div class='legend-scale'>
       <ul class='legend-labels'>
-        <li><span style='background:#F1EEF6;'></span>Current Zone</li>
-        <li><span style='background:#74A9CF;'></span>Edited Zone</li>
+        <li><span style='background:#b2b4f6;'></span>Current Zone</li>
         <li><span style='background:#045A8D;'></span>Saved Zone</li>
       </ul>
     </div>
   </div>
 </div>
 <div id="map"></div>
-<script>
-  // https://developers.google.com/maps/documentation/javascript/examples/rectangle-event
-    // Note: This example requires that you consent to location sharing when
-    // prompted by your browser. If you see the error "The Geolocation service
-    // failed.", it means you probably did not give permission for the browser to
-    // locate you.
-    var map, infoWindow;
-    var date = new Date();
-    var hour = date.getHours();
-    var default_location = {lat: 33.793348, lng: -117.851350};
-    var zones = [];
-
-    function initMap() {
-        day_map = new google.maps.Map(document.getElementById('map'), {
-            center: default_location,
-            zoom: 13
-        });
-
-        // Change color of map depending on time of day
-        map = nightMode(hour, day_map);
-
-        // Infowindow is like a popup on the map
-        infoWindow = new google.maps.InfoWindow;
-
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                };
-                // Create a marker and set its position.
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: pos,
-                });
-            }, function () {
-                handleLocationError(true, infoWindow, map.getCenter());
-            });
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
-    }
-
-    // If location finding has failed then show an infoWindow
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            'Error: The Geolocation service failed.' :
-            'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-    }
-
-    // This function adds a rectangular zone on the map
-    function addRect() {
-        // These are the bounds around the university that PSAFE has given us
-        var bounds = {
-            north: 33.805033545182255,
-            south: 33.776082751851,
-            east: -117.83182508881,
-            west: -117.8779956515
-        };
-        // Define the rectangle and set its editable property to true.
-        rectangle = new google.maps.Rectangle({
-            bounds: bounds,
-            editable: true,
-            draggable: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF0000',
-            fillOpacity: 0.35
-        });
-        zones.push(rectangle.bounds);
-        rectangle.setMap(map);
-    }
-
-    function saveRect() {
-        alert(JSON.stringify(zones[0]));
-    }
-</script>
-</body>
-<script src="js/map_api.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap" async defer></script>
-</html>
+<%= javascript_include_tag "map_api2" %>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap", async: true, defer: true %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317071320) do
+ActiveRecord::Schema.define(version: 20180320043321) do
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20180317071320) do
     t.decimal "south", precision: 10, scale: 6
     t.decimal "east", precision: 10, scale: 6
     t.decimal "west", precision: 10, scale: 6
+    t.index ["name"], name: "index_zones_on_name", unique: true
   end
 
 end

@@ -31,3 +31,5 @@ User.create!({:email => "2dieke102@mail.chapman.edu", :role => "rider", :passwor
 User.create!({:email => "2yu322@chapman.edu", :role => "rider", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
 User.create!({:email => "2perki110@chapman.edu", :role => "driver", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
 User.create!({:email => "2german@chapman.edu", :role => "admin", :password => "@#taawktljasktlw4aaglj", :password_confirmation  => "@#taawktljasktlw4aaglj" })
+
+Zone.create({name: 'CU Radius', north: 33.805033545182255, south:33.776082751851, east: -117.83182508881, west: -117.8779956515})
