@@ -1,0 +1,2 @@
+class UserRide < ApplicationRecord
+end
