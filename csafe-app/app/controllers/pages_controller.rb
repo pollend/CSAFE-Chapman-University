@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
 
-  def index
+  def admin
+    @hours = BusinessHour.all
   end
 
 end
