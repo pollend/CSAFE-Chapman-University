@@ -12,4 +12,8 @@ class AdminController < ApplicationController
     @zones = Zone.all
   end
 
+  def admin
+    @hours = BusinessHour.all
+  end
+
 end

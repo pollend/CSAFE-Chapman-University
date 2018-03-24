@@ -23,13 +23,13 @@
         </a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="../pages/charts.html">
           <i class="fa fa-fw fa-area-chart"></i>
           <span class="nav-link-text">Charts</span>
         </a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="../pages/tables.html">
           <i class="fa fa-fw fa-table"></i>
           <span class="nav-link-text">Tables</span>
         </a>
@@ -41,10 +41,10 @@
         </a>
         <ul class="sidenav-second-level collapse" id="collapseComponents">
           <li>
-            <a href="navbar.html">Navbar</a>
+            <a href="../pages/navbar.html">Navbar</a>
           </li>
           <li>
-            <a href="cards.html">Cards</a>
+            <a href="../pages/cards.html">Cards</a>
           </li>
         </ul>
       </li>
@@ -55,16 +55,16 @@
         </a>
         <ul class="sidenav-second-level collapse" id="collapseExamplePages">
           <li>
-            <a href="login.html">Login Page</a>
+            <a href="../pages/login.html">Login Page</a>
           </li>
           <li>
-            <a href="register.html">Registration Page</a>
+            <a href="../pages/register.html">Registration Page</a>
           </li>
           <li>
-            <a href="forgot-password.html">Forgot Password Page</a>
+            <a href="../pages/forgot-password.html">Forgot Password Page</a>
           </li>
           <li>
-            <a href="blank.html">Blank Page</a>
+            <a href="../pages/blank.html">Blank Page</a>
           </li>
         </ul>
       </li>
@@ -247,9 +247,9 @@
             <% @hours.each do |hours| %>
               <tr>
                 <td><%= hours.day %></td>
-                <td><input id="st_<%= hours.day %>" type="time" value="<%= hours.start_time.strftime('%H:%M') %>"></td>
-                <td><input id="et_<%= hours.day %>" type="time" value="<%= hours.end_time.strftime('%H:%M') %>"></td>
-                <td><input id="enabled_<%= hours.day %>" type="checkbox" <% if hours.enabled %>checked<% end %>></td>
+                <td><input id="st_<%= hours.id %>" type="time" value="<%= hours.start_time.strftime('%H:%M') %>"></td>
+                <td><input id="et_<%= hours.id %>" type="time" value="<%= hours.end_time.strftime('%H:%M') %>"></td>
+                <td><input id="enabled_<%= hours.id %>" type="checkbox" <% if hours.enabled %>checked<% end %>></td>
               </tr>
             <% end %>
             </tbody>
@@ -1131,10 +1131,27 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="../pages/login.html">Logout</a>
         </div>
       </div>
     </div>
   </div>
-  <%= javascript_include_tag "admin" %>
+  <script>
+  var saveHours = $('#save_hours');
+  saveHours.click(function(event) {
+  for (var i = 1; i <= 7; ++i) {
+      var startTime = document.getElementById('st_'+i).value;
+      var endTime = document.getElementById('et_'+i).value;
+      var checkedValue = $('#enabled_'+i).is(":checked");
+      var data = {"start_time": startTime, "end_time": endTime, "enabled": checkedValue};
+      $.ajax({
+          url: '/api/v1/hours/'+i,
+          type: 'PUT',
+          data: data,
+          success: function(data) {
+          }
+      });
+  }
+  });
+  </script>
 </div>
