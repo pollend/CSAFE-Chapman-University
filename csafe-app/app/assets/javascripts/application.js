@@ -13,3 +13,6 @@
 //= require jquery3
 //= require rails-ujs
 //= require turbolinks
+//= require map_api
+//= require request_ride
+//= require topNav

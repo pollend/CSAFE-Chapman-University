@@ -204,8 +204,9 @@
         </form>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-          <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        <!--<a class="nav-link" data-toggle="modal" data-target="#exampleModal">-->
+          <!--<i class="fa fa-fw fa-sign-out"></i>Logout</a>-->
+          <%= link_to "Logout", destroy_user_session_path, method: :delete %>
       </li>
     </ul>
   </div>
