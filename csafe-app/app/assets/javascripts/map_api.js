@@ -1,5 +1,4 @@
 
-
 function radiusParam(map){ //RADIUS FOR PSAFE TO PICK UP
 var rectangle;
 
@@ -140,6 +139,11 @@ function initMap() {
     map2 = new google.maps.Map(document.getElementById('map2'), {
         center: default_location,
         zoom: 13
+
+    });
+
+    $.getScript("request_ride.js", function() {
+        initAutocomplete()
     });
 
     configMap(map, current_location_fiel);
@@ -225,3 +229,5 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) { //IF LOCA
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 }
+
+
