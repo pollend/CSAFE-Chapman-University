@@ -10,9 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307141853) do
+ActiveRecord::Schema.define(version: 20180322083738) do
 
-  create_table "users", force: :cascade do |t|
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "userID"
+    t.bigint "permissionsID", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["permissionsID"], name: "user_permissions_permissions_id_fk"
+    t.index ["userID"], name: "user_permissions_users_id_fk"
+  end
+
+  create_table "user_rides", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "userID"
+    t.decimal "start_loca_lat", precision: 20, null: false
+    t.decimal "start_loca_lng", precision: 20, null: false
+    t.decimal "end_loca_lat", precision: 20, null: false
+    t.decimal "end_loca_lng", precision: 20, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at"
+    t.index ["userID"], name: "user_rides_users_id_fk"
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -30,4 +56,7 @@ ActiveRecord::Schema.define(version: 20180307141853) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "user_permissions", "permissions", column: "permissionsID", name: "user_permissions_permissions_id_fk"
+  add_foreign_key "user_permissions", "users", column: "userID", name: "user_permissions_users_id_fk"
+  add_foreign_key "user_rides", "users", column: "userID", name: "user_rides_users_id_fk"
 end
