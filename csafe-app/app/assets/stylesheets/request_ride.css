@@ -28,10 +28,14 @@ nav {
 
 
 .someMap {
-  height: 650px;
+  height: 500px;
   margin: auto;
 }
 
+
+.radio-inline{
+    margin-right: 5%;
+}
 
 /*form styles*/
 #msform {

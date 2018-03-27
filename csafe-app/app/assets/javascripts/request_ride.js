@@ -1,35 +1,131 @@
 
 
-    var autocomplete, autocomplete2;
+    var autocompletePickUp, autocompleteDropOff;
 
-    function initAutocomplete() {
+    function initAutocomplete(map, boundsRectangle) {
         // Create the autocomplete object, restricting the search to geographical
         // location types.
-        autocomplete = new google.maps.places.Autocomplete(
+        autocompletePickUp = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
             {types: ['geocode']});
 
-        autocomplete2 = new google.maps.places.Autocomplete(
+        autocompleteDropOff = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('autocomplete2')),
             {types: ['geocode']});
 
 
-        // When the user selects an address from the dropdown, populate the address
-        // fields in the form.
-        autocomplete.addListener('place_changed', fillInAddress);
-        autocomplete2.addListener('place_changed', fillInAddress);
-        console.log("done auto complete");
+        pickUpmarker = new mapIcons.Marker({
+        });
+        dropOffMarker = new mapIcons.Marker({
+        });
+
+        // When the user selects an address from the dropdown,
+        // use address to get lat long
+        google.maps.event.addListener(autocompletePickUp, 'place_changed', function() {
+            try {
+                var place = autocompletePickUp.getPlace();
+                var lat = place.geometry.location.lat(),
+                    lng = place.geometry.location.lng();
+                document.getElementById('errorPickUp').innerHTML = ""
+
+                //PickUp
+                var pickUpPos = {
+                    lat: lat,
+                    lng: lng
+                };
+
+
+                if (boundsRectangle.getBounds().contains(pickUpPos)){
+                    console.log("contains")
+
+                    pickUpmarker.setMap(null);
+                    //DropOff
+                    pickUpmarker = mapIcons.Marker({
+                        map: map,
+                        position: pickUpPos,
+                        icon: {
+                            path: mapIcons.shapes.SQUARE_PIN,
+                            fillColor: '#cc181c',
+                            fillOpacity: 1,
+                            strokeColor: '',
+                            strokeWeight: 0
+                        },
+                        map_icon_label: '<span class="map-icon"></span>'
+                    });
+
+                    console.log(lat);
+                    console.log(lng);
+                }
+
+            else{
+                    console.log("nah")
+                    document.getElementById('errorPickUp').innerHTML = "Please make sure your pick up location is within our map bounds"
+                }
+
+            }
+            catch(err) {
+                console.log(err.message);
+                document.getElementById('errorPickUp').innerHTML = "Please use the drop down menu to choose your address"
+            }
+
+        });
+
+
+        google.maps.event.addListener(autocompleteDropOff, 'place_changed', function() {
+            try {
+                var place = autocompleteDropOff.getPlace();
+                var lat = place.geometry.location.lat(),
+                    lng = place.geometry.location.lng();
+                document.getElementById('errorDropOff').innerHTML = ""
+
+                //dropOff
+                var dropOffPos = {
+                    lat: lat,
+                    lng: lng
+                };
+
+                if (boundsRectangle.getBounds().contains(dropOffPos)) {
+                    console.log("contains")
+
+                    dropOffMarker.setMap(null);
+                    dropOffMarker = mapIcons.Marker({
+                        map: map,
+                        position: dropOffPos,
+                        icon: {
+                            path: mapIcons.shapes.SQUARE_PIN,
+                            fillColor: '#00CCBB',
+                            fillOpacity: 1,
+                            strokeColor: '',
+                            strokeWeight: 0
+                        },
+                        map_icon_label: '<span class="map-icon"></span>'
+                    });
+
+                    console.log(lat);
+                    console.log(lng);
+                }
+                else{
+                        console.log("nah")
+                        document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds"
+                    }
+
+            }
+
+            catch(err) {
+                console.log(err.message);
+                document.getElementById('errorDropOff').innerHTML = "Please use the drop down menu to choose your address"
+            }
+        });
+
+
+
     }
 
-    function fillInAddress() {
-        // Get the place details from the autocomplete object.
-        var place = autocomplete.getPlace();
-
-    }
 
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
-    function geolocate() {
+    function geolocate(pickUpOrDropOff) {
+        console.log(pickUpOrDropOff);
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var geolocation = {
@@ -40,7 +136,13 @@
                     center: geolocation,
                     radius: position.coords.accuracy
                 });
-                autocomplete.setBounds(circle.getBounds());
+                if(pickUpOrDropOff == "pickUp"){
+                    autocompletePickUp.setBounds(circle.getBounds());
+                }
+                else if(pickUpOrDropOff == "dropOff"){
+                    autocompleteDropOff.setBounds(circle.getBounds());
+                }
+
             });
         }
     }

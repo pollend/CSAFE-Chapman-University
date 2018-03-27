@@ -1,7 +1,5 @@
-
-function radiusParam(map){ //RADIUS FOR PSAFE TO PICK UP
 var rectangle;
-
+function radiusParam(map){ //RADIUS FOR PSAFE TO PICK UP
 var bounds = { //PARAMS OF PSAFE TO ALLOW PICKUP
           north: 33.805033545182255,
           south: 33.776082751851,
@@ -122,12 +120,11 @@ function nightMode(time, theMap){ //NIGHT MODE FEATURE
 
 //We should probably have some pop-up explaining that^
 
-var map,map2, infoWindow;
+var map, infoWindow;
 var date = new Date();
 var hour = date.getHours();
 var default_location = {lat: 33.793348, lng: -117.851350};
 var current_location_fiel = document.getElementById("crn_lcl")
-var current_location_fiel2 = document.getElementById("crn_lcl2")
 
 function initMap() {
 
@@ -136,11 +133,11 @@ function initMap() {
         zoom: 13
     });
 
-    $.getScript("request_ride.js", function() {
-        initAutocomplete()
-    });
-
     configMap(map, current_location_fiel);
+
+    $.getScript("request_ride.js", function() {
+        initAutocomplete(map, rectangle)
+    });
 
 }
 
@@ -149,6 +146,7 @@ function configMap(aMap, currentLocField){
     map = nightMode(hour,aMap); //map depending on the time of the day
 
     infoWindow = new google.maps.InfoWindow;
+
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -161,7 +159,7 @@ function configMap(aMap, currentLocField){
             // Create a marker and set its position.
             var marker = new google.maps.Marker({
                 map: aMap,
-                position: pos,
+                position: pos
             });
             infoWindow.open(map);
 

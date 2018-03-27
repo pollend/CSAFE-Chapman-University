@@ -51,27 +51,38 @@
                     <div id="map" class="someMap"> </div>
                       <br>
                     <!--<input type="text" name="phone"  id="crn_lcl" placeholder="Current Location"/>-->
-                  <h3 class="fs-subtitle">Pick Up Location</h3>
-                  <div id="locationField">
+                  <h2 class="fs-title">Pick Up Location</h2>
+                  <div id="locationFieldPickUp">
                     <input id="autocomplete" placeholder="Enter your pick up address"
-                           onFocus="geolocate()" type="text"></input>
+                           onFocus='geolocate("pickup")' type="text"></input>
+                    <span class="error text-danger" id ="errorPickUp" > </span>
                   </div>
                   <br>
                   <!--Request A Ride - DropOffLoc-->
-                  <h3 class="fs-subtitle">Drop Off Location</h3>
-                  <div id="locationField">
+                  <h2 class="fs-title">Drop Off Location</h2>
+                  <div id="locationFieldDropOff" class="form-group has-success has-feedback">
                     <input id="autocomplete2" placeholder="Enter your drop off address"
-                           onFocus="geolocate()" type="text"></input>
+                           onFocus='geolocate("dropoff")' type="text" class="form-control">
+                    <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+                    <span class="error text-danger" id ="errorDropOff" > </span>
                   </div>
                   <br>
                   <!--Request A Ride - Phone number confirmation-->
-                  <h3 class="fs-subtitle">Phone Confirmation</h3>
+                  <h2 class="fs-title">Phone Confirmation</h2>
                   <input type="tel" id="phone" class="form-control">
-                  <!--Request A Ride - Passengers count and liability agreement for guests-->
-                  <h3 class="fs-subtitle">Passengers </h3>
                   <br>
-                  <input type="button" name="next"  class="next action-button" value="Request"/>
-                  <!--<input type="text" name="phone"  id="crn_lcl2" placeholder="Current Location"/>-->
+                  <!--Request A Ride - Passengers count and liability agreement for guests-->
+                  <h2 class="fs-title">Passengers</h2>
+                  <div class="checkbox">
+                    <label class="radio-inline" ><input type="radio" name="optradio">1 Passenger </label>
+                    <label class="radio-inline"><input type="radio" name="optradio">2 Passengers</label>
+                    <label class="radio-inline"><input type="radio" name="optradio">3 Passengers</label>
+                    <label class="radio-inline"><input type="radio" name="optradio">4 Passengers</label>
+                    <label class="radio-inline"><input type="radio" name="optradio">5 Passengers</label>
+                  </div>
+                  <br>
+                  <input type="button" name="requestARide"  class="next action-button" value="Request"/>
+                  <span class="error text-danger" id ="errorRequest" > </span>
                 </fieldset>
 
               <!--FourthStep - Ride On The Way-->
@@ -91,6 +102,8 @@
             </form>
 
 
+
+
             <!-- link to designify.me code snippets -->
             <div class="dme_link">
             </div>
@@ -98,6 +111,8 @@
         </div>
     </div>
     <!-- /.MultiStep Form -->
+
+
 
   </body>
 
