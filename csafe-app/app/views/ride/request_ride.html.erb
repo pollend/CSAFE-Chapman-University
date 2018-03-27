@@ -6,13 +6,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <title></title>
+    <!--Stylesheets-->
     <link href="stylesheets/topNav.css" rel="stylesheet">
     <link href="stylesheets/request_ride.css" rel="stylesheet">
+    <link href="stylesheets/intlTelInput.css" rel="stylesheet">
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!--Scripts-->
     <script type="text/javascript" src="javascripts/request_ride.js"></script>
     <script type="text/javascript" src="javascripts/map_api.js"></script>
     <script type="text/javascript" src="javascripts/topNav.js"></script>
-
   </head>
 
   <body>
@@ -36,44 +38,42 @@
             <form id="msform">
                 <!-- progressbar -->
                 <ul id="progressbar">
-                    <li class="active">Pick Up Location</li>
-                    <li>Drop Off Location</li>
-                    <li>Passengers</li>
+                    <li class="active">Ride Info</li>
                     <li>On Your Way</li>
                     <li>Arriving</li>
                 </ul>
                 <!-- fieldsets -->
-                <!--FirstStep - Request A Ride - PickupLoc-->
+                <!--FirstStep - Request A Ride-->
+
                 <fieldset>
-                    <h2 class="fs-title">Request A Ride </h2>
-                    <h3 class="fs-subtitle"> </h3>
+                  <!--Request A Ride - Pick Up Loc-->
+                    <h2 class="fs-title">Request A Ride</h2>
                     <div id="map" class="someMap"> </div>
                       <br>
-
                     <!--<input type="text" name="phone"  id="crn_lcl" placeholder="Current Location"/>-->
+                  <h3 class="fs-subtitle">Pick Up Location</h3>
                   <div id="locationField">
                     <input id="autocomplete" placeholder="Enter your pick up address"
                            onFocus="geolocate()" type="text"></input>
                   </div>
-                    <input type="text" name="phone" placeholder="Enter Phone for Confirmation"/>
-                    <input type="button" name="next"  class="next action-button" value="Request"/>
+                  <br>
+                  <!--Request A Ride - DropOffLoc-->
+                  <h3 class="fs-subtitle">Drop Off Location</h3>
+                  <div id="locationField">
+                    <input id="autocomplete2" placeholder="Enter your drop off address"
+                           onFocus="geolocate()" type="text"></input>
+                  </div>
+                  <br>
+                  <!--Request A Ride - Phone number confirmation-->
+                  <h3 class="fs-subtitle">Phone Confirmation</h3>
+                  <input type="tel" id="phone" class="form-control">
+                  <!--Request A Ride - Passengers count and liability agreement for guests-->
+                  <h3 class="fs-subtitle">Passengers </h3>
+                  <br>
+                  <input type="button" name="next"  class="next action-button" value="Request"/>
+                  <!--<input type="text" name="phone"  id="crn_lcl2" placeholder="Current Location"/>-->
                 </fieldset>
-              <!--SecondStep - Request A Ride - DropOffLoc-->
-              <fieldset>
-                <h2 class="fs-title">Request A Ride </h2>
-                <h3 class="fs-subtitle"> </h3>
-                <div id="map2" class="someMap"> </div>
-                <br>
-                <input type="text" name="phone"  id="crn_lcl2" placeholder="Current Location"/>
-                <input type="button" name="next"  class="next action-button" value="Request"/>
-              </fieldset>
-              <!--ThirdStep - Passengers-->
-              <fieldset>
-                <h2 class="fs-title">Passengers </h2>
-                <h3 class="fs-subtitle"> </h3>
-                <br>
-                <input type="button" name="next"  class="next action-button" value="Request"/>
-              </fieldset>
+
               <!--FourthStep - Ride On The Way-->
               <fieldset>
                 <h2 class="fs-title">On Your Way </h2>

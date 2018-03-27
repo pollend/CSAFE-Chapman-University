@@ -8,3 +8,4 @@
 //= require countdowntime
 //= require moment
 //= require main
+//= require jquery.mask

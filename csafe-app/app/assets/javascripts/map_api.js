@@ -136,18 +136,11 @@ function initMap() {
         zoom: 13
     });
 
-    map2 = new google.maps.Map(document.getElementById('map2'), {
-        center: default_location,
-        zoom: 13
-
-    });
-
     $.getScript("request_ride.js", function() {
         initAutocomplete()
     });
 
     configMap(map, current_location_fiel);
-    configMap(map2, current_location_fiel2);
 
 }
 
