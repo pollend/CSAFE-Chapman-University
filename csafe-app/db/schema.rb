@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323090614) do
+ActiveRecord::Schema.define(version: 20180307141853) do
 
   create_table "business_hours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "day"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(version: 20180323090614) do
   end
 
   create_table "user_rides", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "business_hours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "day"
+    t.time "start_time"
+    t.time "end_time"
+    t.boolean "enabled"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -64,5 +73,6 @@ ActiveRecord::Schema.define(version: 20180323090614) do
     t.decimal "west", precision: 10, scale: 6
     t.index ["name"], name: "index_zones_on_name", unique: true
   end
+
 
 end

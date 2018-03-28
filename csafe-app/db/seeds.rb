@@ -31,3 +31,13 @@ User.create!({:email => "2dieke102@mail.chapman.edu", :role => "rider", :passwor
 User.create!({:email => "2yu322@chapman.edu", :role => "rider", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
 User.create!({:email => "2perki110@chapman.edu", :role => "driver", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
 User.create!({:email => "2german@chapman.edu", :role => "admin", :password => "@#taawktljasktlw4aaglj", :password_confirmation  => "@#taawktljasktlw4aaglj" })
+
+Zone.create({name: 'CU Radius', north: 33.805033545182255, south:33.776082751851, east: -117.83182508881, west: -117.8779956515})
+
+BusinessHour.create({day:'Monday',start_time:'19:30',end_time:'00:15',enabled:true})
+BusinessHour.create({day:'Tuesday',start_time:'19:30',end_time:'00:15',enabled:true})
+BusinessHour.create({day:'Wednesday',start_time:'19:30',end_time:'00:15',enabled:true})
+BusinessHour.create({day:'Thursday',start_time:'19:30',end_time:'01:45',enabled:true})
+BusinessHour.create({day:'Friday',start_time:'19:30',end_time:'02:15',enabled:true})
+BusinessHour.create({day:'Saturday',start_time:'19:30',end_time:'02:15',enabled:true})
+BusinessHour.create({day:'Sunday',start_time:'19:30',end_time:'02:15',enabled:false})
