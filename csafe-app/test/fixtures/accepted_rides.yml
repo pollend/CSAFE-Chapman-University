@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  userID: 1
+  phone_number: 
+  address: MyString
+  created_at: 2018-03-28 18:56:19
+  start_loca_lat: 9.99
+  start_loca_lng: 9.99
+  end_loca_lat: 9.99
+  end_loca_lng: 9.99
+
+two:
+  userID: 1
+  phone_number: 
+  address: MyString
+  created_at: 2018-03-28 18:56:19
+  start_loca_lat: 9.99
+  start_loca_lng: 9.99
+  end_loca_lat: 9.99
+  end_loca_lng: 9.99

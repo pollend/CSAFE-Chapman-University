@@ -290,7 +290,7 @@
                 <td><%= rides.userID %></td>
                 <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                 <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>"readonly></td>
-                <td> <button id="accept_<%= rides.id %>" type="button" class="btn btn-primary"> Accept</button></td>
+                <td> <button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
 
               </tr>
             <% end %>
@@ -1202,5 +1202,9 @@
       });
   }
   });
+
+  function acceptRide() {
+      console.log("hey my id is: " + event.srcElement.id);
+  }
   </script>
 </div>
