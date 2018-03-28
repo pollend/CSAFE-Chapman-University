@@ -1,10 +1,18 @@
 
 
-    var autocompletePickUp, autocompleteDropOff;
+    var autocompletePickUp, autocompleteDropOff, directionsDisplay,directionsService;
+    var start_pos,end_pos;
+    var directionDisplay;
+    var directionsService = new google.maps.DirectionsService();
+
+    var markers = [];
+
 
     function initAutocomplete(map, boundsRectangle) {
         // Create the autocomplete object, restricting the search to geographical
         // location types.
+        directionsDisplay = new google.maps.DirectionsRenderer();
+
         autocompletePickUp = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
             {types: ['geocode']});
@@ -19,7 +27,9 @@
         dropOffMarker = new mapIcons.Marker({
         });
 
-        // When the user selects an address from the dropdown,
+
+
+
         // use address to get lat long
         google.maps.event.addListener(autocompletePickUp, 'place_changed', function() {
             try {
@@ -37,24 +47,32 @@
 
                 if (boundsRectangle.getBounds().contains(pickUpPos)){
                     console.log("contains")
-
+                    start_pos = pickUpPos;
                     pickUpmarker.setMap(null);
                     //DropOff
                     pickUpmarker = mapIcons.Marker({
                         map: map,
                         position: pickUpPos,
                         icon: {
-                            path: mapIcons.shapes.SQUARE_PIN,
-                            fillColor: '#cc181c',
+                            path: mapIcons.shapes.MAP_PIN,
+                            fillColor: '#7d22bd',
                             fillOpacity: 1,
                             strokeColor: '',
-                            strokeWeight: 0
+                            strokeWeight: 0,
+                            scale: 2/3
                         },
                         map_icon_label: '<span class="map-icon"></span>'
                     });
 
+                    directionsDisplay = new google.maps.DirectionsRenderer({
+       map: map
+     });
+
+
                     console.log(lat);
                     console.log(lng);
+                    start_pos = pickUpPos;
+                    console.log("START" + start_pos);
                 }
 
             else{
@@ -71,7 +89,8 @@
         });
 
 
-        google.maps.event.addListener(autocompleteDropOff, 'place_changed', function() {
+        google.maps.event.addListener(autocompleteDropOff, 'place_changed',  function() {
+
             try {
                 var place = autocompleteDropOff.getPlace();
                 var lat = place.geometry.location.lat(),
@@ -87,39 +106,58 @@
                 if (boundsRectangle.getBounds().contains(dropOffPos)) {
                     console.log("contains")
 
+                    end_pos = dropOffPos;
                     dropOffMarker.setMap(null);
                     dropOffMarker = mapIcons.Marker({
                         map: map,
                         position: dropOffPos,
                         icon: {
-                            path: mapIcons.shapes.SQUARE_PIN,
-                            fillColor: '#00CCBB',
+                            path: mapIcons.shapes.MAP_PIN,
+                            fillColor: '#ee2727',
                             fillOpacity: 1,
                             strokeColor: '',
-                            strokeWeight: 0
+                            strokeWeight: 0,
+                            scale: 2/3
                         },
                         map_icon_label: '<span class="map-icon"></span>'
                     });
 
                     console.log(lat);
                     console.log(lng);
+                    end_pos = dropOffPos;
+
+                    console.log("START \n" + start_pos.value + "END\n" + end_pos.value);
+
+                  // Set destination, origin and travel mode.
+                  var request = {
+                      destination: end_pos,
+                      origin: start_pos,
+                      travelMode: 'DRIVING'
+                  };
+                  // Pass the directions request to the directions service.
+                  var directionsService = new google.maps.DirectionsService();
+                    directionsService.route(request, function(response, status) {
+                      if (status == 'OK') {
+                        // Display the route on the map.
+                        clearMarkers();
+                        console.log("cearled");
+                        directionsDisplay.setDirections(response);
+
+                      }
+
+                    });
                 }
                 else{
-                        console.log("nah")
-                        document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds"
-                    }
-
-            }
-
-            catch(err) {
+                  console.log("nah")
+                  document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds"
+                  }
+                } catch(err) {
                 console.log(err.message);
                 document.getElementById('errorDropOff').innerHTML = "Please use the drop down menu to choose your address"
             }
         });
-
-
-
     }
+
 
 
 // Bias the autocomplete object to the user's geographical location,
@@ -243,6 +281,23 @@
         $("#phone").mask('(000) 000-0000');
 
 });
+
+//Used for Way Points between start and finish
+
+   function calcRoute(start_pos,end_pos) {
+     alert("REACHED CALC ROUTE");
+      var request = {
+        origin: start_pos,
+        destination: end_pos,
+        travelMode: google.maps.TravelMode.DRIVING
+      };
+      directionsService.route(request, function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(result);
+        }
+      });
+    };
+
 
 
     //Just for me - Omar
