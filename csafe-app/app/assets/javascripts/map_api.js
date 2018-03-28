@@ -135,9 +135,7 @@ function initRideMap() {
         center: default_location,
         zoom: 13
     });
-
     configMap(map, current_location_fiel);
-
     $.getScript("request_ride.js", function() {
         initAutocomplete(map, rectangle)
     });
