@@ -41,3 +41,6 @@ BusinessHour.create({day:'Thursday',start_time:'19:30',end_time:'01:45',enabled:
 BusinessHour.create({day:'Friday',start_time:'19:30',end_time:'02:15',enabled:true})
 BusinessHour.create({day:'Saturday',start_time:'19:30',end_time:'02:15',enabled:true})
 BusinessHour.create({day:'Sunday',start_time:'19:30',end_time:'02:15',enabled:false})
+
+
+UserRide.create({userID:1,start_loca_lat:48.84,start_loca_lng:119.38,end_loca_lat:48.48,end_loca_lng:114.223})

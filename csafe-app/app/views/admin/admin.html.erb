@@ -224,7 +224,7 @@
     <!--Hours of Operation-->
     <div class="card mb-3">
       <div class="card-header">
-        <i class="fa fa-table"></i>Hours of Operation</div>
+        <i class="fa fa-table"></i> Hours of Operation</div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -259,6 +259,49 @@
         </div>
       </div>
     </div>
+
+
+    <!--Ride Requests-->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fa fa-table"></i> Ride Requests</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Requested At</th>
+              <th>Updated At</th>
+              <th>Accept</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>User ID</th>
+              <th>Requested At</th>
+              <th>Updated At</th>
+              <th>Accept</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <% @rides.each do |rides| %>
+              <tr>
+                <td><%= rides.userID %></td>
+                <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>"readonly></td>
+                <td> <button id="accept_<%= rides.id %>" type="button" class="btn btn-primary"> Accept</button></td>
+
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <input id="save_hours" type=button value="Save Hours">
+        </div>
+      </div>
+    </div>
+
+
 
 
 
