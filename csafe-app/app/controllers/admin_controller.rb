@@ -15,6 +15,7 @@ class AdminController < ApplicationController
   def admin
     @hours = BusinessHour.all
     @rides = UserRide.all
+    @acceptedRides = AcceptedRide.all
   end
 
 end

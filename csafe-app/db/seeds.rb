@@ -44,3 +44,5 @@ BusinessHour.create({day:'Sunday',start_time:'19:30',end_time:'02:15',enabled:fa
 
 
 UserRide.create({userID:1,start_loca_lat:48.84,start_loca_lng:119.38,end_loca_lat:48.48,end_loca_lng:114.223})
+
+AcceptedRide.create({userID:5,start_loca_lat:58.84,start_loca_lng:185.38,end_loca_lat:245.48,end_loca_lng:164.223,address:"1 Univ Dr",phone_number:"9495467584",})
