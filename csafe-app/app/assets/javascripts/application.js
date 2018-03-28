@@ -16,3 +16,5 @@
 //= require map_api
 //= require request_ride
 //= require topNav
+//= require jquery.mask
+//= require map-icons

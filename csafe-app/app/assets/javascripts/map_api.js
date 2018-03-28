@@ -20,6 +20,7 @@ function nightMode(time, theMap){ //NIGHT MODE FEATURE
 
   if (time >= 18 || time <= 7) { //if the time is around 6PM change to Night Mode
   // Styles a map in night mode.
+      console.log("night time map")
          theMap = new google.maps.Map(document.getElementById('map'), {
            center: {lat: 33.793348, lng: -117.851350},
            zoom: 13,
@@ -106,6 +107,7 @@ function nightMode(time, theMap){ //NIGHT MODE FEATURE
          });
 
        } else {
+      console.log("day time map")
          theMap = theMap; //it is not dark
       }
 
@@ -126,8 +128,9 @@ var hour = date.getHours();
 var default_location = {lat: 33.793348, lng: -117.851350};
 var current_location_fiel = document.getElementById("crn_lcl")
 
-function initMap() {
+function initRideMap() {
 
+    console.log("init map");
     map = new google.maps.Map(document.getElementById('map'), {
         center: default_location,
         zoom: 13
@@ -146,7 +149,6 @@ function configMap(aMap, currentLocField){
     map = nightMode(hour,aMap); //map depending on the time of the day
 
     infoWindow = new google.maps.InfoWindow;
-
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {

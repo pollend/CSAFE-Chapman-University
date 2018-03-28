@@ -243,3 +243,43 @@
         $("#phone").mask('(000) 000-0000');
 
 });
+
+
+    //Just for me - Omar
+    // <div class="card mb-3">
+    //     <div class="card-header">
+    //     <i class="fa fa-table"></i>Hours of Operation</div>
+    // <div class="card-body">
+    //     <div class="table-responsive">
+    //     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    //     <thead>
+    //     <tr>
+    //     <th>Day of Week</th>
+    // <th>Start Time</th>
+    // <th>End Time</th>
+    // <th>Enabled?</th>
+    // </tr>
+    // </thead>
+    // <tfoot>
+    // <tr>
+    // <th>Day of Week</th>
+    // <th>Start Time</th>
+    // <th>End Time</th>
+    // <th>Enabled?</th>
+    // </tr>
+    // </tfoot>
+    // <tbody>
+    // <% @hours.each do |hours| %>
+    // <tr>
+    // <td><%= hours.email %></td>
+    //     <td><input id="st_<%= hours.id %>" type="time" value="<%= hours.email %>"></td>
+    //     <td><input id="et_<%= hours.id %>" type="time" value="<%= hours.email %>"></td>
+    //
+    //     </tr>
+    //     <% end %>
+    //     </tbody>
+    //     </table>
+    //     <input id="save_hours" type=button value="Save Hours">
+    //     </div>
+    //     </div>
+    //     </div>

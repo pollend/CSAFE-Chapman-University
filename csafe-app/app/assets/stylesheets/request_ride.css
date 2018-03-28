@@ -15,7 +15,8 @@ html {
 
 body {
     font-family: montserrat, arial, verdana;
-    background: transparent;
+    background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
+    background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));/* Chrome 10-25, Safari 5.1-6 */
     height: 100%;
     width: 100%;
     margin: 0;
@@ -26,13 +27,13 @@ nav {
 }
 
 .row{
-  background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
-  background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));/* Chrome 10-25, Safari 5.1-6 */
+
 }
 
-.someMap {
+.requestMap {
   height: 500px;
   margin: auto;
+
 }
 
 .checkbox{

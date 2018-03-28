@@ -2,119 +2,120 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <title></title>
-    <!--Stylesheets-->
-    <link href="stylesheets/topNav.css" rel="stylesheet">
-    <link href="stylesheets/request_ride.css" rel="stylesheet">
-    <link href="stylesheets/intlTelInput.css" rel="stylesheet">
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!--Scripts-->
-    <script type="text/javascript" src="javascripts/request_ride.js"></script>
-    <script type="text/javascript" src="javascripts/map_api.js"></script>
-    <script type="text/javascript" src="javascripts/topNav.js"></script>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <title></title>
+  <!--Stylesheets-->
+  <link href="stylesheets/topNav.css" rel="stylesheet">
+  <link href="stylesheets/request_ride.css" rel="stylesheet">
+  <link href="stylesheets/intlTelInput.css" rel="stylesheet">
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!--Scripts-->
+  <script type="text/javascript" src="javascripts/request_ride.js"></script>
+  <script type="text/javascript" src="javascripts/map_api.js"></script>
+  <script type="text/javascript" src="javascripts/topNav.js"></script>
+</head>
 
-  <body>
+<body>
 
-  <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav-->
-  <!--TopNav-->
-  <div class="topnav" id="myTopnav">
-    <a href="">CSafe</a>
-    <%= link_to "Account", edit_user_registration_path %>
-    <!--class="activeNav"-->
-    <!--Add the class above when the nav cell is selected-->
-    <a href="#contact" id="contactTopNav">Contact</a>
-    <a href="#about" id="aboutTopNav">About</a>
-    <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-    <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="respondToMenuPress()">&#9776;</a>
-  </div>
-
-
-    <div class="row">
-        <div class="container">
-            <form id="msform">
-                <!-- progressbar -->
-                <ul id="progressbar">
-                    <li class="active">Ride Info</li>
-                    <li>On Your Way</li>
-                    <li>Arriving</li>
-                </ul>
-                <!-- fieldsets -->
-                <!--FirstStep - Request A Ride-->
-                <fieldset>
-                  <!--Request A Ride - Pick Up Loc-->
-                    <h2 class="fs-title">Request A Ride</h2>
-                    <div id="map" class="someMap"> </div>
-                      <br>
-                    <!--<input type="text" name="phone"  id="crn_lcl" placeholder="Current Location"/>-->
-                  <h2 class="fs-title">Pick Up Location</h2>
-                  <div id="locationFieldPickUp">
-                    <input id="autocomplete" placeholder="Enter your pick up address"
-                           onFocus='geolocate("pickup")' type="text" class="form-control"></input>
-                    <span class="error text-danger" id ="errorPickUp" > </span>
-                  </div>
-                  <br>
-                  <!--Request A Ride - DropOffLoc-->
-                  <h2 class="fs-title">Drop Off Location</h2>
-                  <div id="locationFieldDropOff" class="form-group has-success has-feedback">
-                    <input id="autocomplete2" placeholder="Enter your drop off address"
-                           onFocus='geolocate("dropoff")' type="text" class="form-control">
-                    <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-                    <span class="error text-danger" id ="errorDropOff" > </span>
-                  </div>
-                  <br>
-                  <!--Request A Ride - Phone number confirmation-->
-                  <h2 class="fs-title">Phone Confirmation</h2>
-                  <input type="tel" id="phone" class="form-control">
-                  <br>
-                  <!--Request A Ride - Passengers count and liability agreement for guests-->
-                  <h2 class="fs-title">Passengers</h2>
-                  <div class="checkbox">
-                    <label class="radio-inline" ><input type="radio" name="optradio">1 Passenger </label>
-                    <label class="radio-inline"><input type="radio" name="optradio">2 Passengers</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">3 Passengers</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">4 Passengers</label>
-                    <label class="radio-inline"><input type="radio" name="optradio">5 Passengers</label>
-                  </div>
-                  <br>
-                  <input type="button" name="next"  class="next action-button" value="Request"/>
-                  <span class="error text-danger" id ="errorRequest" > </span>
-                </fieldset>
-
-              <!--FourthStep - Ride On The Way-->
-              <fieldset>
-                <h2 class="fs-title">On Your Way </h2>
-                <h3 class="fs-subtitle"> </h3>
-                <br>
-                <input type="button" name="next"  class="next action-button" value="Request"/>
-              </fieldset>
-              <!--FifthStep - Ride Is Here-->
-              <fieldset>
-                <h2 class="fs-title">Your Ride is Here </h2>
-                <h3 class="fs-subtitle"> </h3>
-                <br>
-                <input type="button" name="next"  class="next action-button" value="Request"/>
-              </fieldset>
-            </form>
+<!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav-->
+<!--TopNav-->
+<div class="topnav" id="myTopnav">
+  <a href="">CSafe</a>
+  <%= link_to "Account", edit_user_registration_path %>
+  <!--class="activeNav"-->
+  <!--Add the class above when the nav cell is selected-->
+  <a href="#contact" id="contactTopNav">Contact</a>
+  <a href="#about" id="aboutTopNav">About</a>
+  <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="respondToMenuPress()">&#9776;</a>
+</div>
 
 
+<div class="row">
+  <div class="container">
+    <form id="msform">
+      <!-- progressbar -->
+      <ul id="progressbar">
+        <li class="active">Ride Info</li>
+        <li>On Your Way</li>
+        <li>Arriving</li>
+      </ul>
+      <!-- fieldsets -->
+      <!--FirstStep - Request A Ride-->
 
-
-            <!-- link to designify.me code snippets -->
-            <div class="dme_link">
-            </div>
-            <!-- /.link to designify.me code snippets -->
+      <fieldset>
+        <!--Request A Ride - Pick Up Loc-->
+        <h2 class="fs-title">Request A Ride</h2>
+        <div id="map" class="requestMap"> </div>
+        <br>
+        <!--<input type="text" name="phone"  id="crn_lcl" placeholder="Current Location"/>-->
+        <h2 class="fs-title">Pick Up Location</h2>
+        <div id="locationFieldPickUp">
+          <input id="autocomplete" placeholder="Enter your pick up address"
+                 onFocus='geolocate("pickup")' type="text"></input>
+          <span class="error text-danger" id ="errorPickUp" > </span>
         </div>
+        <br>
+        <!--Request A Ride - DropOffLoc-->
+        <h2 class="fs-title">Drop Off Location</h2>
+        <div id="locationFieldDropOff" class="form-group has-success has-feedback">
+          <input id="autocomplete2" placeholder="Enter your drop off address"
+                 onFocus='geolocate("dropoff")' type="text" class="form-control">
+          <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+          <span class="error text-danger" id ="errorDropOff" > </span>
+        </div>
+        <br>
+        <!--Request A Ride - Phone number confirmation-->
+        <h2 class="fs-title">Phone Confirmation</h2>
+        <input type="tel" id="phone" class="form-control">
+        <br>
+        <!--Request A Ride - Passengers count and liability agreement for guests-->
+        <h2 class="fs-title">Passengers</h2>
+        <div class="checkbox">
+          <label class="radio-inline" ><input type="radio" name="optradio">1 Passenger </label>
+          <label class="radio-inline"><input type="radio" name="optradio">2 Passengers</label>
+          <label class="radio-inline"><input type="radio" name="optradio">3 Passengers</label>
+          <label class="radio-inline"><input type="radio" name="optradio">4 Passengers</label>
+          <label class="radio-inline"><input type="radio" name="optradio">5 Passengers</label>
+        </div>
+        <br>
+        <input type="button" name="requestARide"  class="next action-button" value="Request"/>
+        <span class="error text-danger" id ="errorRequest" > </span>
+      </fieldset>
+
+      <!--FourthStep - Ride On The Way-->
+      <fieldset>
+        <h2 class="fs-title">On Your Way </h2>
+        <h3 class="fs-subtitle"> </h3>
+        <br>
+        <input type="button" name="next"  class="next action-button" value="Request"/>
+      </fieldset>
+      <!--FifthStep - Ride Is Here-->
+      <fieldset>
+        <h2 class="fs-title">Your Ride is Here </h2>
+        <h3 class="fs-subtitle"> </h3>
+        <br>
+        <input type="button" name="next"  class="next action-button" value="Request"/>
+      </fieldset>
+    </form>
+
+
+
+
+    <!-- link to designify.me code snippets -->
+    <div class="dme_link">
     </div>
-    <!-- /.MultiStep Form -->
+    <!-- /.link to designify.me code snippets -->
+  </div>
+</div>
+<!-- /.MultiStep Form -->
 
 
 
-  </body>
+</body>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXXHffHZ_0ARWB8E5m4lDp0RgiNwu99QM&libraries=places&callback=initRideMap" async defer></script>
 
 </html>
