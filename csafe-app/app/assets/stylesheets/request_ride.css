@@ -35,6 +35,11 @@ nav {
   margin: auto;
 }
 
+.checkbox{
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
 
 .radio-inline{
     margin-right: 5%;
@@ -52,7 +57,7 @@ nav {
   padding: 15px;
   background: white;
   border: 1px solid #ccc;
-  border-radius: 0px;
+  border-radius: 8px;
   margin-bottom: 10px;
   width: 98%;
   margin-left: 1%;
@@ -63,15 +68,18 @@ nav {
 /*Hide all except first fieldset*/
 #msform fieldset:not(:first-of-type) {
     display: none;
+
 }
 
 /*inputs*/
 #msform input, #msform textarea {
     padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 0px;
+    border: 0.5px solid #ccc;
+    border-radius: 10px;
     margin-bottom: 10px;
-    width: 100%;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    width: 85%;
     box-sizing: border-box;
     font-family: montserrat;
     color: #2C3E50;
@@ -93,12 +101,12 @@ nav {
 
 /*buttons*/
 #msform .action-button {
-    width: 100px;
-    background: #ee0979;
+    width: 150px;
+    background: rgba(216,22,96,0.8);
     font-weight: bold;
     color: white;
     border: 0 none;
-    border-radius: 25px;
+    border-radius: 5px;
     cursor: pointer;
     padding: 10px 5px;
     margin: 10px 5px;
@@ -141,6 +149,11 @@ nav {
     margin-bottom: 20px;
 }
 
+.form-control {
+
+  background-color: #FCFCFC;
+
+}
 /*progressbar*/
 #progressbar {
     margin-bottom: 30px;

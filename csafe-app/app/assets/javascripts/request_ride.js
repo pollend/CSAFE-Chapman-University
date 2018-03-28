@@ -154,6 +154,7 @@
     var animating; //flag to prevent quick multi-click glitches
 
     $(".next").click(function () {
+
         console.log("Request a ride pressed")
         if (animating) return false;
         animating = true;
@@ -242,4 +243,3 @@
         $("#phone").mask('(000) 000-0000');
 
 });
-
