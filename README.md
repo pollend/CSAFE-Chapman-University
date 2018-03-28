@@ -157,3 +157,7 @@ Then, run the migrations using this command: `docker exec -it <container name> r
 ## Running the seeds task
 
 `docker exec -it container_name rake db:drop db:create db:migrate db:seed`
+
+## Problems with Another Server Runnning
+
+`sudo rm tmp/pids/server.pid `
