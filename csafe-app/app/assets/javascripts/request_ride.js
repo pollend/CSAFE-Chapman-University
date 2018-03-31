@@ -137,10 +137,11 @@
                   // Pass the directions request to the directions service.
                   var directionsService = new google.maps.DirectionsService();
                     directionsService.route(request, function(response, status) {
+
                       if (status == 'OK') {
                         // Display the route on the map.
-                        clearMarkers();
-                        console.log("cearled");
+                      //  clearMarkers();
+                        console.log("REACHED DIRECTIONS");
                         directionsDisplay.setDirections(response);
 
                       }

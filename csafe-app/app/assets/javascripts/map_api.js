@@ -179,7 +179,7 @@ function configMap(aMap, currentLocField){
                 aMap.setCenter(marker.getPosition());
             });
 
-            currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE
+          //  currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE; getCenter() is OUTDATED
 
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -220,5 +220,3 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) { //IF LOCA
         'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 }
-
-
