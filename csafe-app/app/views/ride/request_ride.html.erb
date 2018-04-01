@@ -1,24 +1,13 @@
 <!-- MultiStep Form -->
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <title></title>
-  <!--Stylesheets-->
-  <link href="stylesheets/topNav.css" rel="stylesheet">
-  <link href="stylesheets/request_ride.css" rel="stylesheet">
-  <link href="stylesheets/intlTelInput.css" rel="stylesheet">
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!--Scripts-->
-  <script type="text/javascript" src="javascripts/request_ride.js"></script>
-  <script type="text/javascript" src="javascripts/map_api.js"></script>
-  <script type="text/javascript" src="javascripts/topNav.js"></script>
-
+  <title>Request A Ride</title>
 </head>
 
-<body>
+<body class="ride">
 
 <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav-->
 <!--TopNav-->
@@ -55,7 +44,7 @@
         <h2 class="fs-title">Pick Up Location</h2>
         <div id="locationFieldPickUp">
           <input id="autocomplete" placeholder="Enter your pick up address"
-                 onFocus='geolocate("pickup")' type="text"></input>
+                 onFocus='geolocate("pickup")' type="text" autocomplete="new-username"></input>
           <span class="error text-danger" id ="errorPickUp" > </span>
         </div>
         <br>
@@ -102,13 +91,6 @@
       </fieldset>
     </form>
 
-
-
-
-    <!-- link to designify.me code snippets -->
-    <div class="dme_link">
-    </div>
-    <!-- /.link to designify.me code snippets -->
   </div>
 </div>
 <!-- /.MultiStep Form -->
@@ -117,6 +99,6 @@
 
 </body>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXXHffHZ_0ARWB8E5m4lDp0RgiNwu99QM&libraries=places&callback=initRideMap" async defer></script>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAXXHffHZ_0ARWB8E5m4lDp0RgiNwu99QM&libraries=places&callback=initRideMap"%>
 
 </html>

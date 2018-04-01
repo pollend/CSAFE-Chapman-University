@@ -1,11 +1,14 @@
-var rectangle;
-function radiusParam(map){ //RADIUS FOR PSAFE TO PICK UP
-var bounds = { //PARAMS OF PSAFE TO ALLOW PICKUP
+var bounds;
+function radiusParamRequestMap(map){ //RADIUS FOR PSAFE TO PICK UP
+bounds = { //PARAMS OF PSAFE TO ALLOW PICKUP
           north: 33.805033545182255,
           south: 33.776082751851,
           east: -117.83182508881,
           west: -117.8779956515
         };
+
+    console.log("bounds");
+    console.log(bounds);
         // Define the rectangle and set its editable property to true.
         rectangle = new google.maps.Rectangle({
           bounds: bounds,
@@ -15,9 +18,14 @@ var bounds = { //PARAMS OF PSAFE TO ALLOW PICKUP
   rectangle.setMap(map);
 }
 
+function getBoundsRequestMap(){
+    console.log("getting bounds");
+    return bounds;
+}
 
-function nightMode(time, theMap){ //NIGHT MODE FEATURE
+function nightModeRequestMap(time, theMap){ //NIGHT MODE FEATURE
 
+    console.log("night or day");
   if (time >= 18 || time <= 7) { //if the time is around 6PM change to Night Mode
   // Styles a map in night mode.
       console.log("night time map")
@@ -111,7 +119,8 @@ function nightMode(time, theMap){ //NIGHT MODE FEATURE
          theMap = theMap; //it is not dark
       }
 
-    radiusParam(theMap);
+    console.log("setting radius")
+    radiusParamRequestMap(theMap);
     return theMap;
 }
 
@@ -129,22 +138,21 @@ var default_location = {lat: 33.793348, lng: -117.851350};
 var current_location_fiel = document.getElementById("crn_lcl")
 
 function initRideMap() {
-
-    console.log("init map");
+    console.log("init map request");
     map = new google.maps.Map(document.getElementById('map'), {
         center: default_location,
         zoom: 13
     });
-    configMap(map, current_location_fiel);
-    $.getScript("request_ride.js", function() {
-        initAutocomplete(map, rectangle)
-    });
+    configRequestMap(map, current_location_fiel);
+
+        initAutocompleteRequestMap(map)
+        console.log("with rect");
 
 }
 
-function configMap(aMap, currentLocField){
+function configRequestMap(aMap, currentLocField){
 
-    map = nightMode(hour,aMap); //map depending on the time of the day
+    map = nightModeRequestMap(hour,aMap); //map depending on the time of the day
 
     infoWindow = new google.maps.InfoWindow;
 

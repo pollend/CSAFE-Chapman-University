@@ -1,3 +1,96 @@
-/*
-*= require admin
-*/
+/* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+
+
+/* Optional: Makes the sample page fill the window. */
+.bounds html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.bounds #map {
+    height: 100%;
+}
+
+#addzone-panel {
+    position: absolute;
+    top: 10px;
+    left: 20%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+#removezone-panel {
+    position: absolute;
+    top: 10px;
+    left: 60%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+}
+
+#legend-panel {
+    position: absolute;
+    top: 10px;
+    left: 45%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 30px;
+}
+
+.my-legend .legend-title {
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 90%;
+}
+
+.my-legend .legend-scale ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+}
+
+.my-legend .legend-scale ul li {
+    display: block;
+    float: left;
+    width: 100px;
+    margin-bottom: 6px;
+    text-align: center;
+    font-size: 80%;
+    list-style: none;
+}
+
+.my-legend ul.legend-labels li span {
+    display: block;
+    float: left;
+    height: 15px;
+    width: 100px;
+}
+
+.my-legend .legend-source {
+    font-size: 70%;
+    color: #999;
+    clear: both;
+}
+
+.my-legend a {
+    color: #777;
+}

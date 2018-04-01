@@ -2,8 +2,8 @@
   <title>Set Bounds</title>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
-  <%= stylesheet_link_tag "bounds" %>
 <% end %>
+<body>
 <div id="addzone-panel">
   <input class="form-control" id="zone_name" type="text" aria-describedby="zoneHelp" placeholder="Enter zone name">
   <input id="add_zone" type=button value="Add Zone">
@@ -28,5 +28,5 @@
   </div>
 </div>
 <div id="map"></div>
-<%= javascript_include_tag "map_api2" %>
-<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap", async: true, defer: true %>
+</body>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap"%>
