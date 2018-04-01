@@ -155,48 +155,59 @@ function configRequestMap(aMap, currentLocField){
     map = nightModeRequestMap(hour,aMap); //map depending on the time of the day
 
     infoWindow = new google.maps.InfoWindow;
-
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            //  infoWindow.setPosition(pos);
-            // Create a marker and set its position.
-            var marker = new google.maps.Marker({
-                map: aMap,
-                position: pos
-            });
-            infoWindow.open(map);
-
-            aMap.setZoom(16);
-            aMap.setCenter(pos); //SET LOCATION
-
-            aMap.addListener('center_changed', function() {
-                // 3 seconds after the center of the map has changed, pan back to the
-                // marker.
-                window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
-                    map.panTo(marker.getPosition());
-                }, 3000);
-            });
-
-            aMap.addListener('click', function() { //ZOOM IN ON MARKER
-                aMap.setZoom(18);
-                aMap.setCenter(marker.getPosition());
-            });
-
-          //  currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE; getCenter() is OUTDATED
-
-        }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
 }
+
+
+
+function currentLocal() {
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+
+console.log("Current Location");
+      navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+          };
+           infoWindow.setPosition(pos);
+          // Create a marker and set its position.
+
+
+          var marker = new google.maps.Marker({
+              map: aMap,
+              position: pos
+          });
+          infoWindow.open(map);
+
+          aMap.setZoom(16);
+          aMap.setCenter(pos); //SET LOCATION
+
+          aMap.addListener('center_changed', function() {
+              // 3 seconds after the center of the map has changed, pan back to the
+              // marker.
+              window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
+                  map.panTo(marker.getPosition());
+              }, 3000);
+          });
+
+          aMap.addListener('click', function() { //ZOOM IN ON MARKER
+              aMap.setZoom(18);
+              aMap.setCenter(marker.getPosition());
+          });
+
+        //  currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE; getCenter() is OUTDATED
+
+      }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+      });
+  } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+
 
 function geocodeLatLng(geocoder, map, infowindow) {
     var input = document.getElementById('latlng').value;

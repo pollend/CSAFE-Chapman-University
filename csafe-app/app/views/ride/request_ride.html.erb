@@ -44,8 +44,10 @@
         <h2 class="fs-title">Pick Up Location</h2>
         <div id="locationFieldPickUp">
           <input id="autocomplete" placeholder="Enter your pick up address"
-                 onFocus='geolocate("pickup")' type="text" autocomplete="new-username"></input>
-          <span class="error text-danger" id ="errorPickUp" > </span>
+                 onFocus='geolocate("pickup")' type="text" autocomplete="new-username" class="form-control">
+          <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+          <span class="error text-danger" id ="errorDropOff" > </span>
+          <button onclick="currentLocal();"class="fa fa-location-arrow fa-lg iconz"></button>
         </div>
         <br>
         <!--Request A Ride - DropOffLoc-->
@@ -55,11 +57,14 @@
                  onFocus='geolocate("dropoff")' type="text" class="form-control">
           <span class="glyphicon glyphicon-ok form-control-feedback"></span>
           <span class="error text-danger" id ="errorDropOff" > </span>
+
         </div>
         <br>
         <!--Request A Ride - Phone number confirmation-->
         <h2 class="fs-title">Phone Confirmation</h2>
         <input type="tel" id="phone" class="form-control">
+        <span class="fa fa-phone fa-lg phonez"></span>
+
         <br>
         <!--Request A Ride - Passengers count and liability agreement for guests-->
         <h2 class="fs-title">Passengers</h2>
