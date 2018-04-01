@@ -10,19 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180328185619) do
-
-  create_table "accepted_rides", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "userID"
-    t.string "phone_number", limit: 20
-    t.string "address", limit: 50
-    t.datetime "created_at", null: false
-    t.decimal "start_loca_lat", precision: 10
-    t.decimal "start_loca_lng", precision: 10
-    t.decimal "end_loca_lat", precision: 10
-    t.decimal "end_loca_lng", precision: 10
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20180401030054) do
 
   create_table "business_hours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "day"
@@ -51,6 +39,13 @@ ActiveRecord::Schema.define(version: 20180328185619) do
     t.decimal "start_loca_lng", precision: 10
     t.decimal "end_loca_lat", precision: 10
     t.decimal "end_loca_lng", precision: 10
+    t.string "phone_number", limit: 20
+    t.string "start_address", limit: 50
+    t.string "end_address", limit: 50
+    t.datetime "accepted"
+    t.datetime "departed"
+    t.datetime "complete"
+    t.datetime "eta"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
