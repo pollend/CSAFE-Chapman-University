@@ -295,7 +295,6 @@
             <% end %>
             </tbody>
           </table>
-          <input id="save_hours" type=button value="Save Hours">
         </div>
       </div>
     </div>
@@ -330,30 +329,28 @@
             </tr>
             </tfoot>
             <tbody>
-            <% @acceptedRides.each do |rides| %>
+            <% @rides.each do |ride| %>
               <tr>
-                <td><%= rides.userID %></td>
-                <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>"readonly></td>
-                <td><%= rides.phone_number %></td>
-                <td><%= rides.address %></td>
+                <td><%= ride.userID %></td>
+                <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td><%= ride.phone_number %></td>
+                <td><%= ride.end_address %></td>
                 <td>
-                  <select id="setEta_<%= rides.id %>">
+                  <select id="setEta_<%= ride.id %>">
                   <option value="5">5 Minutes</option>
                   <option value="10">10 Minutes</option>
                   <option value="15">15 Minutes</option>
                   <option value="25">25 Minutes</option>
                   </select>
-                  <button id="setEtaButton_<%= rides.id %>"style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()" > Set ETA</button>
+                  <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()" > Set ETA</button>
 
                 </td>
-                <td> <button id="cancel_<%= rides.id %>"style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()" > Cancel Ride</button></td>
-
+                <td> <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()" > Cancel Ride</button></td>
               </tr>
             <% end %>
             </tbody>
           </table>
-          <input id="save_hours" type=button value="Save Hours">
         </div>
       </div>
     </div>
