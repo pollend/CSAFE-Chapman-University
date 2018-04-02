@@ -355,12 +355,41 @@
       </div>
     </div>
 
-
-
-
-
-
-
+    <!--Add New Admins-->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fa fa-table"></i>Add New Admins</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+              <th>Admin Email</th>
+              <th>Revoke Admin?</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <th>Admin Email</th>
+              <th>Revoke Admin?</th>
+            </tr>
+            </tfoot>
+            <tbody id="admin_list">
+            <% @admins.each do |admin| %>
+              <tr id="revokeAdmin_<%= admin.id %>">
+                <td><%= admin.email %></td>
+                <td>
+                  <button style="background-color:red;border: 0;margin-left: 10px;margin-top: 5px" type="button" onclick="revokeAdmin(<%= admin.id %>)" class="btn btn-primary">Revoke Admin</button>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <input placeholder="Email" type="email" id="new_admin">
+          <input id="add_admin" type=button value="Add Admin">
+        </div>
+      </div>
+    </div>
 
     <!-- Icon Cards-->
     <div class="row">
@@ -1240,6 +1269,16 @@
     </div>
   </div>
   <script>
+  var revokeAdmin = function(id) {
+      $.ajax({
+          url: '/api/v1/admin/remove/'+id,
+          type: 'PUT',
+          success: function(data) {
+              $('#revokeAdmin_'+id).remove();
+          }
+      });
+  };
+
   var saveHours = $('#save_hours');
   saveHours.click(function(event) {
   for (var i = 1; i <= 7; ++i) {
@@ -1250,11 +1289,26 @@
       $.ajax({
           url: '/api/v1/hours/'+i,
           type: 'PUT',
-          data: data,
           success: function(data) {
           }
       });
   }
+  });
+
+  var addAdmin = $('#add_admin');
+  addAdmin.click(function(event) {
+      var email = document.getElementById('new_admin');
+      if (email.value) {
+          $.ajax({
+              url: '/api/v1/admin/add',
+              type: 'PUT',
+              data: {email:email.value.trim()},
+              success: function(result) {
+                  email.value = "";
+                  $('#admin_list').append('<tr id="revokeAdmin_'+result.data.id+'"><td>'+result.data.email+'</td><td><button style="background-color:red;border: 0;margin-left: 10px;margin-top: 5px" type="button" onclick="revokeAdmin('+result.data.id+')" class="btn btn-primary">Revoke Admin</button></td></tr>')
+              }
+          });
+      }
   });
 
   function acceptRide() {

@@ -17,6 +17,7 @@ class AdminController < ApplicationController
   def admin
     @hours = BusinessHour.all
     @rides = UserRide.all
+    @admins = User.with_role(:admin, :any)
   end
 
 end
