@@ -1,21 +1,21 @@
 class User < ApplicationRecord
+  rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   
-  enum role: [:rider, :driver, :admin]
-  after_initialize :set_default_role, :if => :new_record?
+  after_initialize :set_default_role
   def set_default_role
-    self.role ||= :rider
+    self.add_role(:rider) if self.roles.blank?
   end
 
-  def set_role_admin
-    self.role = :admin
+  def add_role_admin
+    self.add_role(:admin)
   end
 
-  def set_role_driver
-    self.role = :driver
+  def add_role_driver
+    self.add_role(:driver)
   end
   
   after_create :welcome_send
