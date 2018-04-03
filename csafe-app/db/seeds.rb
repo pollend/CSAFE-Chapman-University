@@ -18,16 +18,24 @@ rider2.save!
 driver = User.new
 driver.email = 'perki110@chapman.edu'
 driver.password = 'Playstation@32'
-driver.role = driver.set_role_driver
+driver.add_role :driver
 driver.save!
 
 admin = User.new
 admin.email = 'german@chapman.edu'
 admin.password = '@IlikeJordanshoes@'
-admin.role = admin.set_role_admin
+admin.add_role :admin
 admin.save!
 
-User.create!({:email => "2dieke102@mail.chapman.edu", :role => "rider", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
-User.create!({:email => "2yu322@chapman.edu", :role => "rider", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
-User.create!({:email => "2perki110@chapman.edu", :role => "driver", :password => "@#taawktljasktlw4aaglj", :password_confirmation => "@#taawktljasktlw4aaglj" })
-User.create!({:email => "2german@chapman.edu", :role => "admin", :password => "@#taawktljasktlw4aaglj", :password_confirmation  => "@#taawktljasktlw4aaglj" })
+Zone.create({name: 'CU Radius', north: 33.805033545182255, south:33.776082751851, east: -117.83182508881, west: -117.8779956515})
+
+BusinessHour.create({day:'Monday',start_time:'19:30',end_time:'00:15',enabled:true})
+BusinessHour.create({day:'Tuesday',start_time:'19:30',end_time:'00:15',enabled:true})
+BusinessHour.create({day:'Wednesday',start_time:'19:30',end_time:'00:15',enabled:true})
+BusinessHour.create({day:'Thursday',start_time:'19:30',end_time:'01:45',enabled:true})
+BusinessHour.create({day:'Friday',start_time:'19:30',end_time:'02:15',enabled:true})
+BusinessHour.create({day:'Saturday',start_time:'19:30',end_time:'02:15',enabled:true})
+BusinessHour.create({day:'Sunday',start_time:'19:30',end_time:'02:15',enabled:false})
+
+
+UserRide.create({userID:1,start_loca_lat:48.84,start_loca_lng:119.38,end_loca_lat:48.48,end_loca_lng:114.223,phone_number:"7146423115",end_address:"1 University Dr"})

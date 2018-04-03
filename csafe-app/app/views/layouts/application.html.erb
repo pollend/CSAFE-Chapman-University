@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CsafeApp</title>
+    <!--Default rails setup for application-wide css/js-->
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <%= stylesheet_link_tag "application", "data-turbolinks_track" => true %>﻿
+    <%= javascript_include_tag "application", "data-turbolinks_track" => true %>﻿
+
+    <!--Page-specific css/js-->
+    <% if content_for? :page_head %>
+      <%= yield :page_head %>
+    <% end %>
+
+    <!--Custom application-wide css/js-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
   </head>
 
-  <body>
+  <body class="<%= controller_name %> <%= action_name %>">
     <div class="container">
       <% if notice %> <div class="alert alert-success"> <%= notice %> </div> <% end %>
       <% if alert %> <div class="alert alert-danger"> <%= alert %></div> <% end %>

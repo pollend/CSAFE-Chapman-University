@@ -1,0 +1,32 @@
+<% content_for :page_head do %>
+  <title>Set Bounds</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+<% end %>
+<body>
+<div id="addzone-panel">
+  <input class="form-control" id="zone_name" type="text" aria-describedby="zoneHelp" placeholder="Enter zone name">
+  <input id="add_zone" type=button value="Add Zone">
+  <input id="save_zone" type=button value="Save Zone">
+</div>
+<div id="removezone-panel">
+  <select id="zone_list">
+    <% @zones.each do |zone| %>
+      <option value="<%= zone.name %>"><%= zone.name %></option>
+    <% end %>
+  </select>
+  <input id="remove_zone" type=button value="Remove Zone">
+</div>
+<div id="legend-panel">
+  <div class='my-legend'>
+    <div class='legend-scale'>
+      <ul class='legend-labels'>
+        <li><span style='background:#b2b4f6;'></span>Current Zone</li>
+        <li><span style='background:#045A8D;'></span>Saved Zone</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="map"></div>
+</body>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAACG35XDcCID-Ax8t4nZTzpBpiASCYoBI&callback=initMap"%>

@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 FROM ruby:2.2 
-MAINTAINER marko@codeship.com
+MAINTAINER xlablaza@gmail.com
 
 # Install apt based dependencies required to run Rails as 
 # well as RubyGems. As the Ruby image itself is based on a 
