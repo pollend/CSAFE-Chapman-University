@@ -44,7 +44,12 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-      - run: bundle exec rake db:setup
+      # We make a copy of database.yml.dist first, removing the dist. That way we can access database info
+      - run:
+          command: |
+            mv /csafe-app/database.yml.dist /csafe-app/database.yml
+
+            bundle exec rake db:setup
 
       # run tests!
       - run:
