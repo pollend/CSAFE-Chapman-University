@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Wait for DB
           # preinstalled in circleci/* docker image
-          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 15s
+          command: dockerize -wait tcp://localhost:3306 -timeout 15s
 
       # We make a copy of database.yml.dist first, removing the dist. That way we can access database info
       - run:
