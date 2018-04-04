@@ -9,10 +9,10 @@ jobs:
       # specify the version you desire here
        - image: circleci/ruby:2.4.1-node-browsers
        - image: tkuchiki/delayed-mysql
-            environment:
-              MYSQL_ALLOW_EMPTY_PASSWORD: yes
-              MYSQL_ROOT_PASSWORD: 'root'
-              MYSQL_DATABASE: mysql
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: 'root'
+          MYSQL_DATABASE: mysql
 
 
       # Specify service dependencies here if necessary
