@@ -6,8 +6,8 @@ version: 2
 jobs:
   build:
     docker:
-       - image: circleci/ruby:2.4.1-node-browsers
-       - image: circleci/mysql:latest
+      - image: circleci/ruby:2.4.1-node-browsers
+      - image: circleci/mysql:latest
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD: 'root'
