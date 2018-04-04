@@ -24,6 +24,7 @@ jobs:
 
       - checkout:
           path: ~/repo
+
       # Download and cache dependencies
 
       - restore_cache:
@@ -42,8 +43,6 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
-      - checkout
-      
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
