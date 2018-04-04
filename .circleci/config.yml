@@ -47,7 +47,7 @@ jobs:
       # We make a copy of database.yml.dist first, removing the dist. That way we can access database info
       - run:
           command: |
-            mv /config/database.yml.dist /config/database.yml
+            mv config/database.yml.dist config/database.yml
 
             bundle exec rake db:setup
 
