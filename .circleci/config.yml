@@ -8,6 +8,12 @@ jobs:
     docker:
       # specify the version you desire here
        - image: circleci/ruby:2.4.1-node-browsers
+       - image: tkuchiki/delayed-mysql
+            environment:
+              MYSQL_ALLOW_EMPTY_PASSWORD: yes
+              MYSQL_ROOT_PASSWORD: 'root'
+              MYSQL_DATABASE: mysql
+
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -43,7 +49,14 @@ jobs:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
+      ####################
       # Database setup
+      ####################
+      - run:
+          name: Wait for DB
+          # preinstalled in circleci/* docker image
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 15s
+
       # We make a copy of database.yml.dist first, removing the dist. That way we can access database info
       - run:
           command: |
@@ -51,7 +64,9 @@ jobs:
 
             bundle exec rake db:setup
 
-      # run tests!
+      ####################
+      # Run Tests!
+      ####################
       - run:
           name: run tests
           command: |
