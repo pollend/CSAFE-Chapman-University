@@ -47,7 +47,7 @@ jobs:
       # We make a copy of database.yml.dist first, removing the dist. That way we can access database info
       - run:
           command: |
-            mv /csafe-app/config/database.yml.dist /csafe-app/config/database.yml
+            echo pwd
 
             bundle exec rake db:setup
 
