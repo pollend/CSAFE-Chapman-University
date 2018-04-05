@@ -9,9 +9,9 @@ jobs:
       - image: circleci/ruby:2.4.1-node-browsers
       - image: circleci/mysql:5.7.18
         environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_ROOT_HOST: mysql
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_USER=root
+          - MYSQL_PASSWORD=root
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
