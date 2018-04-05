@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace 'v1' do
       resources :zones
       resources :hours
+      resources :rides
       put 'admin/add' => 'admin#add'
       put 'admin/remove/:id' => 'admin#remove'
     end
