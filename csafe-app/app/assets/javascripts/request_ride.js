@@ -4,7 +4,8 @@ var autocompletePickUp, autocompleteDropOff;
 var start_pos,end_pos;
 var directionDisplay;
 var directionsService;
-
+var waypoint_count = 0;
+var input_Clear = document.getElementById("searchclear");
 var markers = [];
 
 
@@ -54,7 +55,6 @@ function initAutocompleteRequestMap(map) {
                 lng: lng
             };
 
-
             if (rectangle.getBounds().contains(pickUpPos)){
                 console.log("contains")
                 start_pos = pickUpPos;
@@ -64,7 +64,7 @@ function initAutocompleteRequestMap(map) {
                     map: map,
                     position: pickUpPos,
                     icon: {
-                        path: mapIcons.shapes.MAP_PIN,
+                  //      path: mapIcons.shapes.MAP_PIN,
                         fillColor: '#7d22bd',
                         fillOpacity: 1,
                         strokeColor: '',
@@ -73,6 +73,7 @@ function initAutocompleteRequestMap(map) {
                     },
                     map_icon_label: '<span class="map-icon"></span>'
                 });
+
 
                 directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map
@@ -106,7 +107,6 @@ function initAutocompleteRequestMap(map) {
             var lat = place.geometry.location.lat(),
                 lng = place.geometry.location.lng();
             document.getElementById('errorDropOff').innerHTML = ""
-
             //dropOff
             var dropOffPos = {
                 lat: lat,
@@ -115,14 +115,13 @@ function initAutocompleteRequestMap(map) {
 
             if (rectangle.getBounds().contains(dropOffPos)) {
                 console.log("contains")
-
                 end_pos = dropOffPos;
                 dropOffMarker.setMap(null);
-                dropOffMarker = mapIcons.Marker({
+              /*  dropOffMarker = mapIcons.Marker({
                     map: map,
                     position: dropOffPos,
                     icon: {
-                        path: mapIcons.shapes.MAP_PIN,
+                      //  path: mapIcons.shapes.MAP_PIN,
                         fillColor: '#ee2727',
                         fillOpacity: 1,
                         strokeColor: '',
@@ -130,35 +129,15 @@ function initAutocompleteRequestMap(map) {
                         scale: 2/3
                     },
                     map_icon_label: '<span class="map-icon"></span>'
-                });
-
+                }); */
                 console.log(lat);
                 console.log(lng);
                 end_pos = dropOffPos;
-
                 console.log("START \n" + start_pos.value + "END\n" + end_pos.value);
 
-                // Set destination, origin and travel mode.
-                var request = {
-                    destination: end_pos,
-                    origin: start_pos,
-                    travelMode: 'DRIVING'
-                };
-                // Pass the directions request to the directions service.
-                var directionsService = new google.maps.DirectionsService();
-                directionsService.route(request, function(response, status) {
+                  setWaypoint(start_pos,end_pos);
 
-                    if (status == 'OK') {
-                        // Display the route on the map.
-                        //  clearMarkers();
-                        console.log("REACHED DIRECTIONS");
-                        directionsDisplay.setDirections(response);
-
-                    }
-
-                });
-            }
-            else{
+            }else{
                 console.log("nah")
                 document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds"
             }
@@ -169,7 +148,40 @@ function initAutocompleteRequestMap(map) {
     });
 }
 
+function setWaypoint(start_pos,end_pos){
 
+waypoint_count++;
+  // Set destination, origin and travel mode.
+
+  var request = {
+      destination: end_pos,
+      origin: start_pos,
+      travelMode: 'DRIVING'
+  };
+  markers.push(start_pos,end_pos);
+  console.log("added markers\n" + waypoint_count.value);
+
+  alert(waypoint_count);
+
+  for (var i = 0; i < markers.length; i++) {
+    console.log("MARKERS\n" + markers[i].value);
+  }
+
+var the_splice =  markers.splice(0, markers.length - 2);
+
+
+  // Pass the directions request to the directions service.
+  var directionsService = new google.maps.DirectionsService();
+  directionsService.route(request, function(response, status) {
+
+      if (status == 'OK') {
+          // Display the route on the map.
+          console.log("REACHED DIRECTIONS");
+          document.getElementsByClassName('map-icon')[0].style.visibility = 'hidden';
+          directionsDisplay.setDirections(response);
+      }
+  });
+}
 
 // Bias the autocomplete object to the user's geographical location,
 // as supplied by the browser's 'navigator.geolocation' object.
@@ -308,10 +320,15 @@ $(".submit").click(function () {
 
 $(document).ready(function () {
     $("#phone").mask('(000) 000-0000');
-
 });
 
+function inputClear(){
+  $("#autocomplete").val('');
+}
 
+function dropClear(){
+    $("#autocomplete2").val('');
+}
 
 //Just for me - Omar
 // <div class="card mb-3">

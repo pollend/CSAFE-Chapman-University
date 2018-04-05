@@ -249,3 +249,15 @@ input[type="radio"]:checked + label:after{
    color: lightgrey;
 
  }
+
+ #searchclear {
+  float: left;
+  margin-left: 8%;
+  height: 30px;
+  width: 30px;
+  margin-top: -40px;
+  z-index: 2;
+    cursor: pointer;
+    color: #ccc;
+
+}
