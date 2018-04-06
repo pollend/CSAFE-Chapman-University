@@ -7,12 +7,14 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.4.1-node-browsers
+        env:
+          - RAILS_ENV=development
       - image: circleci/mysql:5.7.18
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_HOST: mysql
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
+        env:
+          - MYSQL_ALLOW_EMPTY_PASSWORD=true
+          - MYSQL_ROOT_HOST=mysql
+          - MYSQL_USER=root
+          - MYSQL_PASSWORD=root
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -55,9 +57,11 @@ jobs:
           command: dockerize -wait tcp://localhost:3306 -timeout 15s
 
       # We make a copy of database.yml.dist first, removing the dist. That way we can access database info
+      # Need to (possibly) create a batch file in order to change the username and password
       - run:
           command: |
             mv config/database.yml.dist config/database.yml
+            cp config/secrets.yml.dist config/secrets.yml
 
             bundle exec rake db:setup
 
