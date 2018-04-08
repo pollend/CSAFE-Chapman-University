@@ -1,4 +1,6 @@
 var bounds;
+var geocoder;
+var location;
 function radiusParamRequestMap(map){ //RADIUS FOR PSAFE TO PICK UP
 bounds = { //PARAMS OF PSAFE TO ALLOW PICKUP
           north: 33.805033545182255,
@@ -139,53 +141,89 @@ var current_location_fiel = document.getElementById("crn_lcl")
 
 function initRideMap() {
     console.log("init map request");
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: default_location,
         zoom: 13
     });
-    configRequestMap(map, current_location_fiel);
+        configRequestMap(map, current_location_fiel);
+        initAutocompleteRequestMap(map);
 
-        initAutocompleteRequestMap(map)
-        console.log("with rect");
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
 
+        function geocodeLatLng(geocoder, map, infowindow, input) {
+          alert("Reached GEO CODE");
+          geocoder = new google.maps.Geocoder;
+          var latlngStr = input.split(',', 2);
+          var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+            geocoder.geocode({'location': latlng}, function(results, status) {
+              alert("REACHED GEOCODE");
+                if (status === 'OK') {
+                    if (results[0]) {
+                      map.setZoom(11);
+                   var marker = new google.maps.Marker({
+                     position: latlng,
+                     map: map
+                   });
+                   infowindow.setContent(results[0].formatted_address);
+                   infowindow.open(map, marker);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
 }
 
 function configRequestMap(aMap, currentLocField){
-
     map = nightModeRequestMap(hour,aMap); //map depending on the time of the day
-
     infoWindow = new google.maps.InfoWindow;
+  //  getCurrentLocation();
 }
 
 
+var theL;
+var theLong;
 
 function getCurrentLocation() {
 
+geocoder = new google.maps.Geocoder;
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
 
-console.log("Current Location");
+      console.log("Current Location");
       navigator.geolocation.getCurrentPosition(function(position) {
+        theL = position.coords.latitude;
+        theLong = position.coords.longitude;
           var pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
           };
            infoWindow.setPosition(pos);
+
+           console.log("THE REAL POSITION" + pos.value);
           // Create a marker and set its position.
 
+          location = theL + "," + theLong;
+          geocodeLatLng(geocoder,map,infoWindow,location);
 
           var marker = new google.maps.Marker({
-              map: aMap,
+              map: map,
               position: pos
           });
+
           infoWindow.open(map);
+          alert("POSITION" + position.value);
+          console.log(position.value);
+          map.setZoom(16);
+          map.setCenter(pos); //SET LOCATION
 
-          lcn_field.value = position;
+          $("#autocomplete").val(pos);
 
-          aMap.setZoom(16);
-          aMap.setCenter(pos); //SET LOCATION
-
-          aMap.addListener('center_changed', function() {
+          map.addListener('center_changed', function() {
               // 3 seconds after the center of the map has changed, pan back to the
               // marker.
               window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
@@ -193,9 +231,9 @@ console.log("Current Location");
               }, 3000);
           });
 
-          aMap.addListener('click', function() { //ZOOM IN ON MARKER
-              aMap.setZoom(18);
-              aMap.setCenter(marker.getPosition());
+          map.addListener('click', function() { //ZOOM IN ON MARKER
+              map.setZoom(18);
+              map.setCenter(marker.getPosition());
           });
 
         //  currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE; getCenter() is OUTDATED
@@ -209,53 +247,6 @@ console.log("Current Location");
 }
 
 
-
-function getCurrentLocation(){
-  console.log("get current");
-  // Try HTML5 geolocation.
-     if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition(function(position) {
-         var pos = {
-           lat: position.coords.latitude,
-           lng: position.coords.longitude
-         };
-
-         infoWindow.setPosition(pos);
-         infoWindow.setContent('Location found.');
-         document.getElementById("autocomplete").value = pos.value;
-         alert("ADDED");
-       }, function() {
-         handleLocationError(true, infoWindow, map.getCenter());
-       });
-     } else {
-       // Browser doesn't support Geolocation
-       handleLocationError(false, infoWindow, map.getCenter());
-     }
-
-}
-
-function geocodeLatLng(geocoder, map, infowindow) {
-    var input = document.getElementById('latlng').value;
-    var latlngStr = input.split(',', 2);
-    var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-    geocoder.geocode({'location': latlng}, function(results, status) {
-        if (status === 'OK') {
-            if (results[0]) {
-                map.setZoom(11);
-                var marker = new google.maps.Marker({
-                    position: latlng,
-                    map: map
-                });
-                infowindow.setContent(results[0].formatted_address);
-                infowindow.open(map, marker);
-            } else {
-                window.alert('No results found');
-            }
-        } else {
-            window.alert('Geocoder failed due to: ' + status);
-        }
-    });
-}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);

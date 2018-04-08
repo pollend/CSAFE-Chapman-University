@@ -1,20 +1,23 @@
-
-
 var autocompletePickUp, autocompleteDropOff;
 var start_pos,end_pos;
 var directionDisplay;
 var directionsService;
 var waypoint_count = 0;
 var input_Clear = document.getElementById("searchclear");
-var markers = [];
+var markerArray = [];
+var routes = [];
+var pickCount = 0;
+var dropCount = 0;
 
 
 function initAutocompleteRequestMap(map) {
-    // Create the autocomplete object, restricting the search to geographical
-    // location types.
-    directionsDisplay = new google.maps.DirectionsRenderer();
-    var directionsService = new google.maps.DirectionsService();
 
+    //Create the autocomplete object, restricting the search to geographical
+    //location types.
+    //directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+
+    var directionsService = new google.maps.DirectionsService();
+    var stepDisplay = new google.maps.InfoWindow;
 
     autocompletePickUp = new google.maps.places.Autocomplete(
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
@@ -24,31 +27,27 @@ function initAutocompleteRequestMap(map) {
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete2')),
         {types: ['geocode']});
 
-
     pickUpmarker = new mapIcons.Marker({
     });
     dropOffMarker = new mapIcons.Marker({
     });
 
-
     // use address to get lat long
     google.maps.event.addListener(autocompletePickUp, 'place_changed', function() {
-        try {
 
+        try {
             bounds = getBoundsRequestMap();
 
-            console.log(bounds);
             var rectangle = new google.maps.Rectangle({
                 bounds: bounds,
                 editable: false,
                 draggable: false
             });
-
             var place = autocompletePickUp.getPlace();
             var lat = place.geometry.location.lat(),
                 lng = place.geometry.location.lng();
-            document.getElementById('errorPickUp').innerHTML = ""
 
+            document.getElementById('errorPickUp').innerHTML = ""
             //PickUp
             var pickUpPos = {
                 lat: lat,
@@ -74,31 +73,19 @@ function initAutocompleteRequestMap(map) {
                     map_icon_label: '<span class="map-icon"></span>'
                 });
 
-
                 directionsDisplay = new google.maps.DirectionsRenderer({
-                    map: map
+                    map: map,
+                    suppressMarkers: true
                 });
-
-
-                console.log(lat);
-                console.log(lng);
                 start_pos = pickUpPos;
-                console.log("START" + start_pos);
-            }
-
-            else{
+            }else{
                 console.log("nah")
                 document.getElementById('errorPickUp').innerHTML = "Please make sure your pick up location is within our map bounds"
-            }
-
+            }}catch(err) {
+                console.log(err.message);
+                document.getElementById('errorPickUp').innerHTML = "Please use the drop down menu to choose your address"
         }
-        catch(err) {
-            console.log(err.message);
-            document.getElementById('errorPickUp').innerHTML = "Please use the drop down menu to choose your address"
-        }
-
     });
-
 
     google.maps.event.addListener(autocompleteDropOff, 'place_changed',  function() {
 
@@ -117,7 +104,7 @@ function initAutocompleteRequestMap(map) {
                 console.log("contains")
                 end_pos = dropOffPos;
                 dropOffMarker.setMap(null);
-              /*  dropOffMarker = mapIcons.Marker({
+                dropOffMarker = mapIcons.Marker({
                     map: map,
                     position: dropOffPos,
                     icon: {
@@ -129,92 +116,123 @@ function initAutocompleteRequestMap(map) {
                         scale: 2/3
                     },
                     map_icon_label: '<span class="map-icon"></span>'
-                }); */
-                console.log(lat);
-                console.log(lng);
-                end_pos = dropOffPos;
-                console.log("START \n" + start_pos.value + "END\n" + end_pos.value);
+                });
+                  end_pos = dropOffPos;
+                  setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
 
-                  setWaypoint(start_pos,end_pos);
-
+                  // Listen to change events from the start and end lists.
+                  document.getElementById('autocomplete').addEventListener('change', function(){
+                    pickCount++;
+                    alert(pickCount);
+                    pickUpmarker.setMap(null);
+                    if (pickCount != dropCount) {
+                      alert("NO CANCEL");
+                      }else {
+                        alert("CANCEL");
+                        cancelDirections();
+                    }
+                      callDisplay();
+                  });
+                  document.getElementById('autocomplete2').addEventListener('change', function(){
+                    dropOffMarker.setMap(null);
+                    dropCount++;
+                    alert(dropCount);
+                    //cancelDirections();
+                    //setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
+                    callDisplay();
+                  });
             }else{
                 console.log("nah")
-                document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds"
-            }
-        } catch(err) {
-            console.log(err.message);
-            document.getElementById('errorDropOff').innerHTML = "Please use the drop down menu to choose your address"
+                document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds";
+                directionsDisplay.setDirections({ routes: [] });
+            }} catch(err) {
+              console.log(err.message);
+              document.getElementById('errorDropOff').innerHTML = "Please use the drop down menu to choose your address";
         }
     });
-}
 
-function setWaypoint(start_pos,end_pos){
+    function callDisplay(){
+      calculateAndDisplayRoute(
+          directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    }
+    function isOdd(num) { return num % 2;}
 
-waypoint_count++;
-  // Set destination, origin and travel mode.
+    function cancelDirections(){
+        directionsDisplay.setDirections({ routes: [] });
+    }
 
-  var request = {
-      destination: end_pos,
-      origin: start_pos,
-      travelMode: 'DRIVING'
-  };
-  markers.push(start_pos,end_pos);
-  console.log("added markers\n" + waypoint_count.value);
+//SET WAYPOINTS ------
+    function setWaypoint(start_pos,end_pos, markerArray, stepDisplay,){
+      // Set destination, origin and travel mode.
+      // First, remove any existing markers from the map.
+      var request = {
+          destination: end_pos,
+          origin: start_pos,
+          travelMode: 'DRIVING'
+      };
+      // Pass the directions request to the directions service.
+      var directionsService = new google.maps.DirectionsService();
 
-  alert(waypoint_count);
+      directionsService.route(request, function(response, status) {
 
-  for (var i = 0; i < markers.length; i++) {
-    console.log("MARKERS\n" + markers[i].value);
-  }
+          if (status == 'OK') {
+              // Display the route on the map.
+              console.log("REACHED DIRECTIONS");
+              document.getElementsByClassName('map-icon')[0].style.visibility = 'hidden';
+              directionsDisplay.setDirections(response);
 
-var the_splice =  markers.splice(0, markers.length - 2);
+          } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+          });
+    }
 
+         // Sets the map on all routes in the array.
+    function setMapOnAll(map) {
+    //  alert("SET MAP ON ALL")
+        for (var i = 0; i < markerArray.length; i++) {
+            markerArray[i].setMap(map);
+          //  alert("SET MAP ON ALL INSIDE ROUTES")
+        }
+    }
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        directionDisplay = null;
+        pickUpmarker.setMap(null);
+        dropOffMarker.setMap(null);
+    }
 
-  // Pass the directions request to the directions service.
-  var directionsService = new google.maps.DirectionsService();
-  directionsService.route(request, function(response, status) {
-
-      if (status == 'OK') {
-          // Display the route on the map.
-          console.log("REACHED DIRECTIONS");
-          document.getElementsByClassName('map-icon')[0].style.visibility = 'hidden';
-          directionsDisplay.setDirections(response);
-      }
-  });
-}
-
-// Bias the autocomplete object to the user's geographical location,
-// as supplied by the browser's 'navigator.geolocation' object.
-function geolocate(pickUpOrDropOff) {
-    console.log(pickUpOrDropOff);
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var geolocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            var circle = new google.maps.Circle({
-                center: geolocation,
-                radius: position.coords.accuracy
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate(pickUpOrDropOff) {
+        console.log(pickUpOrDropOff);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                if(pickUpOrDropOff == "pickUp"){
+                    autocompletePickUp.setBounds(circle.getBounds());
+                }
+                else if(pickUpOrDropOff == "dropOff"){
+                    autocompleteDropOff.setBounds(circle.getBounds());
+                }
             });
-            if(pickUpOrDropOff == "pickUp"){
-                autocompletePickUp.setBounds(circle.getBounds());
-            }
-            else if(pickUpOrDropOff == "dropOff"){
-                autocompleteDropOff.setBounds(circle.getBounds());
-            }
-
-        });
+        }
     }
 }
-
-
+// ------- END ON INIT AUTOCOMPLETE FUNCTION ------ //////
 //jQuery time
 var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
-$(".next").click(function () {
+$(document).on('click', '.next', function () {
 
     console.log("Request a ride pressed")
     if (animating) return false;
@@ -230,7 +248,6 @@ $(".next").click(function () {
 
 
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-
 
     //show the next fieldset
     next_fs.show();
@@ -295,10 +312,7 @@ $(".previous").click(function () {
     });
 });
 
-
-
 //Used for Way Points between start and finish
-
 function calcRoute(start_pos,end_pos) {
     alert("REACHED CALC ROUTE");
     var request = {
@@ -313,7 +327,6 @@ function calcRoute(start_pos,end_pos) {
     });
 };
 
-
 $(".submit").click(function () {
     return false;
 });
@@ -322,16 +335,38 @@ $(document).ready(function () {
     $("#phone").mask('(000) 000-0000');
 });
 
-function inputClear(){
-  $("#autocomplete").val('');
+var type = 0;
+
+function inputClear(){ //CLEAR BUTTON PICK UP
+  $("#autocomplete").val(' ');
+  type = 1;
+  clearBtnMap(type);
 }
 
-function dropClear(){
-    $("#autocomplete2").val('');
+function dropClear(){ //CLEAR BUTTON DROP OFF
+  $("#autocomplete2").val(' ');
+  type = 2;
+  clearBtnMap(type);
+}
+
+function clearBtnMap(type){
+
+  if (autocompletePickUp.value == ' ' ** autocompleteDropOff.value == ' ') {
+    directionsDisplay.setDirections({ routes: [] });
+  }
+  switch (type) {
+    case 1:
+      pickUpmarker.setMap(null);
+      break;
+    case 2:
+      dropOffMarker.setMap(null);
+      break;
+    default:
+  }
 }
 
 //Just for me - Omar
-// <div class="card mb-3">
+//<div class="card mb-3">
     //     <div class="card-header">
     //     <i class="fa fa-table"></i>Hours of Operation</div>
     // <div class="card-body">
