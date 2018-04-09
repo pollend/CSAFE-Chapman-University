@@ -1,19 +1,27 @@
-
-
 var autocompletePickUp, autocompleteDropOff;
 var start_pos,end_pos;
 var directionDisplay;
 var directionsService;
+var waypoint_count = 0;
+var input_Clear = document.getElementById("searchclear");
+var markerArray = [];
+var routes = [];
+var pickCount = 0;
+var dropCount = 0;
+var radio_count = 0;
+var rdn_btn_doc = document.getElementsByName('optradio');
 
-var markers = [];
 
 
 function initAutocompleteRequestMap(map) {
-    // Create the autocomplete object, restricting the search to geographical
-    // location types.
-    directionsDisplay = new google.maps.DirectionsRenderer();
-    var directionsService = new google.maps.DirectionsService();
 
+    //Create the autocomplete object, restricting the search to geographical
+    //location types.
+    //directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+
+    var directionsService = new google.maps.DirectionsService();
+    var stepDisplay = new google.maps.InfoWindow;
+    var service = new google.maps.DistanceMatrixService();
 
     autocompletePickUp = new google.maps.places.Autocomplete(
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
@@ -23,37 +31,38 @@ function initAutocompleteRequestMap(map) {
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete2')),
         {types: ['geocode']});
 
-
     pickUpmarker = new mapIcons.Marker({
     });
     dropOffMarker = new mapIcons.Marker({
     });
 
+    directionsDisplay = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: true
+    });
 
     // use address to get lat long
     google.maps.event.addListener(autocompletePickUp, 'place_changed', function() {
-        try {
 
+        try {
             bounds = getBoundsRequestMap();
 
-            console.log(bounds);
             var rectangle = new google.maps.Rectangle({
                 bounds: bounds,
                 editable: false,
                 draggable: false
             });
-
             var place = autocompletePickUp.getPlace();
             var lat = place.geometry.location.lat(),
                 lng = place.geometry.location.lng();
-            document.getElementById('errorPickUp').innerHTML = ""
 
+
+            document.getElementById('errorPickUp').innerHTML = ""
             //PickUp
             var pickUpPos = {
                 lat: lat,
                 lng: lng
             };
-
 
             if (rectangle.getBounds().contains(pickUpPos)){
                 console.log("contains")
@@ -64,7 +73,7 @@ function initAutocompleteRequestMap(map) {
                     map: map,
                     position: pickUpPos,
                     icon: {
-                        path: mapIcons.shapes.MAP_PIN,
+                  //      path: mapIcons.shapes.MAP_PIN,
                         fillColor: '#7d22bd',
                         fillOpacity: 1,
                         strokeColor: '',
@@ -73,31 +82,15 @@ function initAutocompleteRequestMap(map) {
                     },
                     map_icon_label: '<span class="map-icon"></span>'
                 });
-
-                directionsDisplay = new google.maps.DirectionsRenderer({
-                    map: map
-                });
-
-
-                console.log(lat);
-                console.log(lng);
                 start_pos = pickUpPos;
-                console.log("START" + start_pos);
-            }
-
-            else{
+            }else{
                 console.log("nah")
                 document.getElementById('errorPickUp').innerHTML = "Please make sure your pick up location is within our map bounds"
-            }
-
+            }}catch(err) {
+                console.log(err.message);
+                document.getElementById('errorPickUp').innerHTML = "Please use the drop down menu to choose your address"
         }
-        catch(err) {
-            console.log(err.message);
-            document.getElementById('errorPickUp').innerHTML = "Please use the drop down menu to choose your address"
-        }
-
     });
-
 
     google.maps.event.addListener(autocompleteDropOff, 'place_changed',  function() {
 
@@ -106,7 +99,6 @@ function initAutocompleteRequestMap(map) {
             var lat = place.geometry.location.lat(),
                 lng = place.geometry.location.lng();
             document.getElementById('errorDropOff').innerHTML = ""
-
             //dropOff
             var dropOffPos = {
                 lat: lat,
@@ -115,14 +107,13 @@ function initAutocompleteRequestMap(map) {
 
             if (rectangle.getBounds().contains(dropOffPos)) {
                 console.log("contains")
-
                 end_pos = dropOffPos;
                 dropOffMarker.setMap(null);
                 dropOffMarker = mapIcons.Marker({
                     map: map,
                     position: dropOffPos,
                     icon: {
-                        path: mapIcons.shapes.MAP_PIN,
+                      //  path: mapIcons.shapes.MAP_PIN,
                         fillColor: '#ee2727',
                         fillOpacity: 1,
                         strokeColor: '',
@@ -131,80 +122,146 @@ function initAutocompleteRequestMap(map) {
                     },
                     map_icon_label: '<span class="map-icon"></span>'
                 });
-
-                console.log(lat);
-                console.log(lng);
-                end_pos = dropOffPos;
-
-                console.log("START \n" + start_pos.value + "END\n" + end_pos.value);
-
-                // Set destination, origin and travel mode.
-                var request = {
-                    destination: end_pos,
-                    origin: start_pos,
-                    travelMode: 'DRIVING'
-                };
-                // Pass the directions request to the directions service.
-                var directionsService = new google.maps.DirectionsService();
-                directionsService.route(request, function(response, status) {
-
-                    if (status == 'OK') {
-                        // Display the route on the map.
-                        //  clearMarkers();
-                        console.log("REACHED DIRECTIONS");
-                        directionsDisplay.setDirections(response);
-
-                    }
-
-                });
-            }
-            else{
+                  end_pos = dropOffPos;
+            }else{
                 console.log("nah")
-                document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds"
-            }
-        } catch(err) {
-            console.log(err.message);
-            document.getElementById('errorDropOff').innerHTML = "Please use the drop down menu to choose your address"
+                document.getElementById('errorDropOff').innerHTML = "Please make sure your drop off destination is within our map bounds";
+                directionsDisplay.setDirections({ routes: [] });
+            }} catch(err) {
+              console.log(err.message);
+              document.getElementById('errorDropOff').innerHTML = "Please use the drop down menu to choose your address";
         }
+        setMAPWAY(start_pos,end_pos);
     });
-}
 
 
+    function setMAPWAY(start_pos,end_pos){
 
-// Bias the autocomplete object to the user's geographical location,
-// as supplied by the browser's 'navigator.geolocation' object.
-function geolocate(pickUpOrDropOff) {
-    console.log(pickUpOrDropOff);
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var geolocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            var circle = new google.maps.Circle({
-                center: geolocation,
-                radius: position.coords.accuracy
+        alert("START\n" + start_pos + "END\n" + end_pos);
+        setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
+          // Listen to change events from the start and end lists.
+          document.getElementById('autocomplete').addEventListener('change', function(){
+            pickUpmarker.setMap(null);
+            pickCount++;
+            callDisplay();
             });
-            if(pickUpOrDropOff == "pickUp"){
-                autocompletePickUp.setBounds(circle.getBounds());
-            }
-            else if(pickUpOrDropOff == "dropOff"){
-                autocompleteDropOff.setBounds(circle.getBounds());
-            }
-
+          document.getElementById('autocomplete2').addEventListener('change', function(){
+            dropOffMarker.setMap(null);
+            dropCount++;
+            //cancelDirections();
+            //setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
+            callDisplay();
         });
+      /*
+        alert("DROP:\n" + dropCount + "PICK:\n" + pickCount);
+
+        if (pickCount != dropCount) {
+              alert("SET NEW WAYPOINT");
+              alert("DROP:\n" + dropCount + "PICK:\n" + pickCount);
+              //  console.log("CONFUSED");
+              cancelDirections();
+              alert("SET NEW IN PICK ");
+              setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
+
+                  }else {
+                    alert("CANCEL");
+                    alert("DROP:\n" + dropCount + "PICK:\n" + pickCount);
+                    cancelDirections();
+                    alert("SET NEW IN DROP ");
+                    setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
+              }
+      */
+    }
+
+
+    function callDisplay(){ calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);}
+    function cancelDirections(){ directionsDisplay.setDirections({ routes: [] }); }
+
+//SET WAYPOINTS ------
+    function setWaypoint(start_pos,end_pos, markerArray, stepDisplay,){
+      // Set destination, origin and travel mode.
+      // First, remove any existing markers from the map.
+      var request = {
+          destination: end_pos,
+          origin: start_pos,
+          travelMode: 'DRIVING'
+      };
+      // Pass the directions request to the directions service.
+      var directionsService = new google.maps.DirectionsService();
+
+      directionsService.route(request, function(response, status) {
+
+          if (status == 'OK') {
+              // Display the route on the map.
+              document.getElementsByClassName('map-icon')[0].style.visibility = 'hidden';
+              directionsDisplay.setDirections(response);
+          } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+          });
+    }
+
+         // Sets the map on all routes in the array.
+    function setMapOnAll(map) {
+    //  alert("SET MAP ON ALL")
+        for (var i = 0; i < markerArray.length; i++) {
+            markerArray[i].setMap(map);
+          //  alert("SET MAP ON ALL INSIDE ROUTES")
+        }
+    }
+      // Removes the markers from the map, but keeps them in the array.
+      function clearMarkers() {
+        directionDisplay = null;
+        pickUpmarker.setMap(null);
+        dropOffMarker.setMap(null);
+      }
+
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate(pickUpOrDropOff) {
+        console.log(pickUpOrDropOff);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                if(pickUpOrDropOff == "pickUp"){
+                    autocompletePickUp.setBounds(circle.getBounds());
+                }
+                else if(pickUpOrDropOff == "dropOff"){
+                    autocompleteDropOff.setBounds(circle.getBounds());
+                }
+            });
+        }
     }
 }
-
-
+// ------- END ON INIT AUTOCOMPLETE FUNCTION ------ //////
 //jQuery time
 var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 
-$(".next").click(function () {
+$(document).on('click', '.next', function () {
 
-    console.log("Request a ride pressed")
+    var the_rdn = radioCheck();
+
+    for (var i = 0, length = rdn_btn_doc.length; i < length; i++)
+      {
+        radio_count++;
+          if (rdn_btn_doc[i].checked)
+            {
+              radio_count = radio_count;
+              break;
+            }
+      }
+
+    if (the_rdn === true && autocomplete.value !== '' && autocomplete2.value !== '' && phone.value !== '') {
+
     if (animating) return false;
     animating = true;
 
@@ -216,9 +273,7 @@ $(".next").click(function () {
     console.log("next index")
     console.log($("fieldset").index(next_fs));
 
-
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
-
 
     //show the next fieldset
     next_fs.show();
@@ -246,6 +301,10 @@ $(".next").click(function () {
         //this comes from the custom easing plugin
         easing: 'easeInOutBack'
     });
+    riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count);
+  }else {
+    console.log("YUP");
+  }
 });
 
 $(".previous").click(function () {
@@ -283,10 +342,11 @@ $(".previous").click(function () {
     });
 });
 
-
+function riderRequestInfo(start_loc, end_loc,contact,passenger){ /////INFO TO PASS ON TO ADMIN
+console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHONE\n" + contact + "\nPassenger\n " + passenger);
+}
 
 //Used for Way Points between start and finish
-
 function calcRoute(start_pos,end_pos) {
     alert("REACHED CALC ROUTE");
     var request = {
@@ -301,20 +361,117 @@ function calcRoute(start_pos,end_pos) {
     });
 };
 
-
 $(".submit").click(function () {
     return false;
 });
 
 $(document).ready(function () {
     $("#phone").mask('(000) 000-0000');
-
 });
 
+function radioCheck(){
+  if ($('input[name=optradio]:checked').length > 0) {
+      return true;
+  }else{
+    return false;
+  }
+}
+
+var type = 0;
+function inputClear(){ //CLEAR BUTTON PICK UP
+  $("#autocomplete").val(' ');
+  type = 1;
+  clearBtnMap(type);
+  //cancelDirections();
+}
+function dropClear(){ //CLEAR BUTTON DROP OFF
+  $("#autocomplete2").val(' ');
+  type = 2;
+  clearBtnMap(type);
+  //cancelDirections();
+}
+
+function clearBtnMap(type){
+  switch (type) {
+    case 1:
+      pickUpmarker.setMap(null);
+      break;
+    case 2:
+      dropOffMarker.setMap(null);
+      break;
+    default:
+  }
+}
+
+
+var theL;
+var theLong;
+
+function getCurrentLocation(){
+inputClear();
+
+geocoder = new google.maps.Geocoder;
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+
+      console.log("Current Location");
+      navigator.geolocation.getCurrentPosition(function(position) {
+        theL = position.coords.latitude;
+        theLong = position.coords.longitude;
+          var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+          };
+        //   infoWindow.setPosition(pos);
+
+           console.log("THE REAL POSITION" + pos.value);
+          // Create a marker and set its position.
+
+          location = theL + "," + theLong;
+        //  geocodeLatLng(geocoder,map,infoWindow,location);
+
+          var marker = new google.maps.Marker({
+              map: map,
+              position: pos
+          });
+
+          infoWindow.open(map);
+        //  alert("POSITION" + position.value);
+          console.log(position.value);
+          autocomplete.value = pos; 
+          /*
+          map.setZoom(16);
+          map.setCenter(pos); //SET LOCATION
+
+          autocomplete.value = pos;
+
+          map.addListener('center_changed', function() {
+              // 3 seconds after the center of the map has changed, pan back to the
+              // marker.
+              window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
+                  map.panTo(marker.getPosition());
+              }, 3000);
+          });
+
+          map.addListener('click', function() { //ZOOM IN ON MARKER
+              map.setZoom(18);
+              map.setCenter(marker.getPosition());
+          });
+          */
+
+        //  currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE; getCenter() is OUTDATED
+      }, function() {
+          handleLocationError(true, infoWindow, map.getCenter());
+      });
+  } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
 
 
 //Just for me - Omar
-// <div class="card mb-3">
+//<div class="card mb-3">
     //     <div class="card-header">
     //     <i class="fa fa-table"></i>Hours of Operation</div>
     // <div class="card-body">

@@ -46,15 +46,18 @@
           <input id="autocomplete" placeholder="Enter your pick up address"
                  onFocus='geolocate("pickup")' type="text" autocomplete="new-username" class="form-control"></input>
             <span class="error text-danger" id ="errorPickUp" > </span>
-          <button onclick="currentLocal();"class="fa fa-location-arrow fa-lg iconz"></button>
+             <span onclick="inputClear()"  id="searchclear" class="fa fa-times-circle"></span>
+          <button  type='button' class="fa fa-location-arrow fa-lg iconz" onclick="getCurrentLocation()"></button>
+
         </div>
         <br>
         <!--Request A Ride - DropOffLoc-->
         <h2 class="fs-title">Drop Off Location</h2>
         <div id="locationFieldDropOff" class="form-group has-success has-feedback">
-          <input id="autocomplete2" placeholder="Enter your drop off address"
+          <input id="autocomplete2" placeholder="Where to?"
                  onFocus='geolocate("dropoff")' type="text" class="form-control">
           <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+          <span onclick="dropClear()"  id="searchclear" class="fa fa-times-circle"></span>
           <span class="error text-danger" id ="errorDropOff" > </span>
 
         </div>
@@ -83,8 +86,9 @@
       <fieldset>
         <h2 class="fs-title">On Your Way </h2>
         <h3 class="fs-subtitle"> </h3>
+        <div id="map_way" class="requestMap"> </div>
         <br>
-        <input type="button" name="next"  class="next action-button" value="Request"/>
+        <input type="button" name="next"  class="next action-button" value="Contact"/>
       </fieldset>
       <!--FifthStep - Ride Is Here-->
       <fieldset>

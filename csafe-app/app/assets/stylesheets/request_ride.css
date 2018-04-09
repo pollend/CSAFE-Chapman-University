@@ -17,6 +17,7 @@ body.request_ride{
     padding: 0px;
     font-weight: lighter;
 
+
 }
 nav {
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
@@ -239,6 +240,10 @@ input[type="radio"]:checked + label:after{
      color: lightgrey;
  }
 
+ .iconz:hover {
+  color: #ee0979;
+ }
+
  .phonez{
    float: right;
     margin-right: 8%;
@@ -249,3 +254,19 @@ input[type="radio"]:checked + label:after{
    color: lightgrey;
 
  }
+
+
+ #searchclear {
+  float: left;
+  margin-left: 8%;
+  height: 30px;
+  width: 30px;
+  margin-top: -40px;
+  z-index: 2;
+    cursor: pointer;
+    color: #ccc;
+
+}
+#searchclear:hover{
+  color: red;
+}
