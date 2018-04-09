@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       put 'admin/remove/:id' => 'admin#remove'
       put 'admin/updateRideStatus/:id' => 'rides#update'
       put 'admin/removeRide/:id' => 'rides#destroy'
+      put '/ride/request_ride/request' => 'rides#create'
     end
   end
 

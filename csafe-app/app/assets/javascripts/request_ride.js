@@ -344,6 +344,36 @@ $(".previous").click(function () {
 
 function riderRequestInfo(start_loc, end_loc,contact,passenger){ /////INFO TO PASS ON TO ADMIN
 console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHONE\n" + contact + "\nPassenger\n " + passenger);
+
+    var startLocationLat = start_pos.lat;
+    var startLocationLong = start_pos.lng;
+    var endLocationLat = end_pos.lat;
+    var endLocationLong = end_pos.lng;
+    var phoneNumber = contact;
+    var startAddress = start_loc;
+    var endAddress = end_loc;
+
+
+    console.log("Requesting a ride");
+
+    var data = {"start_loca_lat" : startLocationLat,"start_loca_lng" : startLocationLong,"end_loca_lat" : endLocationLat,
+        "end_loca_lng":endLocationLong,"phone_number":phoneNumber,"start_address":startAddress,"end_address":endAddress};
+
+    $.ajax({
+        url: '/api/v1/ride/request_ride/request',
+        type: 'PUT',
+        data: data,
+        success: function(result) {
+            console.log("requested!")
+            // refreshes the table
+            alert("Requested your ride :)");
+        }
+    });
+
+    //params for ref
+    // params.permit(:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
+
+
 }
 
 //Used for Way Points between start and finish
@@ -467,44 +497,9 @@ geocoder = new google.maps.Geocoder;
       // Browser doesn't support Geolocation
       handleLocationError(false, infoWindow, map.getCenter());
   }
+
+
+
+
 }
 
-
-//Just for me - Omar
-//<div class="card mb-3">
-    //     <div class="card-header">
-    //     <i class="fa fa-table"></i>Hours of Operation</div>
-    // <div class="card-body">
-    //     <div class="table-responsive">
-    //     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-    //     <thead>
-    //     <tr>
-    //     <th>Day of Week</th>
-    // <th>Start Time</th>
-    // <th>End Time</th>
-    // <th>Enabled?</th>
-    // </tr>
-    // </thead>
-    // <tfoot>
-    // <tr>
-    // <th>Day of Week</th>
-    // <th>Start Time</th>
-    // <th>End Time</th>
-    // <th>Enabled?</th>
-    // </tr>
-    // </tfoot>
-    // <tbody>
-    // <% @hours.each do |hours| %>
-    // <tr>
-    // <td><%= hours.email %></td>
-    //     <td><input id="st_<%= hours.id %>" type="time" value="<%= hours.email %>"></td>
-    //     <td><input id="et_<%= hours.id %>" type="time" value="<%= hours.email %>"></td>
-    //
-    //     </tr>
-    //     <% end %>
-    //     </tbody>
-    //     </table>
-    //     <input id="save_hours" type=button value="Save Hours">
-    //     </div>
-    //     </div>
-    //     </div>

@@ -95,7 +95,7 @@
         <h2 class="fs-title">Your Ride is Here </h2>
         <h3 class="fs-subtitle"> </h3>
         <br>
-        <input type="button" name="next"  class="next action-button" value="Request"/>
+        <input type="button" name="next"  class="next action-button" value="Request" onclick="requestRide()"/>
       </fieldset>
     </form>
 
@@ -106,6 +106,7 @@
 
 
 </body>
+
 
 <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyAXXHffHZ_0ARWB8E5m4lDp0RgiNwu99QM&libraries=places&callback=initRideMap"%>
 
