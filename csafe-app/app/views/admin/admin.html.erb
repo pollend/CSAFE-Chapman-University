@@ -267,7 +267,7 @@
         <i class="fa fa-table"></i> Ride Requests</div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <table class="table table-bordered" id="dataTable-RequestRides" width="100%" cellspacing="0">
             <thead>
             <tr>
               <th>User ID</th>
@@ -286,12 +286,17 @@
             </tfoot>
             <tbody>
             <% @rides.each do |rides| %>
+              <!--if the ride is not accepted, add it to ride requests-->
+              <% if !rides.accepted %>
               <tr>
-                <td><%= rides.userID %></td>
+                <td ><%= rides.userID %></td>
                 <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                 <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>"readonly></td>
-                <td> <button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
+                <td> <button id="accept_<%= rides.id%>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
               </tr>
+              <%end%>
+
+
             <% end %>
             </tbody>
           </table>
@@ -305,7 +310,7 @@
         <i class="fa fa-table"></i> Accepted Rides</div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <table class="table table-bordered" id="dataTable-AcceptedRides" width="100%" cellspacing="0">
             <thead>
             <tr>
               <th>User ID</th>
@@ -330,24 +335,29 @@
             </tfoot>
             <tbody>
             <% @rides.each do |ride| %>
-              <tr>
-                <td><%= ride.userID %></td>
-                <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td><%= ride.phone_number %></td>
-                <td><%= ride.end_address %></td>
-                <td>
-                  <select id="setEta_<%= ride.id %>">
-                  <option value="5">5 Minutes</option>
-                  <option value="10">10 Minutes</option>
-                  <option value="15">15 Minutes</option>
-                  <option value="25">25 Minutes</option>
-                  </select>
-                  <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()" > Set ETA</button>
+              <!--if the ride is accepted, add it to accepted rides -->
+                <% if ride.accepted %>
+                <tr>
+                  <td><%= ride.userID %></td>
+                  <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                  <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                  <td><%= ride.phone_number %></td>
+                  <td><%= ride.end_address %></td>
+                  <td>
+                    <select id="setEta_<%= ride.id %>">
+                    <option value="5">5 Minutes</option>
+                    <option value="10">10 Minutes</option>
+                    <option value="15">15 Minutes</option>
+                    <option value="25">25 Minutes</option>
+                    </select>
+                    <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()" > Set ETA</button>
 
-                </td>
-                <td> <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()" > Cancel Ride</button></td>
-              </tr>
+                  </td>
+                  <td> <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()" > Cancel Ride</button></td>
+                </tr>
+              <% end %>
+
+
             <% end %>
             </tbody>
           </table>
@@ -1313,6 +1323,23 @@
 
   function acceptRide() {
       console.log("hey my id is: " + event.srcElement.id);
+      var userId = getPartAfterUnderscore(event.srcElement.id);
+      console.log(userId);
+      var accepted = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      $.ajax({
+            url: '/api/v1/admin/updateRideStatus/'+ userId,
+            type: 'PUT',
+            data: {"accepted":accepted},
+            success: function(result) {
+                console.log("done!")
+                // refreshes the table
+                $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
+                $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+            }
+        });
+
+      //For ref
+      //params.permit(:id,:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
   }
 
   function cancelRide() {
@@ -1322,5 +1349,10 @@
   function setEta() {
       console.log("hey my id is: " + event.srcElement.id);
   }
+
+  function getPartAfterUnderscore(str) {
+      return str.split('_')[1];
+  }
+
   </script>
 </div>

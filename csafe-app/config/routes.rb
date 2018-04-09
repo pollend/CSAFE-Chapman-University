@@ -13,9 +13,9 @@ Rails.application.routes.draw do
       resources :rides
       put 'admin/add' => 'admin#add'
       put 'admin/remove/:id' => 'admin#remove'
+      put 'admin/updateRideStatus/:id' => 'rides#update'
     end
   end
-
 
 
 end

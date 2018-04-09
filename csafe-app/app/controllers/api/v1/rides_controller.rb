@@ -38,7 +38,7 @@ module Api
       private
 
       def ride_params
-        params.permit(:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
+        params.permit(:id, :start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
       end
     end
   end
