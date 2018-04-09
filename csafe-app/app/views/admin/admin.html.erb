@@ -1323,11 +1323,11 @@
 
   function acceptRide() {
       console.log("hey my id is: " + event.srcElement.id);
-      var userId = getPartAfterUnderscore(event.srcElement.id);
-      console.log(userId);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      console.log(id);
       var accepted = new Date().toISOString().slice(0, 19).replace('T', ' ');
       $.ajax({
-            url: '/api/v1/admin/updateRideStatus/'+ userId,
+            url: '/api/v1/admin/updateRideStatus/'+ id,
             type: 'PUT',
             data: {"accepted":accepted},
             success: function(result) {
@@ -1344,6 +1344,16 @@
 
   function cancelRide() {
       console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      $.ajax({
+          url: '/api/v1/admin/removeRide/'+ id,
+          type: 'PUT',
+          success: function(result) {
+              console.log("done!")
+              // refreshes the table
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+          }
+      });
   }
 
   function setEta() {
