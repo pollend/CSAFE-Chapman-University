@@ -14,7 +14,7 @@ module Api
       def create
         zone = Zone.new(zone_params)
         if zone.save
-          render json: {status: 'SUCCESS', message: 'Saved zone', data:zone},status: :ok
+          render json: {status: 'SUCCESS', message: 'Saved zone', data:zone.hashid},status: :ok
         else
           render json: {status: 'ERROR', message: 'Zone not saved', data:zone.errors},status: :unprocessable_entity
         end
@@ -23,7 +23,7 @@ module Api
       def destroy
         zone = Zone.find(params[:id])
         zone.destroy
-        render json: {status: 'SUCCESS', message: 'Deleted zone', data:zone},status: :ok
+        render json: {status: 'SUCCESS', message: 'Deleted zone', data:zone.hashid},status: :ok
       end
 
       def update

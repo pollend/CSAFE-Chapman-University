@@ -5,7 +5,8 @@ module Api
         admin = User.find(params[:id])
         admin.remove_role :admin
         if admin.remove_role :admin
-          render json: {status: 'SUCCESS', message: 'Removed admin role from '+admin.email, data:admin},status: :ok
+          admin.id = admin.hashid
+          render json: {status: 'SUCCESS', message: 'Removed admin role from '+admin.email, data:admin.hashid},status: :ok
         else
           render json: {status: 'ERROR', message: 'Role not saved', data:admin.errors},status: :unprocessable_entity
         end
@@ -14,7 +15,7 @@ module Api
       def add
         user = User.find_by_email(params[:email])
         if user.add_role :admin
-          render json: {status: 'SUCCESS', message: 'Added admin role to '+user.email, data:user},status: :ok
+          render json: {status: 'SUCCESS', message: 'Added admin role to '+user.email, data:{id: user.hashid, email: user.email}},status: :ok
         else
           render json: {status: 'ERROR', message: 'Role not saved', data:user.errors},status: :unprocessable_entity
         end

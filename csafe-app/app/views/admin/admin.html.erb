@@ -291,8 +291,8 @@
               <tr>
                 <td ><%= rides.userID %></td>
                 <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>"readonly></td>
-                <td> <button id="accept_<%= rides.id%>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
+                <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td> <button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
               </tr>
               <%end%>
 
@@ -389,7 +389,7 @@
               <tr id="revokeAdmin_<%= admin.id %>">
                 <td><%= admin.email %></td>
                 <td>
-                  <button style="background-color:red;border: 0;margin-left: 10px;margin-top: 5px" type="button" onclick="revokeAdmin(<%= admin.id %>)" class="btn btn-primary">Revoke Admin</button>
+                  <button style="background-color:red;border: 0;margin-left: 10px;margin-top: 5px" type="button" onclick="revokeAdmin(&#39;<%= admin.id %>&#39;)" class="btn btn-primary">Revoke Admin</button>
                 </td>
               </tr>
             <% end %>
@@ -1299,10 +1299,12 @@
       $.ajax({
           url: '/api/v1/hours/'+i,
           type: 'PUT',
+          data: data,
           success: function(data) {
           }
       });
   }
+  alert("Hours updated!");
   });
 
   var addAdmin = $('#add_admin');
@@ -1315,7 +1317,7 @@
               data: {email:email.value.trim()},
               success: function(result) {
                   email.value = "";
-                  $('#admin_list').append('<tr id="revokeAdmin_'+result.data.id+'"><td>'+result.data.email+'</td><td><button style="background-color:red;border: 0;margin-left: 10px;margin-top: 5px" type="button" onclick="revokeAdmin('+result.data.id+')" class="btn btn-primary">Revoke Admin</button></td></tr>')
+                  $('#admin_list').append('<tr id="revokeAdmin_'+result.data.id+'"><td>'+result.data.email+'</td><td><button style="background-color:red;border: 0;margin-left: 10px;margin-top: 5px" type="button" onclick="revokeAdmin(&#39;'+result.data.id+'&#39;)" class="btn btn-primary">Revoke Admin</button></td></tr>')
               }
           });
       }
@@ -1331,7 +1333,7 @@
             type: 'PUT',
             data: {"accepted":accepted},
             success: function(result) {
-                console.log("done!")
+                console.log("done!");
                 // refreshes the table
                 $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
                 $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
@@ -1349,7 +1351,7 @@
           url: '/api/v1/admin/removeRide/'+ id,
           type: 'PUT',
           success: function(result) {
-              console.log("done!")
+              console.log("done!");
               // refreshes the table
               $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
           }

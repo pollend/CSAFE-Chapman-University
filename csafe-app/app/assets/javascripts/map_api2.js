@@ -261,7 +261,7 @@
                         fillOpacity: 0.35
                     });
                     newrect.setMap(map);
-                    zones[zn.val()] = {id: result.data.id, rect: newrect};
+                    zones[zn.val()] = {id: result.data, rect: newrect};
                     zn.val('').prop('readonly', false);
                 });
         });

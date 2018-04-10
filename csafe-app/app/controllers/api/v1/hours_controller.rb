@@ -14,7 +14,7 @@ module Api
       private
 
       def hours_params
-        params.permit(:start_time,:end_time)
+        params.permit(:start_time,:end_time,:enabled)
       end
 
     end

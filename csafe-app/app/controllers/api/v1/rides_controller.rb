@@ -14,6 +14,7 @@ module Api
       def create
         ride = UserRide.new(ride_params)
         if ride.save
+          ride.id = ride.hashid
           render json: {status: 'SUCCESS', message: 'Saved ride', data:ride},status: :ok
         else
           render json: {status: 'ERROR', message: 'Ride not saved', data:ride.errors},status: :unprocessable_entity
@@ -23,12 +24,13 @@ module Api
       def destroy
         ride = UserRide.find(params[:id])
         ride.destroy
-        render json: {status: 'SUCCESS', message: 'Deleted ride', data:ride},status: :ok
+        render json: {status: 'SUCCESS', message: 'Deleted ride', data:ride.hashid},status: :ok
       end
 
       def update
         ride = UserRide.find(params[:id])
         if ride.update_attributes(ride_params)
+          ride.id = ride.hashid
           render json: {status: 'SUCCESS', message: 'Updated ride', data:ride},status: :ok
         else
           render json: {status: 'ERROR', message: 'Ride not updated', data:ride.errors},status: :unprocessable_entity
