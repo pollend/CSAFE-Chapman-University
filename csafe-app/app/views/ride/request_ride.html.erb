@@ -86,9 +86,11 @@
       <fieldset>
         <h2 class="fs-title">On Your Way </h2>
         <h3 class="fs-subtitle"> </h3>
-        <div id="map_way" class="requestMap"> </div>
+        <div id="map_way" class="requestMap" style="height:500px; margin:auto;"> </div>
         <br>
-        <input type="button" name="next"  class="next action-button" value="Contact"/>
+        <input type="button" name="next"  class="next action-button" data-toggle="modal" data-target="#myModal" value="Contact"/>
+        <br>
+        <input type="button"  class="next action-button"  value="Cancel"/>
       </fieldset>
       <!--FifthStep - Ride Is Here-->
       <fieldset>
@@ -104,6 +106,29 @@
 <!-- /.MultiStep Form -->
 
 
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Contact PSAFE</h4>
+      </div>
+      <div class="modal-body">
+        <p>Call: 714-997-6763</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- END Modal -->
 
 </body>
 

@@ -9,11 +9,13 @@ var routes = [];
 var pickCount = 0;
 var dropCount = 0;
 var radio_count = 0;
+var dest_map;
+var dest_marker;
 var rdn_btn_doc = document.getElementsByName('optradio');
 
 
 
-function initAutocompleteRequestMap(map) {
+function initAutocompleteRequestMap(map,way_map) {
 
     //Create the autocomplete object, restricting the search to geographical
     //location types.
@@ -122,6 +124,7 @@ function initAutocompleteRequestMap(map) {
                     },
                     map_icon_label: '<span class="map-icon"></span>'
                 });
+                dest_marker = dropOffMarker;
                   end_pos = dropOffPos;
             }else{
                 console.log("nah")
@@ -216,6 +219,7 @@ function initAutocompleteRequestMap(map) {
         dropOffMarker.setMap(null);
       }
 
+
     // Bias the autocomplete object to the user's geographical location,
     // as supplied by the browser's 'navigator.geolocation' object.
     function geolocate(pickUpOrDropOff) {
@@ -245,10 +249,11 @@ function initAutocompleteRequestMap(map) {
 var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
-
+var count = 0;
 $(document).on('click', '.next', function () {
 
     var the_rdn = radioCheck();
+
 
     for (var i = 0, length = rdn_btn_doc.length; i < length; i++)
       {
@@ -262,6 +267,10 @@ $(document).on('click', '.next', function () {
 
     if (the_rdn === true && autocomplete.value !== '' && autocomplete2.value !== '' && phone.value !== '') {
 
+      count++;
+
+      alert(current_fs);
+
     if (animating) return false;
     animating = true;
 
@@ -274,6 +283,8 @@ $(document).on('click', '.next', function () {
     console.log($("fieldset").index(next_fs));
 
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+
 
     //show the next fieldset
     next_fs.show();
@@ -302,6 +313,7 @@ $(document).on('click', '.next', function () {
         easing: 'easeInOutBack'
     });
     riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count);
+    setDestination(dest_map);
   }else {
     console.log("YUP");
   }
@@ -404,6 +416,30 @@ function clearBtnMap(type){
 }
 
 
+function contact(){
+
+}
+
+    function setDestination(map_way,end_pos){
+
+      dest_marker = mapIcons.Marker({
+          map: map_way,
+          position: end_pos,
+          icon: {
+            //  path: mapIcons.shapes.MAP_PIN,
+              fillColor: '#ee2727',
+              fillOpacity: 1,
+              strokeColor: '',
+              strokeWeight: 0,
+              scale: 2/3
+          },
+          map_icon_label: '<span class="map-icon"></span>'
+      });
+
+
+    }
+
+
 var theL;
 var theLong;
 
@@ -438,7 +474,7 @@ geocoder = new google.maps.Geocoder;
           infoWindow.open(map);
         //  alert("POSITION" + position.value);
           console.log(position.value);
-          autocomplete.value = pos; 
+          autocomplete.value = pos;
           /*
           map.setZoom(16);
           map.setCenter(pos); //SET LOCATION

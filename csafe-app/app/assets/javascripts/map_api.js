@@ -133,7 +133,7 @@ function nightModeRequestMap(time, theMap){ //NIGHT MODE FEATURE
 
 //We should probably have some pop-up explaining that^
 
-var map, infoWindow;
+var map, infoWindow,way_map;
 var date = new Date();
 var hour = date.getHours();
 var default_location = {lat: 33.793348, lng: -117.851350};
@@ -146,8 +146,15 @@ function initRideMap() {
         center: default_location,
         zoom: 13
     });
+
+    way_map = new google.maps.Map(document.getElementById('map_way'), {
+        center: default_location,
+        zoom: 13
+    });
+
+
         configRequestMap(map, current_location_fiel);
-        initAutocompleteRequestMap(map);
+        initAutocompleteRequestMap(map,way_map);
 
         var geocoder = new google.maps.Geocoder;
         var infowindow = new google.maps.InfoWindow;
