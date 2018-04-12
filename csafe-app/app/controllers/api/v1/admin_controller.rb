@@ -1,11 +1,11 @@
 module Api
   module V1
-    class AdminController < ApplicationController
+    class AdminController < ApiApplicationController
+      before_action :is_admin
       def remove
         admin = User.find(params[:id])
         admin.remove_role :admin
         if admin.remove_role :admin
-          admin.id = admin.hashid
           render json: {status: 'SUCCESS', message: 'Removed admin role from '+admin.email, data:admin.hashid},status: :ok
         else
           render json: {status: 'ERROR', message: 'Role not saved', data:admin.errors},status: :unprocessable_entity

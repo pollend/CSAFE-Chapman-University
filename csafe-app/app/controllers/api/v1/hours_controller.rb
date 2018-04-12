@@ -1,7 +1,7 @@
 module Api
   module V1
-    class HoursController < ApplicationController
-
+    class HoursController < ApiApplicationController
+      before_action :is_admin
       def update
         biz_hours = BusinessHour.find(params[:id])
         if biz_hours.update_attributes(hours_params)

@@ -1,6 +1,7 @@
 module Api
   module V1
-    class ZonesController < ApplicationController
+    class ZonesController < ApiApplicationController
+      before_action :is_admin
       def index
         zones = Zone.order('created_at DESC')
         render json: {status: 'SUCCESS', message: 'Loaded zones', data:zones},status: :ok

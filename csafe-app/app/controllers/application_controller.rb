@@ -1,4 +1,4 @@
 class ApplicationController < ActionController::Base
-  # Temporarily commented this out to test out POST functionality on the website
-  # protect_from_forgery with: :exception
+  protect_from_forgery with: :exception
+  # protect_from_forgery with: :null_session, if: -> {request.format.json?}
 end
