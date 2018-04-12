@@ -27,7 +27,10 @@ admin.password = '@IlikeJordanshoes@'
 admin.add_role :admin
 admin.save!
 
-Zone.create({name: 'CU Radius', north: 33.805033545182255, south:33.776082751851, east: -117.83182508881, west: -117.8779956515})
+Zone.create({name: 'CU Radius', north: 33.809099, south: 33.786070, east: -117.835687, west: -117.861817})
+Zone.create({name: 'La Veta Grand Apartments', north: 33.784099, south: 33.780756, east: -117.855300, west: -117.857525})
+Zone.create({name: 'Katella Grand', north: 33.805203, south: 33.803510, east: -117.895812, west: -117.897812})
+Zone.create({name: 'Panther Village', north: 33.790581, south: 33.789579, east: -117.885786, west: -117.887523})
 
 BusinessHour.create({day:'Monday',start_time:'19:30',end_time:'00:15',enabled:true})
 BusinessHour.create({day:'Tuesday',start_time:'19:30',end_time:'00:15',enabled:true})
