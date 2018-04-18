@@ -1,9 +1,21 @@
 Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+<<<<<<< HEAD
 
     root "login#index"
 
+=======
+  devise_scope :user do
+   authenticated :user do
+     root 'login#index', as: :authenticated_root
+    end
+
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+>>>>>>> ac2b3041d0c3fba3d4abf3e2c692fe30cf0b67b3
   get 'admin' => 'admin#admin'
   get 'ride/request_ride' => "ride#request_ride"
   get 'admin/bounds' => "admin#bounds"
