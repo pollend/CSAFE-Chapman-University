@@ -15,7 +15,7 @@ var rdn_btn_doc = document.getElementsByName('optradio');
 
 
 
-function initAutocompleteRequestMap(map,way_map) {
+function initAutocompleteRequestMap(map) {
 
     //Create the autocomplete object, restricting the search to geographical
     //location types.
@@ -42,6 +42,8 @@ function initAutocompleteRequestMap(map,way_map) {
         map: map,
         suppressMarkers: true
     });
+
+
 
     // use address to get lat long
     google.maps.event.addListener(autocompletePickUp, 'place_changed', function() {
@@ -140,7 +142,6 @@ function initAutocompleteRequestMap(map,way_map) {
 
     function setMAPWAY(start_pos,end_pos){
 
-        alert("START\n" + start_pos + "END\n" + end_pos);
         setWaypoint(start_pos,end_pos,markerArray,stepDisplay);
           // Listen to change events from the start and end lists.
           document.getElementById('autocomplete').addEventListener('change', function(){
@@ -254,7 +255,6 @@ $(document).on('click', '.next', function () {
 
     var the_rdn = radioCheck();
 
-
     for (var i = 0, length = rdn_btn_doc.length; i < length; i++)
       {
         radio_count++;
@@ -265,15 +265,9 @@ $(document).on('click', '.next', function () {
             }
       }
 
-    if (the_rdn === true && autocomplete.value !== '' && autocomplete2.value !== '' && phone.value !== '') {
+    if (the_rdn === true && autocomplete.value !== '' && autocomplete2.value !== '' && phone.value !== '' ) {
 
-      count++;
-
-      alert(current_fs);
-
-    if (animating) return false;
-    animating = true;
-
+    count++;
     current_fs = $(this).parent();
     next_fs = $(this).parent().next();
 
@@ -282,10 +276,16 @@ $(document).on('click', '.next', function () {
     console.log("next index")
     console.log($("fieldset").index(next_fs));
 
+    if ($("fieldset").index(current_fs) === 1) { //ON OUR WAY
+
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
+    if (animating) return false;
+    animating = true;
 
+    console.log( "CURRENT FIELD SET " + $("fieldset").index(current_fs));
 
+  }else {
     //show the next fieldset
     next_fs.show();
     //hide the current fieldset with style
@@ -313,9 +313,9 @@ $(document).on('click', '.next', function () {
         easing: 'easeInOutBack'
     });
     riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count);
-    setDestination(dest_map);
-  }else {
-    console.log("YUP");
+
+  } }else {
+    console.log("Error, fields are not filled");
   }
 });
 
@@ -378,7 +378,7 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
         success: function(result) {
             console.log("requested!")
             // refreshes the table
-            alert("Requested your ride :)");
+
         }
     });
 
@@ -390,7 +390,7 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
 
 //Used for Way Points between start and finish
 function calcRoute(start_pos,end_pos) {
-    alert("REACHED CALC ROUTE");
+
     var request = {
         origin: start_pos,
         destination: end_pos,
@@ -445,29 +445,12 @@ function clearBtnMap(type){
   }
 }
 
-
-function contact(){
-
-}
-
-    function setDestination(map_way,end_pos){
-
-      dest_marker = mapIcons.Marker({
-          map: map_way,
-          position: end_pos,
-          icon: {
-            //  path: mapIcons.shapes.MAP_PIN,
-              fillColor: '#ee2727',
-              fillOpacity: 1,
-              strokeColor: '',
-              strokeWeight: 0,
-              scale: 2/3
-          },
-          map_icon_label: '<span class="map-icon"></span>'
-      });
+$("#cancelRide-btn").click(function () {
+    alert("CANCEL RIDE");
+});
 
 
-    }
+
 
 
 var theL;
@@ -533,9 +516,37 @@ geocoder = new google.maps.Geocoder;
       // Browser doesn't support Geolocation
       handleLocationError(false, infoWindow, map.getCenter());
   }
-
-
-
-
 }
+var setT;
 
+function updateTimer() {
+  arrival  = Date.parse("April 17, 2018 19:52:00"); //Estimated TIME OF ARRIVAL FOR PSAFE
+  now  = new Date(); //DATE AT THE MOMENT
+
+  diff = arrival - now;
+
+  days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  hours = Math.floor( diff / (1000*60*60) );
+  mins  = Math.floor( diff / (1000*60) );
+  secs  = Math.floor( diff / 1000 );
+
+  m = mins  - hours * 60;
+  s = secs  - mins  * 60;
+
+
+  if (m === 0 && s === 0) {
+    myStopFunction();
+
+  }
+
+  document.getElementById("timer")
+    .innerHTML =
+      '<div>' + hours + '<span>Hours</span></div>' +
+      '<div>' + m + '<span>minutes</span></div>' +
+      '<div>' + s + '<span>seconds</span></div>' ;
+}
+setT = setInterval('updateTimer()', 1000);
+
+function myStopFunction() {
+    clearInterval(setT);
+}
