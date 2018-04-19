@@ -10,8 +10,13 @@ jobs:
       - environment:
           - RAILS_ENV: test
       - image: circleci/mysql:5.7.18
-      - environment:
-          - MYSQL_DATABASE: mysql
+      environment:
+           MYSQL_ALLOW_EMPTY_PASSWORD: yes
+           MYSQL_ROOT_HOST: %
+           MYSQL_ROOT_HOST: mysql
+           MYSQL_USER: root
+           MYSQL_PASSWORD: root
+           MYSQL_PASSWORD: root
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
