@@ -7,10 +7,8 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.4.1-node-browsers
-      - environment:
-          # - RAILS_ENV: test
       - image: circleci/mysql:5.7.18
-      environment:
+      - environment:
            MYSQL_ALLOW_EMPTY_PASSWORD: yes
            MYSQL_ROOT_HOST: %
            MYSQL_ROOT_HOST: mysql
