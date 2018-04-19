@@ -284,7 +284,7 @@
               <th>Accept</th>
             </tr>
             </tfoot>
-            <tbody>
+            <tbody id="unaccepted_rides">
             <% @rides.each do |rides| %>
               <!--if the ride is not accepted, add it to ride requests-->
               <% if !rides.accepted %>

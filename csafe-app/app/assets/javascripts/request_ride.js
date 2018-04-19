@@ -381,6 +381,7 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
 
         }
     });
+    App.room.tell(data);
 
     //params for ref
     // params.permit(:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
