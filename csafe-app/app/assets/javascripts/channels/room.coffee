@@ -8,11 +8,30 @@ App.room = App.cable.subscriptions.create "RoomChannel",
   received: (data) ->
     $("#unaccepted_rides").append(
       "<tr>" +
+      #user ID
         "<td>" + data['message']['start_loca_lng'] + "</td>" +
-        "<td></td>" +
-        "<td></td>" +
-        "<td></td>" +
+      #phone number
+        "<td>" + data['message']['phone_number'] + "</td>" +
+      #Requested At
+        "<td>" + data['message']['phone_number'] + "</td>" +
+      #Updated At
+        "<td>" + data['message']['phone_number'] + "</td>" +
+      #PickUp Address
+        "<td>" + data['message']['start_address'] + "</td>" +
+      #Dropoff Address
+        "<td>" + data['message']['end_address'] + "</td>" +
+      #Accept
+        "<td>" <button id= "accept_\" + data['message']['id'] + " type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button> " </td>" +
       "</tr>"
+
+  #<th>User ID</th>
+  #<th>Phone Number</th>
+  #<th>Requested At</th>
+  #<th>Updated At</th>
+  #<th>Pickup Address</th>
+  #<th>Dropoff Address</th>
+  #<th>Accept</th>
+
     );
 
 
