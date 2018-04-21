@@ -376,7 +376,8 @@ function riderRequestInfo(start_loc, end_loc,contact,passenger){ /////INFO TO PA
         success: function(result) {
             console.log("requested!");
             // refreshes the table
-            App.room.tell(result.data.id);
+            console.log(result);
+            App.ride_request.notify(result.data.id);
         }
     });
 
