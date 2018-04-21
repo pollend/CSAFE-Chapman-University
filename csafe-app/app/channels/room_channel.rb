@@ -12,6 +12,7 @@ class RoomChannel < ApplicationCable::Channel
   end
 
   def tell(data)
-    ActionCable.server.broadcast 'room_channel', {message: data['message']}
+    ride = UserRide.find(data['id'])
+    ActionCable.server.broadcast 'room_channel', {message:{id: ride.hashid,ride:ride.as_json(:except=>:id)}}
   end
 end

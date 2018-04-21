@@ -355,8 +355,6 @@ $(".previous").click(function () {
 });
 
 function riderRequestInfo(start_loc, end_loc,contact,passenger){ /////INFO TO PASS ON TO ADMIN
-console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHONE\n" + contact + "\nPassenger\n " + passenger);
-
     var startLocationLat = start_pos.lat;
     var startLocationLong = start_pos.lng;
     var endLocationLat = end_pos.lat;
@@ -372,16 +370,15 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
         "end_loca_lng":endLocationLong,"phone_number":phoneNumber,"start_address":startAddress,"end_address":endAddress};
 
     $.ajax({
-        url: '/api/v1/ride/request_ride/request',
-        type: 'PUT',
+        url: '/api/v1/rides/',
+        type: 'POST',
         data: data,
         success: function(result) {
-            console.log("requested!")
+            console.log("requested!");
             // refreshes the table
-
+            App.room.tell(result.data.id);
         }
     });
-    App.room.tell(data);
 
     //params for ref
     // params.permit(:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)

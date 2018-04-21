@@ -1367,8 +1367,42 @@
       });
   }
 
+  //TODO: working
   function setEta() {
       console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      console.log(id);
+      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      $.ajax({
+          url: '/api/v1/admin/updateRideStatus/'+ id,
+          type: 'PUT',
+          data: {"eta":accepted},
+          success: function(result) {
+              console.log("done!");
+              // refreshes the table
+              $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+          }
+      });
+  }
+
+  //TODO: working
+  function completeRide() {
+      console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      console.log(id);
+      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      $.ajax({
+          url: '/api/v1/admin/updateRideStatus/'+ id,
+          type: 'PUT',
+          data: {"eta":accepted},
+          success: function(result) {
+              console.log("done!");
+              // refreshes the table
+              $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+          }
+      });
   }
 
   function getPartAfterUnderscore(str) {
