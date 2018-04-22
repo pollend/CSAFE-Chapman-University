@@ -271,30 +271,39 @@
             <thead>
             <tr>
               <th>User ID</th>
+              <th>Phone Number</th>
               <th>Requested At</th>
               <th>Updated At</th>
+              <th>Pickup Address</th>
+              <th>Dropoff Address</th>
               <th>Accept</th>
             </tr>
             </thead>
             <tfoot>
             <tr>
               <th>User ID</th>
+              <th>Phone Number</th>
               <th>Requested At</th>
               <th>Updated At</th>
+              <th>Pickup Address</th>
+              <th>Dropoff Address</th>
               <th>Accept</th>
             </tr>
             </tfoot>
-            <tbody>
+            <tbody id="unaccepted_rides">
+            <!--if the ride is not accepted, add it to ride requests-->
             <% @rides.each do |rides| %>
-              <!--if the ride is not accepted, add it to ride requests-->
               <% if !rides.accepted %>
               <tr>
                 <td ><%= rides.userID %></td>
+                <td><%= rides.phone_number %></td>
                 <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                 <td><input id="updatedAt_<%= rides.id %>" type="datetime" value="<%= rides.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td> <button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
+                <td><%= rides.start_address %></td>
+                <td><%= rides.end_address %></td>
+                <td><button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
               </tr>
-              <%end%>
+              <% end %>
 
 
             <% end %>
@@ -1335,8 +1344,8 @@
             success: function(result) {
                 console.log("done!");
                 // refreshes the table
-                $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
-                $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+                $( "#dataTable-RequestRides" ).load( "/admin.html #dataTable-RequestRides" );
+                $( "#dataTable-AcceptedRides" ).load( "/admin.html #dataTable-AcceptedRides" );
             }
         });
 
@@ -1358,8 +1367,42 @@
       });
   }
 
+  //TODO: working
   function setEta() {
       console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      console.log(id);
+      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      $.ajax({
+          url: '/api/v1/admin/updateRideStatus/'+ id,
+          type: 'PUT',
+          data: {"eta":accepted},
+          success: function(result) {
+              console.log("done!");
+              // refreshes the table
+              $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+          }
+      });
+  }
+
+  //TODO: working
+  function completeRide() {
+      console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      console.log(id);
+      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      $.ajax({
+          url: '/api/v1/admin/updateRideStatus/'+ id,
+          type: 'PUT',
+          data: {"eta":accepted},
+          success: function(result) {
+              console.log("done!");
+              // refreshes the table
+              $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+          }
+      });
   }
 
   function getPartAfterUnderscore(str) {

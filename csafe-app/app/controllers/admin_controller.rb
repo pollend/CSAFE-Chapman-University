@@ -3,9 +3,11 @@ class AdminController < ApplicationController
   before_action :isAdminAndSignedIn
 
   def isAdminAndSignedIn
-    if user_signed_in?
+    unless user_signed_in?
+      redirect_to unauthenticated_root_path
+    else
       unless current_user.has_role? :admin
-        redirect_to new_user_session_path
+        redirect_to authenticated_root_path
       end
     end
   end

@@ -13,9 +13,9 @@ module Api
 
       def create
         ride = UserRide.new(ride_params)
+        ride.userID = current_user.id
         if ride.save
-          ride.id = ride.hashid
-          render json: {status: 'SUCCESS', message: 'Saved ride', data:ride},status: :ok
+          render json: {status: 'SUCCESS', message: 'Saved ride', data:{id: ride.hashid,ride:ride.as_json(:except=>:id)}},status: :ok
         else
           render json: {status: 'ERROR', message: 'Ride not saved', data:ride.errors},status: :unprocessable_entity
         end

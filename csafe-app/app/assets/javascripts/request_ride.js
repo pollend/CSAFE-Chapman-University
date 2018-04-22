@@ -384,12 +384,14 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
         "end_loca_lng":endLocationLong,"phone_number":phoneNumber,"start_address":startAddress,"end_address":endAddress,"message_id":message_id,"time_arrival_datetime": time_arrival};
 
     $.ajax({
-        url: '/api/v1/ride/request_ride/request',
-        type: 'PUT',
+        url: '/api/v1/rides/',
+        type: 'POST',
         data: data,
         success: function(result) {
-            console.log("requested!")
+            console.log("requested!");
             // refreshes the table
+            console.log(result);
+            App.ride_request.notify(result.data.id);
         }
     });
   requestWait();
