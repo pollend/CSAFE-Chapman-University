@@ -9,17 +9,13 @@ var routes = [];
 var pickCount = 0;
 var dropCount = 0;
 var radio_count = 0;
+var status_id,eta_id;
 var dest_map;
 var dest_marker;
 var rdn_btn_doc = document.getElementsByName('optradio');
 
 
-
 function initAutocompleteRequestMap(map) {
-
-    //Create the autocomplete object, restricting the search to geographical
-    //location types.
-    //directionsDisplay = new google.maps.DirectionsRenderer({map: map});
 
     var directionsService = new google.maps.DirectionsService();
     var stepDisplay = new google.maps.InfoWindow;
@@ -42,8 +38,6 @@ function initAutocompleteRequestMap(map) {
         map: map,
         suppressMarkers: true
     });
-
-
 
     // use address to get lat long
     google.maps.event.addListener(autocompletePickUp, 'place_changed', function() {
@@ -178,13 +172,12 @@ function initAutocompleteRequestMap(map) {
     }
 
 
-    function callDisplay(){ calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);}
-    function cancelDirections(){ directionsDisplay.setDirections({ routes: [] }); }
+  function callDisplay(){ calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);}
+  function cancelDirections(){ directionsDisplay.setDirections({ routes: [] }); }
 
 //SET WAYPOINTS ------
     function setWaypoint(start_pos,end_pos, markerArray, stepDisplay,){
-      // Set destination, origin and travel mode.
-      // First, remove any existing markers from the map.
+
       var request = {
           destination: end_pos,
           origin: start_pos,
@@ -246,15 +239,16 @@ function initAutocompleteRequestMap(map) {
     }
 }
 // ------- END ON INIT AUTOCOMPLETE FUNCTION ------ //////
+
 //jQuery time
 var current_fs, next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 var count = 0;
+var field_next;
 $(document).on('click', '.next', function () {
 
     var the_rdn = radioCheck();
-
     for (var i = 0, length = rdn_btn_doc.length; i < length; i++)
       {
         radio_count++;
@@ -276,7 +270,7 @@ $(document).on('click', '.next', function () {
     console.log("next index")
     console.log($("fieldset").index(next_fs));
 
-    if ($("fieldset").index(current_fs) === 1) { //ON OUR WAY
+
 
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
@@ -285,9 +279,22 @@ $(document).on('click', '.next', function () {
 
     console.log( "CURRENT FIELD SET " + $("fieldset").index(current_fs));
 
-  }else {
+
     //show the next fieldset
+
+    $('#loading_modal').modal({
+                    backdrop: 'static',
+                    keyboard: true,
+                    show: true
+    });
+
+
+setInterval(function(){ //example of when the PSAFE requests a ride, just used time interval
+
+  $('#loading_modal').modal('hide');
     next_fs.show();
+
+    field_next = next_fs.show();
     //hide the current fieldset with style
     current_fs.animate({opacity: 0}, {
         step: function (now, mx) {
@@ -312,9 +319,13 @@ $(document).on('click', '.next', function () {
         //this comes from the custom easing plugin
         easing: 'easeInOutBack'
     });
-    riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count);
+    status_id = generateID();
+    eta_id = Date.now();
 
-  } }else {
+    riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count,status_id,eta_id);
+
+}, 5000);
+ }else {
     console.log("Error, fields are not filled");
   }
 });
@@ -354,7 +365,7 @@ $(".previous").click(function () {
     });
 });
 
-function riderRequestInfo(start_loc, end_loc,contact,passenger){ /////INFO TO PASS ON TO ADMIN
+function riderRequestInfo(start_loc, end_loc,contact,passenger,status_id,eta_id){ /////INFO TO PASS ON TO ADMIN
 console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHONE\n" + contact + "\nPassenger\n " + passenger);
 
     var startLocationLat = start_pos.lat;
@@ -364,12 +375,13 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
     var phoneNumber = contact;
     var startAddress = start_loc;
     var endAddress = end_loc;
+    var message_id = status_id; //ride request ID
+    var time_arrival = eta_id; //time of arrival
 
-
-    console.log("Requesting a ride");
+    //console.log("Requesting a ride");
 
     var data = {"start_loca_lat" : startLocationLat,"start_loca_lng" : startLocationLong,"end_loca_lat" : endLocationLat,
-        "end_loca_lng":endLocationLong,"phone_number":phoneNumber,"start_address":startAddress,"end_address":endAddress};
+        "end_loca_lng":endLocationLong,"phone_number":phoneNumber,"start_address":startAddress,"end_address":endAddress,"message_id":message_id,"time_arrival_datetime": time_arrival};
 
     $.ajax({
         url: '/api/v1/ride/request_ride/request',
@@ -378,14 +390,9 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
         success: function(result) {
             console.log("requested!")
             // refreshes the table
-
         }
     });
-
-    //params for ref
-    // params.permit(:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
-
-
+  requestWait();
 }
 
 //Used for Way Points between start and finish
@@ -450,19 +457,15 @@ $("#cancelRide-btn").click(function () {
 });
 
 
-
-
-
 var theL;
 var theLong;
 
 function getCurrentLocation(){
-inputClear();
 
+inputClear();
 geocoder = new google.maps.Geocoder;
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
-
       console.log("Current Location");
       navigator.geolocation.getCurrentPosition(function(position) {
         theL = position.coords.latitude;
@@ -471,44 +474,16 @@ geocoder = new google.maps.Geocoder;
               lat: position.coords.latitude,
               lng: position.coords.longitude
           };
-        //   infoWindow.setPosition(pos);
-
-           console.log("THE REAL POSITION" + pos.value);
-          // Create a marker and set its position.
 
           location = theL + "," + theLong;
-        //  geocodeLatLng(geocoder,map,infoWindow,location);
 
           var marker = new google.maps.Marker({
               map: map,
               position: pos
           });
-
           infoWindow.open(map);
-        //  alert("POSITION" + position.value);
-          console.log(position.value);
+        //  console.log(position.value);
           autocomplete.value = pos;
-          /*
-          map.setZoom(16);
-          map.setCenter(pos); //SET LOCATION
-
-          autocomplete.value = pos;
-
-          map.addListener('center_changed', function() {
-              // 3 seconds after the center of the map has changed, pan back to the
-              // marker.
-              window.setTimeout(function() { //MARKER PAN ON CLICK EVENT
-                  map.panTo(marker.getPosition());
-              }, 3000);
-          });
-
-          map.addListener('click', function() { //ZOOM IN ON MARKER
-              map.setZoom(18);
-              map.setCenter(marker.getPosition());
-          });
-          */
-
-        //  currentLocField.value = aMap.getCenter(); //Location to be sent to PSAFE; getCenter() is OUTDATED
       }, function() {
           handleLocationError(true, infoWindow, map.getCenter());
       });
@@ -517,12 +492,18 @@ geocoder = new google.maps.Geocoder;
       handleLocationError(false, infoWindow, map.getCenter());
   }
 }
+
 var setT;
 
-function updateTimer() {
-  arrival  = Date.parse("April 17, 2018 19:52:00"); //Estimated TIME OF ARRIVAL FOR PSAFE
-  now  = new Date(); //DATE AT THE MOMENT
+function generateID(){
+    return Math.random().toString(36).substr(2,28);
+}
 
+function updateTimer() {
+
+  arrival  = Date.parse("April 19, 2018 00:00:00"); //Estimated TIME OF ARRIVAL FOR PSAFE
+
+  now  = new Date(); //DATE AT THE MOMENT
   diff = arrival - now;
 
   days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -536,7 +517,6 @@ function updateTimer() {
 
   if (m === 0 && s === 0) {
     myStopFunction();
-
   }
 
   document.getElementById("timer")
@@ -549,4 +529,7 @@ setT = setInterval('updateTimer()', 1000);
 
 function myStopFunction() {
     clearInterval(setT);
+    //change field set once th
+    field_next;
+    field_next.show();
 }

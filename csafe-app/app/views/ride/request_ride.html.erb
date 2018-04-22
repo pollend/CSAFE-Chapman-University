@@ -184,13 +184,16 @@
         </div><!-- /.container -->
 
 
-<br>
-
-<div id="timer"></div>
         <br>
-        <input type="button" name="next"  class="next action-button" data-toggle="modal" data-target="#myModal" value="Contact"/>
+
+        <div id="timer"></div>
+        <br>
+
+        <input type="button" name="next"  class="next action-button" data-toggle="modal" data-target="#loading_modal"  data-backdrop="static" data-keyboard="false" value="Contact"/>
         <br>
         <input type="button"  class="next action-button"  value="Cancel"/>
+
+
       </fieldset>
       <!--FifthStep - Ride Is Here-->
       <fieldset>
@@ -226,6 +229,38 @@
 
   </div>
 </div>
+
+<!-- Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="loading_modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <br>
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Requesting Your Ride</p>
+            <br>
+        </div>
+        <br>
+        <br>
+      </div>
+      <br>
+      <br>
+      <div class="modal-footer">
+        <button type="button"  id="cancel_ride_laod" class="btn btn-default" data-dismiss="modal">Cancel Ride</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Modal content-->
 
 
 <!-- END Modal -->
