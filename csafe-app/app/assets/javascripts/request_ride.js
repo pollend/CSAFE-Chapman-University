@@ -510,35 +510,38 @@ function generateID(){
 }
 
 var the_eta;
-function setEta(eta) {
-    the_eta = moment(eta).toDate();
-    console.log(the_eta);
-    setT = setInterval(updateTimer, 1000);
-    function updateTimer() {
-        console.log("updateTimer()");
-        arrival  = the_eta; //Estimated TIME OF ARRIVAL FOR PSAFE
+function setEta(id, eta) {
+    if ($("#timer_"+id).length) {
+        the_eta = moment(eta).toDate();
+        console.log(the_eta);
+        setT = setInterval(updateTimer, 1000);
 
-        now  = new Date(); //DATE AT THE MOMENT
-        diff = arrival - now;
+        function updateTimer() {
+            console.log("updateTimer()");
+            arrival = the_eta; //Estimated TIME OF ARRIVAL FOR PSAFE
 
-        days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        hours = Math.floor( diff / (1000*60*60) );
-        mins  = Math.floor( diff / (1000*60) );
-        secs  = Math.floor( diff / 1000 );
+            now = new Date(); //DATE AT THE MOMENT
+            diff = arrival - now;
 
-        m = mins  - hours * 60;
-        s = secs  - mins  * 60;
+            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            hours = Math.floor(diff / (1000 * 60 * 60));
+            mins = Math.floor(diff / (1000 * 60));
+            secs = Math.floor(diff / 1000);
+
+            m = mins - hours * 60;
+            s = secs - mins * 60;
 
 
-        if (m === 0 && s === 0) {
-            myStopFunction();
+            if (m === 0 && s === 0) {
+                myStopFunction();
+            }
+
+            document.getElementById("timer_"+id)
+                .innerHTML =
+                '<div>' + hours + '<span>Hours</span></div>' +
+                '<div>' + m + '<span>minutes</span></div>' +
+                '<div>' + s + '<span>seconds</span></div>';
         }
-
-        document.getElementById("timer")
-            .innerHTML =
-            '<div>' + hours + '<span>Hours</span></div>' +
-            '<div>' + m + '<span>minutes</span></div>' +
-            '<div>' + s + '<span>seconds</span></div>' ;
     }
 }
 
