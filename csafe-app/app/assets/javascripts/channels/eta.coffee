@@ -7,3 +7,10 @@ App.eta = App.cable.subscriptions.create "EtaChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
+    console.log("hallo" + data);
+    setEta(data.eta);
+
+
+
+  notify: (id, eta) ->
+    @perform 'notify', {id: id, eta: eta}

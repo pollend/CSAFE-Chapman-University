@@ -265,9 +265,9 @@ $(document).on('click', '.next', function () {
     current_fs = $(this).parent();
     next_fs = $(this).parent().next();
 
-    console.log("current index")
+    console.log("current index");
     console.log($("fieldset").index(current_fs));
-    console.log("next index")
+    console.log("next index");
     console.log($("fieldset").index(next_fs));
 
 
@@ -509,33 +509,38 @@ function generateID(){
     return Math.random().toString(36).substr(2,28);
 }
 
-function updateTimer() {
+var the_eta;
+function setEta(eta) {
+    the_eta = moment(eta).toDate();
+    console.log(the_eta);
+    setT = setInterval(updateTimer, 1000);
+    function updateTimer() {
+        console.log("updateTimer()");
+        arrival  = the_eta; //Estimated TIME OF ARRIVAL FOR PSAFE
 
-  arrival  = Date.parse("April 19, 2018 00:00:00"); //Estimated TIME OF ARRIVAL FOR PSAFE
+        now  = new Date(); //DATE AT THE MOMENT
+        diff = arrival - now;
 
-  now  = new Date(); //DATE AT THE MOMENT
-  diff = arrival - now;
+        days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        hours = Math.floor( diff / (1000*60*60) );
+        mins  = Math.floor( diff / (1000*60) );
+        secs  = Math.floor( diff / 1000 );
 
-  days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  hours = Math.floor( diff / (1000*60*60) );
-  mins  = Math.floor( diff / (1000*60) );
-  secs  = Math.floor( diff / 1000 );
-
-  m = mins  - hours * 60;
-  s = secs  - mins  * 60;
+        m = mins  - hours * 60;
+        s = secs  - mins  * 60;
 
 
-  if (m === 0 && s === 0) {
-    myStopFunction();
-  }
+        if (m === 0 && s === 0) {
+            myStopFunction();
+        }
 
-  document.getElementById("timer")
-    .innerHTML =
-      '<div>' + hours + '<span>Hours</span></div>' +
-      '<div>' + m + '<span>minutes</span></div>' +
-      '<div>' + s + '<span>seconds</span></div>' ;
+        document.getElementById("timer")
+            .innerHTML =
+            '<div>' + hours + '<span>Hours</span></div>' +
+            '<div>' + m + '<span>minutes</span></div>' +
+            '<div>' + s + '<span>seconds</span></div>' ;
+    }
 }
-setT = setInterval('updateTimer()', 1000);
 
 function myStopFunction() {
     clearInterval(setT);

@@ -1375,13 +1375,16 @@
       console.log("hey my id is: " + event.srcElement.id);
       var id = getPartAfterUnderscore(event.srcElement.id);
       console.log(id);
-      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      // TODO: get the number of minutes from the dropdown
+      var completed = moment(new Date()).add(5,'m').toDate();
       $.ajax({
-          url: '/api/v1/admin/updateRideStatus/'+ id,
+          url: '/api/v1/rides/'+ id,
           type: 'PUT',
-          data: {"eta":accepted},
+          data: {"eta":completed},
           success: function(result) {
               console.log("done!");
+              console.log(result);
+              App.eta.notify(result.data.userID, result.data.eta);
               // refreshes the table
               $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
               $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
