@@ -1343,6 +1343,9 @@
             data: {"accepted":accepted},
             success: function(result) {
                 console.log("done!");
+                console.log("the result");
+                console.log(result);
+                App.ride_status.notify(result.data.userID);
                 // refreshes the table
                 $( "#dataTable-RequestRides" ).load( "/admin.html #dataTable-RequestRides" );
                 $( "#dataTable-AcceptedRides" ).load( "/admin.html #dataTable-AcceptedRides" );

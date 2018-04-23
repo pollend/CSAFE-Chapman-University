@@ -8,4 +8,8 @@ class RideController < ApplicationController
     end
   end
 
+  def request_ride
+    @user_id = current_user.hashid
+  end
+
 end

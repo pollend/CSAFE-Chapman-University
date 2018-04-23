@@ -282,16 +282,21 @@ $(document).on('click', '.next', function () {
 
     //show the next fieldset
 
-    $('#loading_modal').modal({
+    $('[id^=loading_modal]').modal({
                     backdrop: 'static',
                     keyboard: true,
                     show: true
     });
 
+    startLoadingModal()
 
-setInterval(function(){ //example of when the PSAFE requests a ride, just used time interval
+ } else {
+    console.log("Error, fields are not filled");
+ }
+});
 
-  $('#loading_modal').modal('hide');
+function startLoadingModal() {
+    $('[id^=loading_modal]').modal('hide');
     next_fs.show();
 
     field_next = next_fs.show();
@@ -323,12 +328,15 @@ setInterval(function(){ //example of when the PSAFE requests a ride, just used t
     eta_id = Date.now();
 
     riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count,status_id,eta_id);
+}
 
-}, 5000);
- }else {
-    console.log("Error, fields are not filled");
-  }
-});
+function stopLoadingModal(id) {
+    console.log(id);
+    $('#loader_message_'+id).text("Your ride was accepted!");
+    setTimeout(function() {
+        $('#loading_modal_'+id).modal('hide');
+    }, 3000)
+}
 
 $(".previous").click(function () {
     if (animating) return false;

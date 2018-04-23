@@ -234,7 +234,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="loading_modal" role="dialog">
+
+<div class="modal fade" id="loading_modal_<%= @user_id %>" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -243,7 +244,7 @@
         <br>
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">Requesting Your Ride</p>
+            <p class="loader__label" id="loader_message_<%= @user_id %>">Requesting Your Ride</p>
             <br>
         </div>
         <br>
