@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#admin'
   get 'ride/request_ride' => "ride#request_ride"
   get 'admin/bounds' => "admin#bounds"
-
+  get 'admin/charts' => "admin#charts"
 
   namespace 'api' do
     namespace 'v1' do
