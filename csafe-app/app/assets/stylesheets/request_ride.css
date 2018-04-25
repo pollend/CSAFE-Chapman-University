@@ -7,7 +7,11 @@ html.request_ride {
     width: 100%;
 
 }
-
+.robot{
+    top:100px;
+    width: 300px;
+    height: 300px;
+}
 body.request_ride{
 
     font-family:'Poppins', sans-serif;
@@ -16,10 +20,8 @@ body.request_ride{
     margin: 0px;
     padding: 0px;
     font-weight: lighter;
-
-
-
 }
+
 nav {
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 
@@ -29,16 +31,15 @@ body{
   height: 100%;
   width: 100%;
   margin: 0px;
-  justify-content: center;
-   align-items: center;
+    justify-content: center;
+    align-items: center;
 
 }
 
 .row{
-  background: -webkit-linear-gradient(bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
-  background: -webkit-linear-gradient(bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));/* Chrome 10-25, Safari 5.1-6 */
 
-
+  background: -webkit-linear-gradient(top, rgba(128,0,0 ,1 ),rgba(44,62,80 ,1));
+  background: -webkit-linear-gradient(top, rgba(128,0,0 ,1 ),rgba(44,62,80 ,1));/* Chrome 10-25, Safari 5.1-6 */
 }
 
 .requestMap {
@@ -135,7 +136,8 @@ input[type="radio"]:checked + label:after{
     cursor: pointer;
     padding: 10px 5px;
     margin: 10px 5px;
-
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #msform .action-button:hover, #msform .action-button:focus {
@@ -223,7 +225,7 @@ input[type="radio"]:checked + label:after{
     content: '';
     width: 100%;
     height: 2px;
-    background: black;
+    background: white;
     position: absolute;
     left: -50%;
     top: 9px;
@@ -238,7 +240,7 @@ input[type="radio"]:checked + label:after{
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
 #progressbar li.active:before, #progressbar li.active:after {
-    background: #ee0979;
+    background: black;
     color: white;
 }
 
@@ -282,18 +284,18 @@ input[type="radio"]:checked + label:after{
 }
 
 
-#timer {
+.timer {
   font-size: 3em;
   font-weight: 100;
   color: white;
   text-shadow: 0 0 20px rgba(125,34,189,0.8);
 }
-#timer div {
+.timer div {
     display: inline-block;
     min-width: 90px;
 
 }
-#timer span {
+.timer span {
       color: rgba(125,34,189,0.8);
       display: block;
       font-size: .35em;

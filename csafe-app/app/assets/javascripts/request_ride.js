@@ -265,9 +265,9 @@ $(document).on('click', '.next', function () {
     current_fs = $(this).parent();
     next_fs = $(this).parent().next();
 
-    console.log("current index")
+    console.log("current index");
     console.log($("fieldset").index(current_fs));
-    console.log("next index")
+    console.log("next index");
     console.log($("fieldset").index(next_fs));
 
 
@@ -282,16 +282,21 @@ $(document).on('click', '.next', function () {
 
     //show the next fieldset
 
-    $('#loading_modal').modal({
+    $('[id^=loading_modal]').modal({
                     backdrop: 'static',
                     keyboard: true,
                     show: true
     });
 
+    startLoadingModal()
 
-setInterval(function(){ //example of when the PSAFE requests a ride, just used time interval
+ } else {
+    console.log("Error, fields are not filled");
+ }
+});
 
-  $('#loading_modal').modal('hide');
+function startLoadingModal() {
+    $('[id^=loading_modal]').modal('hide');
     next_fs.show();
 
     field_next = next_fs.show();
@@ -323,12 +328,15 @@ setInterval(function(){ //example of when the PSAFE requests a ride, just used t
     eta_id = Date.now();
 
     riderRequestInfo(autocomplete.value,autocomplete2.value,phone.value,radio_count,status_id,eta_id);
+}
 
-}, 5000);
- }else {
-    console.log("Error, fields are not filled");
-  }
-});
+function stopLoadingModal(id) {
+    console.log(id);
+    $('#loader_message_'+id).text("Your ride was accepted!");
+    setTimeout(function() {
+        $('#loading_modal_'+id).modal('hide');
+    }, 3000)
+}
 
 $(".previous").click(function () {
     if (animating) return false;
@@ -501,33 +509,41 @@ function generateID(){
     return Math.random().toString(36).substr(2,28);
 }
 
-function updateTimer() {
+var the_eta;
+function setEta(id, eta) {
+    if ($("#timer_"+id).length) {
+        the_eta = moment(eta).toDate();
+        console.log(the_eta);
+        setT = setInterval(updateTimer, 1000);
 
-  arrival  = Date.parse("April 19, 2018 00:00:00"); //Estimated TIME OF ARRIVAL FOR PSAFE
+        function updateTimer() {
+            console.log("updateTimer()");
+            arrival = the_eta; //Estimated TIME OF ARRIVAL FOR PSAFE
 
-  now  = new Date(); //DATE AT THE MOMENT
-  diff = arrival - now;
+            now = new Date(); //DATE AT THE MOMENT
+            diff = arrival - now;
 
-  days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  hours = Math.floor( diff / (1000*60*60) );
-  mins  = Math.floor( diff / (1000*60) );
-  secs  = Math.floor( diff / 1000 );
+            days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            hours = Math.floor(diff / (1000 * 60 * 60));
+            mins = Math.floor(diff / (1000 * 60));
+            secs = Math.floor(diff / 1000);
 
-  m = mins  - hours * 60;
-  s = secs  - mins  * 60;
+            m = mins - hours * 60;
+            s = secs - mins * 60;
 
 
-  if (m === 0 && s === 0) {
-    myStopFunction();
-  }
+            if (m === 0 && s === 0) {
+                myStopFunction();
+            }
 
-  document.getElementById("timer")
-    .innerHTML =
-      '<div>' + hours + '<span>Hours</span></div>' +
-      '<div>' + m + '<span>minutes</span></div>' +
-      '<div>' + s + '<span>seconds</span></div>' ;
+            document.getElementById("timer_"+id)
+                .innerHTML =
+                '<div>' + hours + '<span>Hours</span></div>' +
+                '<div>' + m + '<span>minutes</span></div>' +
+                '<div>' + s + '<span>seconds</span></div>';
+        }
+    }
 }
-setT = setInterval('updateTimer()', 1000);
 
 function myStopFunction() {
     clearInterval(setT);

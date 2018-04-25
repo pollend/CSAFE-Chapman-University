@@ -88,7 +88,7 @@
         <h3 class="fs-subtitle countdown"> </h3>
         <!-- Floating Loader -->
 
-        <div class="container">
+        <div class="container robot">
           <svg id="robot" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 960 570">
 
             <g class="head">
@@ -186,7 +186,7 @@
 
         <br>
 
-        <div id="timer"></div>
+        <div id="timer_<%= @user_id %>" class="timer"></div>
         <br>
 
         <input type="button" name="next"  class="next action-button" data-toggle="modal" data-target="#loading_modal"  data-backdrop="static" data-keyboard="false" value="Contact"/>
@@ -234,7 +234,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="loading_modal" role="dialog">
+
+<div class="modal fade" id="loading_modal_<%= @user_id %>" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -243,7 +244,7 @@
         <br>
         <div class="loader">
             <div class="loader__figure"></div>
-            <p class="loader__label">Requesting Your Ride</p>
+            <p class="loader__label" id="loader_message_<%= @user_id %>">Requesting Your Ride</p>
             <br>
         </div>
         <br>

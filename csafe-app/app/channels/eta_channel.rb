@@ -6,4 +6,9 @@ class EtaChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def notify(data)
+    user = User.find(data['id'])
+    ActionCable.server.broadcast 'eta_channel', {id: user.hashid, eta: data['eta']}
+  end
 end
