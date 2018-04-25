@@ -1,0 +1,14 @@
+.logoutAdmin{
+    color: blue;
+    text-align: center;
+}
+.tableRowAdmin tr:hover td{
+   background: lightgrey;
+}
+
+.charts{
+    background-color: black;
+}
+.whichPageSelected{
+    background-color: #B00100;
+}

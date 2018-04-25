@@ -1,8 +1,8 @@
 /*Style for nav bar that re-sizes to menu on smaller screen*/
 .topnav {
     overflow: hidden;
-    background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
-    background: -webkit-linear-gradient(left bottom, rgba(125,34,189,0.8),rgba(216,22,96,0.8));
+    background: -webkit-linear-gradient(right bottom, rgba(128,0,0 ,1 ),rgba(44,62,80 ,1));
+    background: -webkit-linear-gradient(right bottom, rgba(128,0,0 ,1 ),rgba(44,62,80 ,1));/* Chrome 10-25, Safari 5.1-6 */
 }
 
 .topnav a {
