@@ -12,3 +12,10 @@
 .whichPageSelected{
     background-color: #B00100;
 }
+
+#heatMap{
+
+    height: 50%;
+    width: 50%;
+
+}
