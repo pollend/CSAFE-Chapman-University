@@ -26,5 +26,15 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
       "</tr>"
     );
 
+    console.log("adding heat map point")
+    heatMapLocations.push(new google.maps.LatLng(data['ride']['start_loca_lat'], data['ride']['start_loca_lng']));
+    console.log(heatMapLocations);
+    
+    heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapLocations,
+    map: map
+    });
+
+
   notify: (id) ->
     @perform 'notify', id: id
