@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180420223514) do
+ActiveRecord::Schema.define(version: 20180428045444) do
 
   create_table "business_hours", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "day"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20180420223514) do
     t.datetime "departed"
     t.datetime "complete"
     t.datetime "eta"
+    t.integer "num_passenger"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
