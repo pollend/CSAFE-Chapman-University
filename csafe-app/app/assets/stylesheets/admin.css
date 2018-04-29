@@ -7,15 +7,49 @@
 }
 
 .charts{
-    background-color: black;
+    background-color: whitesmoke;
 }
 .whichPageSelected{
     background-color: #B00100;
 }
 
-#heatMap{
+#pickUpheatMap{
+    height: 80%;
+    width: 95%;
 
-    height: 50%;
-    width: 50%;
+}
+#dropOffheatMap{
+    height: 80%;
+    width: 95%;
+    float: right;
+}
 
+#leftMargin{
+    float: left;
+    width: 5%;
+    height: 100%;
+    /*background-color: #53e3a6;*/
+}
+
+#rightMargin{
+    float: right;
+    width: 5%;
+    height: 100%;
+    /*background-color: #4CAF50;*/
+}
+
+#leftMap{
+    float: left;
+    display: inline-block;
+    height: 70%;
+    width: 45%;
+    /*background-color: #e0a800;*/
+}
+
+
+#rightMap{
+    display: inline-block;
+    height: 70%;
+    width: 45%;
+    /*background-color: #1da1f2;*/
 }

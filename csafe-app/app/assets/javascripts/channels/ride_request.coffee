@@ -1,4 +1,6 @@
 App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
+
+
   connected: ->
     # Called when the subscription is ready for use on the server
 
@@ -26,14 +28,24 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
       "</tr>"
     );
 
-    console.log("adding heat map point")
-    heatMapLocations.push(new google.maps.LatLng(data['ride']['start_loca_lat'], data['ride']['start_loca_lng']));
-    console.log(heatMapLocations);
-    
-    heatmap = new google.maps.visualization.HeatmapLayer({
-    data: heatMapLocations,
-    map: map
+    console.log("adding pick up heat map point");
+    pickUpHeatMapLocations.push(new google.maps.LatLng(data['ride']['start_loca_lat'], data['ride']['start_loca_lng']));
+    console.log(pickUpHeatMapLocations);
+
+    pickUpheatmap = new google.maps.visualization.HeatmapLayer({
+      data: pickUpHeatMapLocations,
+      map: mapOne
     });
+
+    console.log("adding pick up heat map point");
+    dropOffHeatMapLocations.push(new google.maps.LatLng(data['ride']['end_loca_lat'], data['ride']['end_loca_lng']));
+    console.log(dropOffHeatMapLocations);
+    dropOffheatMap = new google.maps.visualization.HeatmapLayer({
+      data: dropOffHeatMapLocations,
+      map: mapTwo
+    });
+
+
 
 
   notify: (id) ->
