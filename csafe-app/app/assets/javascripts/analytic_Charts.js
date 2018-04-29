@@ -57,8 +57,6 @@ function updatePickUpHeatMapPoints(lat, long){
         map: mapOne
     });
 
-    console.log("pick up lat", lat);
-    console.log("pick up lat", long);
 
 }
 function updateDropOffHeatMapPoints(lat, long){
@@ -70,8 +68,6 @@ function updateDropOffHeatMapPoints(lat, long){
         map: mapTwo
     });
 
-    console.log("drop off lat", lat);
-    console.log("drop off lat", long);
 
 }
 
