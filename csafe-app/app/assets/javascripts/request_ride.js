@@ -513,8 +513,12 @@ function generateID(){
 
 var the_eta;
 function setEta(id, eta) {
+    // This clears whatever timer was already set
+    clearInterval(setT);
+
     if ($("#timer_"+id).length) {
         the_eta = moment(eta).toDate();
+        // This prints the eta in PDT
         console.log(the_eta);
         setT = setInterval(updateTimer, 1000);
 
@@ -535,6 +539,7 @@ function setEta(id, eta) {
 
 
             if (m === 0 && s === 0) {
+                console.log("wtf pls stop");
                 myStopFunction();
             }
 
