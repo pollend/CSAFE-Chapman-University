@@ -14,6 +14,10 @@ var dest_map;
 var dest_marker;
 var rdn_btn_doc = document.getElementsByName('optradio');
 
+var userSequence = function (){
+
+}();
+
 
 function initAutocompleteRequestMap(map) {
 
@@ -479,6 +483,7 @@ function setEta(id, eta) {
     setT = setInterval(updateTimer, 1000);
 
     function updateTimer() {
+      
       console.log("updateTimer()");
       arrival = the_eta; //Estimated TIME OF ARRIVAL FOR PSAFE
       now = new Date(); //DATE AT THE MOMENT
