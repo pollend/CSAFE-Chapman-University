@@ -335,10 +335,12 @@ function stopLoadingModal(id) {
     $('#loader_message_'+id).text("Your ride was accepted!");
     setTimeout(function() {
         $('#loading_modal_'+id).modal('hide');
+        $('#loader_message_'+id).text("Requesting your ride");
     }, 3000)
 }
 
-$(".previous").click(function () {
+$(document).on('click', '.previous', function () {
+    console.log("previous clicked");
     if (animating) return false;
     animating = true;
 
