@@ -234,8 +234,8 @@ function initAutocompleteRequestMap(map) {
 // ------- END ON INIT AUTOCOMPLETE FUNCTION ------ //////
 
 // --------- jQuery time ------------- ///////
-
-var current_fs, next_fs, previous_fs; //fieldsets
+var current_fs = localStorage.getItem("fieldset");
+var next_fs, previous_fs; //fieldsets
 var left, opacity, scale; //fieldset properties which we will animate
 var animating; //flag to prevent quick multi-click glitches
 var count = 0;
@@ -252,10 +252,11 @@ $(document).on('click', '.next', function() {
     }
   }
 
-  if (the_rdn === true && autocomplete.value !== '' && autocomplete2.value !== '' && phone.value !== '') {
+if (the_rdn === true && autocomplete.value !== '' && autocomplete2.value !== '' && phone.value !== '') {
 
     count++;
     current_fs = $(this).parent();
+  //  localStorage.setItem("fieldset", current_fs);
     next_fs = $(this).parent().next();
     $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
@@ -268,9 +269,11 @@ $(document).on('click', '.next', function() {
       show: true
     });
     startLoadingModal();
+
   } else {
     console.log("Error, fields are not filled");
   }
+
 });
 
 function startLoadingModal() {
@@ -326,6 +329,7 @@ $(document).on('click', '.previous', function() {
   if (animating) return false;
   animating = true;
   current_fs = $(this).parent();
+  localStorage.setItem("fieldset", current_fs);
   previous_fs = $(this).parent().prev();
   //de-activate current step on progressbar
   $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
@@ -469,7 +473,6 @@ $(document).on('click', '#cancelRide-btn', function() {
     cancelRide();
 });
 
-
 var theL;
 var theLong;
 var setT;
@@ -491,7 +494,7 @@ function setEta(id, eta) {
     setT = setInterval(updateTimer, 1000);
 
     function updateTimer() {
-      
+
       console.log("updateTimer()");
       arrival = the_eta; //Estimated TIME OF ARRIVAL FOR PSAFE
       now = new Date(); //DATE AT THE MOMENT
@@ -500,24 +503,38 @@ function setEta(id, eta) {
       hours = Math.floor(diff / (1000 * 60 * 60));
       mins = Math.floor(diff / (1000 * 60));
       secs = Math.floor(diff / 1000);
-      m = mins - hours * 60;
-      s = secs - mins * 60;
-
-      if (m === 0 && s === 0) {
-        myStopFunction();
-      }
+      m = (mins - hours * 60);
+      s = (secs - mins * 60);
 
       document.getElementById("timer_" + id)
         .innerHTML =
         '<div>' + hours + '<span>Hours</span></div>' +
         '<div>' + m + '<span>minutes</span></div>' +
         '<div>' + s + '<span>seconds</span></div>';
+        if (m === 0 && s === 0) { //if the timer is at Zero
+          myStopFunction();
+        }
+
     }
   }
 }
 
-function myStopFunction() {
-  clearInterval(setT);
-  field_next;
-  field_next.show();
+function myStopFunction() { //TO NEXT FIELD SET
+  //document.querySelector('.timer') = ' ';
+  clearInterval(setT); //Keep timer at 0
+  //change fieldset
+  $('#ride_wait').css('display', 'none');
+  $('#arrived').css('display', 'block');
+
+  var next_fs = document.getElementById('ride_wait');
+  next_fs = $(this).parent().next();
+  $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+  console.log("Next Field Set");
 }
+
+
+$('.rating .fa-star').click(function() { ///FEEDBACK RATING
+   $('.rating .active-rating').removeClass('active-rating');
+   $(this).toggleClass('active-rating');
+});

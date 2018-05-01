@@ -8,7 +8,7 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
     $("#unaccepted_rides").append(
-      "<tr>" +
+      '<tr id="theride_' + data['id'] + '">' +
         #user ID
         "<td>" + data['ride']['userID'] + "</td>" +
         #phone number
@@ -25,8 +25,7 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
         "<td>" + "<button id='accept_" + data['id'] + "' type='button'" + " class='btn btn-primary'" + " onclick='acceptRide()'" + ">Accept</button></td>"
       "</tr>"
     );
-    $( "#dataTable-RequestRides" ).load( "/admin.html #dataTable-RequestRides");
-    $( "#dataTable-AcceptedRides" ).load( "/admin.html #dataTable-AcceptedRides" );
+    if (data['cancel']) $("#theride_"+data['id']).remove();
 
   notify: (id) ->
     @perform 'notify', id: id

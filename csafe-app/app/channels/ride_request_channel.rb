@@ -15,6 +15,6 @@ class RideRequestChannel < ApplicationCable::Channel
   def cancel(data)
     ride = UserRide.find(data['id'])
     ride.destroy
-    ActionCable.server.broadcast 'ride_request_channel', {}
+    ActionCable.server.broadcast 'ride_request_channel', {id: ride.hashid, cancel: true}
   end
 end
