@@ -83,7 +83,7 @@
       </fieldset>
 
       <!--FourthStep - Ride On The Way-->
-      <fieldset>
+      <fieldset id="ride_wait">
         <h2 class="fs-title">On Your Way </h2>
         <h3 class="fs-subtitle countdown"> </h3>
         <!-- Floating Loader -->
@@ -195,13 +195,35 @@
         <input type="button"  class="previous action-button"  value="Cancel"/>
 
 
-      </fieldset>
+      </fieldset >
       <!--FifthStep - Ride Is Here-->
-      <fieldset>
+      <fieldset id="arrived">
         <h2 class="fs-title">Your Ride is Here </h2>
         <h3 class="fs-subtitle"> </h3>
+
+
+  <form action='#' class='form-group'>
+    <h2>Rate Us</h2>
+    <input class='form-control' placeholder='Name' type='text'>
+    <input class='form-control' placeholder='Email' type='text'>
+    <textarea class='form-control' id='fb-comment' name='' style="height:300px;" placeholder='Tell Us About Your Experience..'></textarea>
+    <div class='rating'>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star'></i>
+      <i class='fa fa-star'></i>
+    </div>
+    <input type="button"  class="action-button" value="Submit"/>
+  </form>
+
+
+
+
         <br>
-        <input type="button" name="next"  class="next action-button" value="Request" onclick="requestRide()"/>
+      <a href="tel:7149976763" style="width:150px;" class="action-button" value="Contact"> Call <span class="fa fa-phone" value="Contact"></span> </a>
+      <br>
+      <br>
       </fieldset>
     </form>
 
