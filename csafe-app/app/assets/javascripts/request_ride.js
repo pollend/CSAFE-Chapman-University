@@ -470,8 +470,14 @@ function clearBtnMap(type) {
 $(document).on('click', '#cancelRide-btn', function() {
   // alert("CANCEL RIDE");
     console.log("cancel button clicked");
+    $('#cancelRide-btn-prev').trigger("click");
+});
+
+// This is a super hacky solution.
+$(document).on('click', '#cancelRide-btn-prev', function() {
     cancelRide();
 });
+
 
 var theL;
 var theLong;
