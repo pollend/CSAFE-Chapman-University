@@ -216,7 +216,7 @@
               <tr id="theride_<%= ride.hashid %>">
                 <td><%= ride.userID %></td>
                 <td><%= ride.phone_number %></td>
-                <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                 <td><%= ride.start_address %></td>
                 <td><%= ride.end_address %></td>
                 <td><%= ride.num_passenger %></td>
@@ -267,8 +267,8 @@
                 <% if ride.accepted and unless ride.complete %>
                 <tr id="theride_<%= ride.hashid %>">
                   <td><%= ride.userID %></td>
-                  <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                  <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                  <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                  <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                   <td><%= ride.phone_number %></td>
                   <td><%= ride.end_address %></td>
                   <td>

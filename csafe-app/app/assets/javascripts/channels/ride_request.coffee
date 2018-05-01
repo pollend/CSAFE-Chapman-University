@@ -20,7 +20,7 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
           #phone number
           "<td>" + data['ride']['phone_number'] + "</td>" +
           #Requested At
-          "<td>" + data['ride']['requested_at'] + "</td>" +
+          "<td>" + moment(data['ride']['created_at']).format('lll') + "</td>" +
           #PickUp Address
           "<td>" + data['ride']['start_address'] + "</td>" +
           #Dropoff Address
