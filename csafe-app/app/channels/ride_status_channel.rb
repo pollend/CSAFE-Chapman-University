@@ -11,4 +11,9 @@ class RideStatusChannel < ApplicationCable::Channel
     user = User.find(data['id'])
     ActionCable.server.broadcast 'ride_status_channel', {id: user.hashid}
   end
+
+  def cancel(data)
+    user = User.find(data['id'])
+    ActionCable.server.broadcast 'ride_status_channel', {id: user.hashid, cancel: true}
+  end
 end

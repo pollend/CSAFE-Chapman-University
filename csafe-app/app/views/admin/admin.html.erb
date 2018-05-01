@@ -212,7 +212,7 @@
             <tbody id="unaccepted_rides">
             <!--if the ride is not accepted, add it to ride requests-->
             <% @rides.each do |ride| %>
-              <% if !ride.accepted %>
+              <% unless ride.accepted %>
               <tr id="theride_<%= ride.hashid %>">
                 <td><%= ride.userID %></td>
                 <td><%= ride.phone_number %></td>
@@ -246,6 +246,7 @@
               <th>Address</th>
               <th>ETA</th>
               <th>Cancel</th>
+              <th>Complete</th>
             </tr>
             </thead>
             <tfoot>
@@ -257,12 +258,13 @@
               <th>Address</th>
               <th>ETA</th>
               <th>Cancel</th>
+              <th>Complete</th>
             </tr>
             </tfoot>
             <tbody>
             <% @rides.each do |ride| %>
               <!--if the ride is accepted, add it to accepted rides -->
-                <% if ride.accepted %>
+                <% if ride.accepted and unless ride.complete %>
                 <tr id="theride_<%= ride.hashid %>">
                   <td><%= ride.userID %></td>
                   <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
@@ -278,8 +280,14 @@
                     </select>
                     <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()">Set ETA</button>
                   </td>
-                  <td><button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()">Cancel Ride</button></td>
+                  <td>
+                    <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()">Cancel Ride</button>
+                  </td>
+                  <td>
+                    <button id="completeRideBtn_<%= ride.id %>" style="background-color:green;border: 0;" type="button" class="btn btn-primary" onclick="completeRide()">Complete Ride</button>
+                  </td>
                 </tr>
+              <% end %>
               <% end %>
 
 
@@ -438,17 +446,34 @@
               console.log("done!");
               // refreshes the table
               $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+              console.log(result);
+              App.ride_status.cancel(result.data.userID);
           }
       });
   }
 
-  //TODO: working
+  function completeRide() {
+      console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      var complete = moment().toDate();
+      $.ajax({
+          url: '/api/v1/rides/'+ id,
+          type: 'PUT',
+          data: {complete: complete},
+          success: function(result) {
+              console.log("done!");
+              // refreshes the table
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+              console.log(result);
+          }
+      });
+  }
+
   function setEta() {
       console.log("hey my id is: " + event.srcElement.id);
       var id = getPartAfterUnderscore(event.srcElement.id);
       console.log(id);
-      // TODO: get the number of minutes from the dropdown
-      var completed = moment(new Date()).add(5,'m').toDate();
+      var completed = moment(new Date()).add($('#setEta_'+id).val(),'m').toDate();
       $.ajax({
           url: '/api/v1/rides/'+ id,
           type: 'PUT',
@@ -457,25 +482,6 @@
               console.log("done!");
               console.log(result);
               App.eta.notify(result.data.userID, result.data.eta);
-              // refreshes the table
-              $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
-              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
-          }
-      });
-  }
-
-  //TODO: working
-  function completeRide() {
-      console.log("hey my id is: " + event.srcElement.id);
-      var id = getPartAfterUnderscore(event.srcElement.id);
-      console.log(id);
-      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
-      $.ajax({
-          url: '/api/v1/admin/updateRideStatus/'+ id,
-          type: 'PUT',
-          data: {"eta":accepted},
-          success: function(result) {
-              console.log("done!");
               // refreshes the table
               $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
               $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
