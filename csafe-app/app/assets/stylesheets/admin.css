@@ -7,8 +7,103 @@
 }
 
 .charts{
-    background-color: black;
+    background-color: whitesmoke;
 }
 .whichPageSelected{
     background-color: #B00100;
+}
+
+#pickUpheatMap{
+    height: 80%;
+    width: 95%;
+}
+#dropOffheatMap{
+    height: 80%;
+    width: 95%;
+    position: relative;
+    margin-left: 25px;
+}
+
+#leftMargin{
+    float: left;
+    width: 5%;
+    height: 100%;
+    /*background-color: #53e3a6;*/
+}
+
+#rightMargin{
+    float: right;
+    width: 5%;
+    height: 100%;
+    /*background-color: #4CAF50;*/
+}
+
+#leftSection{
+    float: left;
+    display: inline-block;
+    height: 70%;
+    width: 45%;
+    /*background-color: #e0a800;*/
+}
+
+
+#rightSection{
+    float: right;
+    display: inline-block;
+    height: 70%;
+    width: 45%;
+    /*background-color: #1da1f2;*/
+}
+
+#BackToTopCharts{
+    position: relative;
+}
+
+.chartsRight{
+
+}
+
+.invis{
+    color: whitesmoke;
+}
+
+
+#BackToTopCharts {
+    display: inline-block;
+    background-color: #045A8D;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 4px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    transition: background-color .3s,
+    opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+
+}
+#BackToTopCharts::after {
+    content: "\f077";
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 2em;
+    line-height: 50px;
+    color: #fff;
+}
+#BackToTopCharts:hover {
+    cursor: pointer;
+    background-color: #333;
+}
+#BackToTopCharts:active {
+    background-color: #555;
+}
+#BackToTopCharts.show {
+    opacity: 1;
+    visibility: visible;
+}
+#downloadChartReport{
+
 }

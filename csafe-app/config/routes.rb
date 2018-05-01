@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get 'admin/bounds' => "admin#bounds"
   get 'admin/charts' => "admin#charts"
 
+
+
   namespace 'api' do
     namespace 'v1' do
       resources :zones
@@ -25,6 +27,8 @@ Rails.application.routes.draw do
       put 'admin/updateRideStatus/:id' => 'rides#update'
       put 'admin/removeRide/:id' => 'rides#destroy'
       put '/ride/request_ride/request' => 'rides#create'
+      get '/admin/getRidesToday' => 'rides#getRidesToday'
+      get '/admin/downloadReport' => "rides#CSAFEdailyReport"
     end
   end
 
