@@ -1,0 +1,8 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Rides Report") do |sheet|
+    sheet.add_row ["Ride ID", "User ID", "Requested At", "Completed At", "Pick Up Address", "Drop Off Address"]
+    rides = UserRide.where('created_at BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).all.order('created_at DESC')
+    rides.each do |ride|
+        sheet.add_row [ride.id, ride.userID, ride.created_at.strftime("%d %B %H:%M"), ride.complete, ride.start_address, ride.end_address]
+    end
+end

@@ -34,6 +34,15 @@ gem 'devise', '~> 4.2'
 
 gem 'jquery_mask_rails' # more details at http://bit.ly/jquery-mask-gem
 
+gem "chartkick" #https://github.com/ankane/chartkick
+
+gem 'groupdate' #https://github.com/ankane/groupdate
+
+
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844' #https://github.com/straydogstudio/axlsx_rails
+gem 'axlsx_rails'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

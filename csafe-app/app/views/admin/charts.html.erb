@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin Analytics</title>
+  <%= javascript_include_tag "https://www.gstatic.com/charts/loader.js" %>
 </head>
+
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
   <a class="navbar-brand" href="/admin">CSafe <i>Admin</i></a>
@@ -128,6 +131,89 @@
 <br>
 <br>
 <br>
-<h1 style="color: white">Add Analytic Charts Here</h1>
+<br>
+<br>
+
+
+<h1 class="head" style="text-align: center">CSafe Analytics
+  <br>
+  <%= link_to 'Download Daily Report', api_v1_admin_downloadReport_path(format: :xlsx), class:"btn btn-primary" %>
+</h1>
+
+
+
+
+<div id="leftMargin">
+</div>
+
+<div id="rightMargin">
+</div>
+
+<div id="leftSection">
+  <h1 class="head">Pickup Locations</h1>
+  <p>Most requested pick up locations</p>
+  <div id="pickUpheatMap"></div>
+
+  <br>
+  <h1 class="head">Ride Request Frequency Today</h1>
+  <p>Today's request frequency sorted per hour</p>
+  <%= column_chart UserRide.where('created_at BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).all.group_by_hour_of_day(:created_at, format: "%l %P").count, class:"chartsLeft" %>
+
+  <br>
+  <h1 class="head">Ride Request Frequency Yesterday</h1>
+  <p>Yesterday's request frequency sorted per hour</p>
+  <%= column_chart UserRide.where('created_at BETWEEN ? AND ?', Date.yesterday.beginning_of_day, Date.yesterday.end_of_day).all.group_by_hour_of_day(:created_at, format: "%l %P").count %>
+
+  <br>
+  <h1 class="head">Ride Request Frequency Last Week</h1>
+  <p>Last week's request frequency sorted per hour</p>
+  <%= column_chart UserRide.where('created_at BETWEEN ? AND ?', (DateTime.now) - 7.days, (DateTime.now)).all.group_by_hour_of_day(:created_at, format: "%l %P").count %>
+
+  <br>
+  <h1 class="head">Ride Request Frequency Last Month</h1>
+  <p>Last Month's request frequency sorted per hour</p>
+  <%= column_chart UserRide.where('created_at BETWEEN ? AND ?', (DateTime.now) - 1.month, (DateTime.now)).all.group_by_hour_of_day(:created_at, format: "%l %P").count %>
+
+
+</div>
+
+<div id="rightSection">
+  <h1 class="head" style="text-align: right;">Drop Off Locations</h1>
+  <p style="text-align: right;">Most requested drop off locations</p>
+  <div id="dropOffheatMap"></div>
+  <br>
+  <h1 class="head invis">Ride Request Frequency Today</h1>
+  <p class = "invis">Today's request frequency sorted per hour</p>
+  <%= line_chart UserRide.where('created_at BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).all.group_by_hour_of_day(:created_at, format: "%l %P").count, class:"chartsRight" %>
+
+  <br>
+
+  <h1 class="head invis">Ride Request Frequency Yesterday</h1>
+  <p class = "invis">Yesterday's request frequency sorted per hour</p>
+  <%= line_chart UserRide.where('created_at BETWEEN ? AND ?', Date.yesterday.beginning_of_day, Date.yesterday.end_of_day).all.group_by_hour_of_day(:created_at, format: "%l %P").count  %>
+
+
+  <br>
+
+  <h1 class="head invis">Ride Request Frequency Last Week</h1>
+  <p class = "invis">Last week's request frequency sorted per hour</p>
+  <%= line_chart UserRide.where('created_at BETWEEN ? AND ?', (DateTime.now) - 7.days, (DateTime.now)).all.group_by_hour_of_day(:created_at, format: "%l %P").count %>
+
+  <br>
+
+  <h1 class="head invis">Ride Request Frequency Last Month</h1>
+  <p class = "invis">Last Month's request frequency sorted per hour</p>
+  <%= line_chart UserRide.where('created_at BETWEEN ? AND ?', (DateTime.now) - 1.month, (DateTime.now)).all.group_by_hour_of_day(:created_at, format: "%l %P").count %>
+
+
+  <button id="BackToTopCharts"></button>
+
+</div>
+
 
 </html>
+
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfC5Wb0mdbixV4pEY7TShv3Wif5ng_UIA&libraries=visualization&callback=initChartsMap">
+</script>
