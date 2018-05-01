@@ -25,7 +25,7 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
         "<td>" + "<button id='accept_" + data['id'] + "' type='button'" + " class='btn btn-primary'" + " onclick='acceptRide()'" + ">Accept</button></td>"
       "</tr>"
     );
-    if (data['cancel']) $("#theride_"+data['id']).remove();
+#    if (data['cancel']) $("#theride_"+data['id']).remove();
 
   notify: (id) ->
     @perform 'notify', id: id
