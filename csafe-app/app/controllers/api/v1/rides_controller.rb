@@ -37,7 +37,7 @@ module Api
       def destroy
         ride = UserRide.find(params[:id])
         ride.destroy
-        render json: {status: 'SUCCESS', message: 'Deleted ride', data:ride.hashid},status: :ok
+        render json: {status: 'SUCCESS', message: 'Deleted ride', data:{rideID: ride.hashid, userID: ride.userID}},status: :ok
       end
 
       def update
