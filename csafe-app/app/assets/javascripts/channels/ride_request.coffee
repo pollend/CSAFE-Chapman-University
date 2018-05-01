@@ -25,6 +25,11 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
         "<td>" + "<button id='accept_" + data['id'] + "' type='button'" + " class='btn btn-primary'" + " onclick='acceptRide()'" + ">Accept</button></td>"
       "</tr>"
     );
+    $( "#dataTable-RequestRides" ).load( "/admin.html #dataTable-RequestRides");
+    $( "#dataTable-AcceptedRides" ).load( "/admin.html #dataTable-AcceptedRides" );
 
   notify: (id) ->
     @perform 'notify', id: id
+
+  cancel: (id) ->
+    @perform 'cancel', id: id

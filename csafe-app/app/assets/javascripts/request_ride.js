@@ -361,6 +361,7 @@ $(document).on('click', '.previous', function() {
   });
 });
 
+var rideID = null;
 function riderRequestInfo(start_loc, end_loc, contact, passenger, status_id, eta_id) { /////INFO TO PASS ON TO ADMIN
 
   var startLocationLat = start_pos.lat;
@@ -394,10 +395,15 @@ function riderRequestInfo(start_loc, end_loc, contact, passenger, status_id, eta
       console.log("requested!");
       // refreshes the table
       console.log(result);
-      App.ride_request.notify(result.data.id);
+      rideID = result.data.id;
+      App.ride_request.notify(rideID);
     }
   });
-  requestWait();
+}
+
+function cancelRide() {
+  console.log(rideID);
+  App.ride_request.cancel(rideID);
 }
 
 //Used for Way Points between start and finish
@@ -457,8 +463,10 @@ function clearBtnMap(type) {
   }
 }
 
-$("#cancelRide-btn").click(function() {
-  alert("CANCEL RIDE");
+$(document).on('click', '#cancelRide-btn', function() {
+  // alert("CANCEL RIDE");
+    console.log("cancel button clicked");
+    cancelRide();
 });
 
 
