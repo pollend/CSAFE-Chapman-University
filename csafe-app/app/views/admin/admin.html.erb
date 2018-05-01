@@ -191,6 +191,7 @@
             <tr>
               <th>User ID</th>
               <th>Phone Number</th>
+              <th>Email</th>
               <th>Requested At</th>
               <th>Pickup Address</th>
               <th>Dropoff Address</th>
@@ -202,6 +203,7 @@
             <tr>
               <th>User ID</th>
               <th>Phone Number</th>
+              <th>Email</th>
               <th>Requested At</th>
               <th>Pickup Address</th>
               <th>Dropoff Address</th>
@@ -216,6 +218,7 @@
               <tr>
                 <td><%= rides.userID %></td>
                 <td><%= rides.phone_number %></td>
+                <td><%= rides.userEmail%></td>
                 <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                 <td><%= rides.start_address %></td>
                 <td><%= rides.end_address %></td>

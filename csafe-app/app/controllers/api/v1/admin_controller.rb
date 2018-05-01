@@ -21,5 +21,9 @@ module Api
         end
       end
     end
+
+    def email
+        EmailRiderMailer.send_email(@user).deliver_now
+    end
   end
 end

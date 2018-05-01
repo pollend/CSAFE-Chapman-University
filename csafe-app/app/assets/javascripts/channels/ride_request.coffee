@@ -21,6 +21,8 @@ App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
         "<td>" + data['ride']['end_address'] + "</td>" +
         #Passenger Count
         "<td>" + data['ride']['num_passenger'] + "</td>" +
+        #User Email
+        "<td>" + data['ride']['userEmail'] + "</td>" +
         #Accept
         "<td>" + "<button id='accept_" + data['id'] + "' type='button'" + " class='btn btn-primary'" + " onclick='acceptRide()'" + ">Accept</button></td>"
       "</tr>"

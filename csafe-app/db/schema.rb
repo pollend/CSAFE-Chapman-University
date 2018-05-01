@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20180428045444) do
     t.datetime "complete"
     t.datetime "eta"
     t.integer "num_passenger"
+    t.string "userEmail"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

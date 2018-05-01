@@ -388,7 +388,7 @@ console.log("Start Position\n" + start_loc + "Destination \n" + end_loc + "\nPHO
 
     //console.log("Requesting a ride");
 
-    var data = {"num_passenger":radio_count,"start_loca_lat" : startLocationLat,"start_loca_lng" : startLocationLong,"end_loca_lat" : endLocationLat,
+    var data = {"num_passenger":radio_count, "userEmail": userEmail, "start_loca_lat" : startLocationLat,"start_loca_lng" : startLocationLong,"end_loca_lat" : endLocationLat,
         "end_loca_lng":endLocationLong,"phone_number":phoneNumber,"start_address":startAddress,"end_address":endAddress,"message_id":message_id,"time_arrival_datetime": time_arrival};
 
     $.ajax({

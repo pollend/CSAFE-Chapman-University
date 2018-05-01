@@ -13,7 +13,6 @@ module Api
 
       def create
         ride = UserRide.new(ride_params)
-        ride.userID = current_user.id
         if ride.save
           render json: {status: 'SUCCESS', message: 'Saved ride', data:{id: ride.hashid,ride:ride.as_json(:except=>:id)}},status: :ok
         else
@@ -40,7 +39,7 @@ module Api
       private
 
       def ride_params
-        params.permit(:num_passenger,:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
+        params.permit(:num_passenger, :userEmail, :start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
       end
     end
   end

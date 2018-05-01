@@ -7,5 +7,5 @@ class LoginController < ApplicationController
 				redirect_to "/ride/request_ride"
 			end
 		end
-  end
+	end
 end
