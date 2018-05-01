@@ -71,3 +71,39 @@ function updateDropOffHeatMapPoints(lat, long){
 
 }
 
+function getUser() {
+
+    $.get("/api/v1/admin/getRidesToday", function (result) {
+        console.log(result.data);
+
+    });
+
+}
+
+
+$(document).ready(function() {
+    $("#testButton").click(function () {
+        console.log("heyy");
+        getUser();
+    });
+
+    var btn = $('#BackToTopCharts');
+
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+        } else {
+            btn.removeClass('show');
+        }
+    });
+
+    btn.on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({scrollTop:0}, '300');
+    });
+});
+
+
+
+
+

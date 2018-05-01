@@ -2,8 +2,21 @@ module Api
   module V1
     class RidesController < ApiApplicationController
       def index
-        rides = UserRide.order('created_at DESC')
+        @rides = UserRide.order('created_at DESC')
         render json: {status: 'SUCCESS', message: 'Loaded rides', data:rides},status: :ok
+      end
+
+      def CSAFEdailyReport
+        respond_to do |format|
+          format.html
+          format.xlsx{
+            dateToday = DateTime.now.strftime("%m/%d/%Y")
+            response.headers['Content-Disposition'] = "attachment; filename=" + "CSAFE-DailyReport " + dateToday +".xlsx"
+
+
+          }
+        end
+
       end
 
       def show
@@ -35,6 +48,13 @@ module Api
         else
           render json: {status: 'ERROR', message: 'Ride not updated', data:ride.errors},status: :unprocessable_entity
         end
+      end
+
+      def getRidesToday
+        rides = UserRide.order('created_at DESC')
+        # rides = rides.where("userID = ?", 4)
+        rides = rides.where('created_at BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).all
+        render json: {status: 'SUCCESS', message: 'Loaded rides', data:rides},status: :ok
       end
 
       private
