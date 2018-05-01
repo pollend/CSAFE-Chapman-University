@@ -211,16 +211,16 @@
             </tfoot>
             <tbody id="unaccepted_rides">
             <!--if the ride is not accepted, add it to ride requests-->
-            <% @rides.each do |rides| %>
-              <% if !rides.accepted %>
-              <tr>
-                <td><%= rides.userID %></td>
-                <td><%= rides.phone_number %></td>
-                <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td><%= rides.start_address %></td>
-                <td><%= rides.end_address %></td>
-                <td><%= rides.num_passenger %></td>
-                <td><button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
+            <% @rides.each do |ride| %>
+              <% if !ride.accepted %>
+              <tr id="theride_<%= ride.hashid %>">
+                <td><%= ride.userID %></td>
+                <td><%= ride.phone_number %></td>
+                <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td><%= ride.start_address %></td>
+                <td><%= ride.end_address %></td>
+                <td><%= ride.num_passenger %></td>
+                <td><button id="accept_<%= ride.hashid %>" type="button" class="btn btn-primary" onclick="acceptRide()">Accept</button></td>
               </tr>
               <% end %>
             <% end %>
@@ -263,7 +263,7 @@
             <% @rides.each do |ride| %>
               <!--if the ride is accepted, add it to accepted rides -->
                 <% if ride.accepted %>
-                <tr>
+                <tr id="theride_<%= ride.hashid %>">
                   <td><%= ride.userID %></td>
                   <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                   <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
@@ -276,10 +276,9 @@
                     <option value="15">15 Minutes</option>
                     <option value="25">25 Minutes</option>
                     </select>
-                    <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()" > Set ETA</button>
-
+                    <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()">Set ETA</button>
                   </td>
-                  <td> <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()" > Cancel Ride</button></td>
+                  <td><button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()">Cancel Ride</button></td>
                 </tr>
               <% end %>
 
