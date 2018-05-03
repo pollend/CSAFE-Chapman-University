@@ -1,3 +1,6 @@
+<!--HTML FOR SIGNUP PAGE-->
+
+
 <div class="container">
   <div class="window">
     <div class="overlay"></div>
@@ -12,13 +15,17 @@
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <div class="input-fields">
           <%= devise_error_messages! %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input-line full-width' %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input-line full-width', placeholder: "Enter Email" %>
+          <%= f.password_field :password, autocomplete: "off", class: 'input-line full-width', placeholder: "Enter Password" %>
+          <%= f.password_field :password_confirmation, autocomplete: "off", class: 'input-line full-width', placeholder: "Confirm Password" %>
           <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <p align="center">
+              <em>(must be a minimum of <%= @minimum_password_length %> characters)</em>
+            </p>
           <% end %>
-          <%= f.password_field :password, autocomplete: "off", class: 'input-line full-width' %>
-          <%= f.password_field :password_confirmation, autocomplete: "off", class: 'input-line full-width' %>
+          <!--/* @minimum_password_length found under config->initializers->devise.rb */-->
         </div>
+        <br>
         <div class="actions">
           <%= f.submit "Sign up", class: 'ghost-round full-width' %>
         </div>
