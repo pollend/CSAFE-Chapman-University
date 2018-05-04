@@ -213,6 +213,7 @@
             </tfoot>
             <tbody id="unaccepted_rides">
             <!--if the ride is not accepted, add it to ride requests-->
+<<<<<<< HEAD
             <% @rides.each do |rides| %>
               <% if !rides.accepted %>
               <tr>
@@ -224,6 +225,18 @@
                 <td><%= rides.end_address %></td>
                 <td><%= rides.num_passenger %></td>
                 <td><button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
+=======
+            <% @rides.each do |ride| %>
+              <% unless ride.accepted %>
+              <tr id="theride_<%= ride.hashid %>">
+                <td><%= ride.userID %></td>
+                <td><%= ride.phone_number %></td>
+                <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                <td><%= ride.start_address %></td>
+                <td><%= ride.end_address %></td>
+                <td><%= ride.num_passenger %></td>
+                <td><button id="accept_<%= ride.hashid %>" type="button" class="btn btn-primary" onclick="acceptRide()">Accept</button></td>
+>>>>>>> 41e744167b07e1a16ac044c0aea7c8d9c0daa3b8
               </tr>
               <% end %>
             <% end %>
@@ -268,8 +281,8 @@
                 <% if ride.accepted %>
                 <tr>
                   <td><%= ride.userID %></td>
-                  <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                  <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                  <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
+                  <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                   <td><%= ride.phone_number %></td>
                   <td><%= ride.end_address %></td>
                   <td>

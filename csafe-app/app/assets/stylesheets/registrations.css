@@ -1,3 +1,5 @@
+/*CSS FOR SIGNUP PAGE*/
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,100,500);
 body,
 html {
@@ -111,6 +113,7 @@ button:focus {
 
 .input-fields {
     margin-top: 25px;
+    ruby-align: center;
 }
 
 
@@ -178,7 +181,7 @@ button:focus {
     background: linear-gradient(#dddddd, #ffffff);
     opacity: 0.85;
     filter: alpha(opacity=85);
-    height: 560px;
+    height: 620px;  /*560*/
     position: absolute;
     width: 360px;
     z-index: 1;
