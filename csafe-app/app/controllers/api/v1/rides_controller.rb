@@ -11,7 +11,7 @@ module Api
           format.html
           format.xlsx{
             dateToday = DateTime.now.strftime("%m/%d/%Y")
-            response.headers['Content-Disposition'] = "attachment; filename=" + "CSAFE-DailyReport " + dateToday +".xlsx"
+            response.headers['Content-Disposition'] = "attachment; filename=" + "CSAFE-DailyReport " + dateToday + ".xlsx"
 
 
           }
@@ -25,7 +25,7 @@ module Api
       end
 
       def create
-        ride = UserRide.new(ride_params)
+        @ride = UserRide.new(ride_params)
         if ride.save
           render json: {status: 'SUCCESS', message: 'Saved ride', data:{id: ride.hashid,ride:ride.as_json(:except=>:id)}},status: :ok
         else

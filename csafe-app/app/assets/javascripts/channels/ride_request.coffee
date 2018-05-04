@@ -1,4 +1,6 @@
 App.ride_request = App.cable.subscriptions.create "RideRequestChannel",
+
+
   connected: ->
     # Called when the subscription is ready for use on the server
 
