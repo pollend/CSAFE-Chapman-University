@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-  
+
   after_initialize :set_default_role
   def set_default_role
     self.add_role(:rider) if self.roles.blank?
@@ -17,10 +17,9 @@ class User < ApplicationRecord
   def add_role_driver
     self.add_role(:driver)
   end
-  
-  after_create :welcome_send
-  def welcome_send
-    WelcomeMailer.welcome_send(self).deliver
+
+  def isAdmin?
+    self.has_role? :admin
   end
-  
+
 end

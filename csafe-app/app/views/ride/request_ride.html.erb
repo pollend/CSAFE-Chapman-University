@@ -19,6 +19,10 @@
   <a href="#contact" id="contactTopNav">Contact</a>
   <a href="#about" id="aboutTopNav">About</a>
   <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+  <% if current_user.isAdmin? %>
+    <%= link_to "Admin", admin_path, method: :get%>
+  <% end %>
+  <!--<a href="../admin/admin.html">Admin Page</a>-->
   <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="respondToMenuPress()">&#9776;</a>
 </div>
 
