@@ -13,7 +13,6 @@ module Api
             dateToday = DateTime.now.strftime("%m/%d/%Y")
             response.headers['Content-Disposition'] = "attachment; filename=" + "CSAFE-DailyReport " + dateToday +".xlsx"
 
-
           }
         end
 
@@ -27,6 +26,7 @@ module Api
       def create
         ride = UserRide.new(ride_params)
         ride.userID = current_user.id
+        EmailArrivedRideMailer.sample_email(current_user).deliver!
         if ride.save
           render json: {status: 'SUCCESS', message: 'Saved ride', data:{id: ride.hashid,ride:ride.as_json(:except=>:id)}},status: :ok
         else
