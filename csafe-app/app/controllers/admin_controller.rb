@@ -22,4 +22,8 @@ class AdminController < ApplicationController
     @admins = User.with_role(:admin, :any)
   end
 
+  def EmailRider
+    EmailRiderMailer.email_rider(@rides.userEmail).deliver_now
+  end
+
 end

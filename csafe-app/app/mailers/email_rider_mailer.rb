@@ -1,8 +1,8 @@
-class EmailRiderMailer < ApplicationMailer
-  default from: "chapmancsafe@gmail.com"
+class EmailRiderMailer < ActionMailer::Base
 
-  def send_email(user)
-    @user = user
-    mail(to: @user.email, subject: "Your ride has arrived!")
+  def email_rider(rides)
+    @rides = rides
+    mail(to: @rides.userEmail, subject: 'Your ride has arrived!')
+
   end
 end

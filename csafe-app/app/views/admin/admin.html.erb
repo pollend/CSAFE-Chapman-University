@@ -10,7 +10,7 @@
 <% content_for :body_id, "page-top" %>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-  <a class="navbar-brand" href="index.html">CSafe <i>Admin</i></a>
+  <a class="navbar-brand" href="/admin">CSafe <i>Admin</i></a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -191,7 +191,6 @@
             <tr>
               <th>User ID</th>
               <th>Phone Number</th>
-              <th>Email</th>
               <th>Requested At</th>
               <th>Pickup Address</th>
               <th>Dropoff Address</th>
@@ -203,7 +202,6 @@
             <tr>
               <th>User ID</th>
               <th>Phone Number</th>
-              <th>Email</th>
               <th>Requested At</th>
               <th>Pickup Address</th>
               <th>Dropoff Address</th>
@@ -213,19 +211,6 @@
             </tfoot>
             <tbody id="unaccepted_rides">
             <!--if the ride is not accepted, add it to ride requests-->
-<<<<<<< HEAD
-            <% @rides.each do |rides| %>
-              <% if !rides.accepted %>
-              <tr>
-                <td><%= rides.userID %></td>
-                <td><%= rides.phone_number %></td>
-                <td><%= rides.userEmail%></td>
-                <td><input id="createdAt_<%= rides.id %>" type="datetime" value="<%= rides.created_at.strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
-                <td><%= rides.start_address %></td>
-                <td><%= rides.end_address %></td>
-                <td><%= rides.num_passenger %></td>
-                <td><button id="accept_<%= rides.id %>" type="button" class="btn btn-primary" onclick="acceptRide()" > Accept</button></td>
-=======
             <% @rides.each do |ride| %>
               <% unless ride.accepted %>
               <tr id="theride_<%= ride.hashid %>">
@@ -236,7 +221,6 @@
                 <td><%= ride.end_address %></td>
                 <td><%= ride.num_passenger %></td>
                 <td><button id="accept_<%= ride.hashid %>" type="button" class="btn btn-primary" onclick="acceptRide()">Accept</button></td>
->>>>>>> 41e744167b07e1a16ac044c0aea7c8d9c0daa3b8
               </tr>
               <% end %>
             <% end %>
@@ -262,6 +246,7 @@
               <th>Address</th>
               <th>ETA</th>
               <th>Cancel</th>
+              <th>Complete</th>
             </tr>
             </thead>
             <tfoot>
@@ -273,13 +258,14 @@
               <th>Address</th>
               <th>ETA</th>
               <th>Cancel</th>
+              <th>Complete</th>
             </tr>
             </tfoot>
             <tbody>
             <% @rides.each do |ride| %>
               <!--if the ride is accepted, add it to accepted rides -->
-                <% if ride.accepted %>
-                <tr>
+                <% if ride.accepted and unless ride.complete %>
+                <tr id="theride_<%= ride.hashid %>">
                   <td><%= ride.userID %></td>
                   <td><input id="createdAt_<%= ride.id %>" type="datetime" value="<%= ride.created_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
                   <td><input id="updatedAt_<%= ride.id %>" type="datetime" value="<%= ride.updated_at.in_time_zone(-7).strftime("%m/%d/%Y at %I:%M%p")%>" readonly></td>
@@ -292,11 +278,19 @@
                     <option value="15">15 Minutes</option>
                     <option value="25">25 Minutes</option>
                     </select>
-                    <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()" > Set ETA</button>
-
+                    <button id="setEtaButton_<%= ride.id %>" style="background-color:green;border: 0;margin-left: 10px;margin-top: 5px" type="button" class="btn btn-primary" onclick="setEta()">Set ETA</button>
                   </td>
-                  <td> <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()" > Cancel Ride</button></td>
+                  <td>
+                    <button id="cancel_<%= ride.id %>" style="background-color:red;border: 0;" type="button" class="btn btn-primary" onclick="cancelRide()">Cancel Ride</button>
+                  </td>
+                  <td>
+                    <button id="completeRideBtn_<%= ride.id %>" style="background-color:green;border: 0;" type="button" class="btn btn-primary" onclick="completeRide()">Complete Ride</button>
+                  </td>
+                  <td>
+                    <button id="emailRiderButton<%= ride.userEmail%>" style="background-color:gray;border:0:" type="button", class="btn btn-primary" onclick="emailRider()">Email Rider </button>
+                  </td>
                 </tr>
+              <% end %>
               <% end %>
 
 
@@ -386,7 +380,6 @@
           }
       });
   };
-
   var saveHours = $('#save_hours');
   saveHours.click(function(event) {
   for (var i = 1; i <= 7; ++i) {
@@ -404,7 +397,6 @@
   }
   alert("Hours updated!");
   });
-
   var addAdmin = $('#add_admin');
   addAdmin.click(function(event) {
       var email = document.getElementById('new_admin');
@@ -420,7 +412,6 @@
           });
       }
   });
-
   function acceptRide() {
       console.log("hey my id is: " + event.srcElement.id);
       var id = getPartAfterUnderscore(event.srcElement.id);
@@ -440,11 +431,9 @@
                 $( "#dataTable-AcceptedRides" ).load( "/admin.html #dataTable-AcceptedRides" );
             }
         });
-
       //For ref
       //params.permit(:id,:start_loca_lat,:start_loca_lng,:end_loca_lat,:end_loca_lng,:phone_number,:start_address,:end_address,:accepted,:departed,:complete,:eta)
   }
-
   function cancelRide() {
       console.log("hey my id is: " + event.srcElement.id);
       var id = getPartAfterUnderscore(event.srcElement.id);
@@ -455,17 +444,39 @@
               console.log("done!");
               // refreshes the table
               $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+              console.log(result);
+              App.ride_status.cancel(result.data.userID);
+          }
+      });
+  }
+  function completeRide() {
+      console.log("hey my id is: " + event.srcElement.id);
+      var id = getPartAfterUnderscore(event.srcElement.id);
+      var complete = moment().toDate();
+      $.ajax({
+          url: '/api/v1/rides/'+ id,
+          type: 'PUT',
+          data: {complete: complete},
+          success: function(result) {
+              console.log("done!");
+              // refreshes the table
+              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
+              console.log(result);
           }
       });
   }
 
-  //TODO: working
+  function emailRider(){
+    /*
+      wasnt using this bedore, so don't know how to approach this I was using 
+      <%= button_to "Email Rider", :method => "EmailRider" %>
+    */
+  }
   function setEta() {
       console.log("hey my id is: " + event.srcElement.id);
       var id = getPartAfterUnderscore(event.srcElement.id);
       console.log(id);
-      // TODO: get the number of minutes from the dropdown
-      var completed = moment(new Date()).add(5,'m').toDate();
+      var completed = moment(new Date()).add($('#setEta_'+id).val(),'m').toDate();
       $.ajax({
           url: '/api/v1/rides/'+ id,
           type: 'PUT',
@@ -480,29 +491,8 @@
           }
       });
   }
-
-  //TODO: working
-  function completeRide() {
-      console.log("hey my id is: " + event.srcElement.id);
-      var id = getPartAfterUnderscore(event.srcElement.id);
-      console.log(id);
-      var completed = new Date().toISOString().slice(0, 19).replace('T', ' ');
-      $.ajax({
-          url: '/api/v1/admin/updateRideStatus/'+ id,
-          type: 'PUT',
-          data: {"eta":accepted},
-          success: function(result) {
-              console.log("done!");
-              // refreshes the table
-              $( "#dataTable-RequestRides" ).load( "admin.html #dataTable-RequestRides" );
-              $( "#dataTable-AcceptedRides" ).load( "admin.html #dataTable-AcceptedRides" );
-          }
-      });
-  }
-
   function getPartAfterUnderscore(str) {
       return str.split('_')[1];
   }
-
   </script>
 </div>
