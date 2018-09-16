@@ -1,0 +1,28 @@
+version: '2'
+services:
+  app:
+    build: .
+    command: bin/rails server --port 3000 --binding 0.0.0.0
+    volumes:
+      - .:/app
+      - /tmp/bundle:/bundle
+    environment:
+      RAILS_ENV: development
+    ports:
+      - "3000:3000"
+    links:
+      - mysql
+  mysql:
+    image: mysql:5.7.18
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db-data:/var/lib/mysql
+volumes:
+  db-data:
+    driver: local
+  bundle:
+    driver: local

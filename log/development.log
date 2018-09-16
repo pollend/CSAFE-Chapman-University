@@ -1,0 +1,108 @@
+Started GET "/" for 172.18.0.1 at 2018-09-16 02:34:04 +0000
+Cannot render console from 172.18.0.1! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  
+Mysql2::Error (Access denied for user 'TBA'@'172.18.0.3' (using password: YES)):
+  
+mysql2 (0.4.10) lib/mysql2/client.rb:89:in `connect'
+mysql2 (0.4.10) lib/mysql2/client.rb:89:in `initialize'
+activerecord (5.1.5) lib/active_record/connection_adapters/mysql2_adapter.rb:21:in `new'
+activerecord (5.1.5) lib/active_record/connection_adapters/mysql2_adapter.rb:21:in `mysql2_connection'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:759:in `new_connection'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:803:in `checkout_new_connection'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:782:in `try_to_checkout_new_connection'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:743:in `acquire_connection'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:500:in `checkout'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:374:in `connection'
+activerecord (5.1.5) lib/active_record/connection_adapters/abstract/connection_pool.rb:931:in `retrieve_connection'
+activerecord (5.1.5) lib/active_record/connection_handling.rb:116:in `retrieve_connection'
+activerecord (5.1.5) lib/active_record/connection_handling.rb:88:in `connection'
+activerecord (5.1.5) lib/active_record/migration.rb:562:in `connection'
+activerecord (5.1.5) lib/active_record/migration.rb:553:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/callbacks.rb:26:in `block in call'
+activesupport (5.1.5) lib/active_support/callbacks.rb:97:in `run_callbacks'
+actionpack (5.1.5) lib/action_dispatch/middleware/callbacks.rb:24:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/debug_exceptions.rb:59:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.5) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.5) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.5) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.4) lib/rack/method_override.rb:22:in `call'
+rack (2.0.4) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.5) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.5) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.4) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.5) lib/rails/engine.rb:522:in `call'
+puma (3.11.2) lib/puma/configuration.rb:225:in `call'
+puma (3.11.2) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.2) lib/puma/server.rb:438:in `process_client'
+puma (3.11.2) lib/puma/server.rb:302:in `block in run'
+puma (3.11.2) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+  [1m[35m (0.7ms)[0m  [1m[35mSET NAMES utf8,  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (357.1ms)[0m  [1m[35mCREATE TABLE `schema_migrations` (`version` varchar(255) NOT NULL PRIMARY KEY) ENGINE=InnoDB[0m
+  [1m[35m (330.8ms)[0m  [1m[35mCREATE TABLE `ar_internal_metadata` (`key` varchar(255) NOT NULL PRIMARY KEY, `value` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT GET_LOCK('4370260689228269220', 0)[0m
+  [1m[35m (23.7ms)[0m  [1m[34mSELECT `schema_migrations`.`version` FROM `schema_migrations` ORDER BY `schema_migrations`.`version` ASC[0m
+Migrating to DeviseCreateUsers (20180301073656)
+  [1m[35m (336.8ms)[0m  [1m[35mCREATE TABLE `users` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (292.9ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_users_on_email`  ON `users` (`email`) [0m
+  [1m[35m (279.6ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_users_on_reset_password_token`  ON `users` (`reset_password_token`) [0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180301073656')[0m
+  [1m[35m (70.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddRoleToUsers (20180307141853)
+  [1m[35m (899.1ms)[0m  [1m[35mALTER TABLE `users` ADD `role` int[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180307141853')[0m
+  [1m[35m (146.9ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateZones (20180317070818)
+  [1m[35m (515.7ms)[0m  [1m[35mCREATE TABLE `zones` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `name` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180317070818')[0m
+  [1m[35m (72.6ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddCoordinatesToZone (20180317071320)
+  [1m[35m (800.2ms)[0m  [1m[35mALTER TABLE `zones` ADD `north` decimal(10,6)[0m
+  [1m[35m (825.4ms)[0m  [1m[35mALTER TABLE `zones` ADD `south` decimal(10,6)[0m
+  [1m[35m (827.0ms)[0m  [1m[35mALTER TABLE `zones` ADD `east` decimal(10,6)[0m
+  [1m[35m (867.6ms)[0m  [1m[35mALTER TABLE `zones` ADD `west` decimal(10,6)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180317071320')[0m
+  [1m[35m (72.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddIndexToZoneName (20180320043321)
+  [1m[35m (382.4ms)[0m  [1m[35mCREATE UNIQUE INDEX `index_zones_on_name`  ON `zones` (`name`) [0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180320043321')[0m
+  [1m[35m (72.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateUserRides (20180322083400)
+  [1m[35m (498.8ms)[0m  [1m[35mCREATE TABLE `user_rides` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180322083400')[0m
+  [1m[35m (81.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateBusinessHours (20180323090614)
+  [1m[35m (557.1ms)[0m  [1m[35mCREATE TABLE `business_hours` (`id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY, `day` varchar(255), `start_time` time, `end_time` time, `enabled` tinyint(1), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180323090614')[0m
+  [1m[35m (80.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to AddLocAndUserToUserRides (20180328073354)
+  [1m[35m (908.7ms)[0m  [1m[35mALTER TABLE `user_rides` ADD `userID` int[0m
+  [1m[35m (976.0ms)[0m  [1m[35mALTER TABLE `user_rides` ADD `start_loca_lat` decimal[0m
+  [1m[35m (852.2ms)[0m  [1m[35mALTER TABLE `user_rides` ADD `start_loca_lng` decimal[0m
+  [1m[35m (858.8ms)[0m  [1m[35mALTER TABLE `user_rides` ADD `end_loca_lat` decimal[0m
+  [1m[35m (950.9ms)[0m  [1m[35mALTER TABLE `user_rides` ADD `end_loca_lng` decimal[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `schema_migrations` (`version`) VALUES ('20180328073354')[0m
+  [1m[35m (105.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to MergeAcceptedRides (20180401030054)
+  [1m[35m (0.8ms)[0m  [1m[35mDROP TABLE `accepted_rides`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT RELEASE_LOCK('4370260689228269220')[0m

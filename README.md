@@ -28,13 +28,10 @@ $ git push origin dev
 
 TL;DR Version
 ```
-cd csafe-app
-docker-compose build app
-docker-compose run --rm --service-ports app bash
-rake db:setup
-exit
-docker-compose up
-Then connect using DataGrip to localhost:3306 with username: root, password: root, and db: csafe_dev
+$ docker-compose build
+$ docker-compose run app bundle
+$ docker-compose run app rails db:create
+$ docker-compose run app rails db:migrate
 ```
 
 We use [Docker](https://www.docker.com/) to set up our rails dev environment. We referenced instructions from [here](https://blog.codeship.com/running-rails-development-environment-docker/) and [here](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) to build this documentation.
