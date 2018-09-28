@@ -43,3 +43,5 @@ BusinessHour.create({day:'Sunday',start_time:'19:30',end_time:'02:15',enabled:fa
 
 UserRide.create({userID:1,start_loca_lat:48.84,start_loca_lng:119.38,end_loca_lat:48.48,end_loca_lng:114.223,phone_number:"7146423115",end_address:"1 University Dr", accepted:"2018-04-09 01:58:01"})
 UserRide.create({userID:53,start_loca_lat:48.84,start_loca_lng:119.38,end_loca_lat:48.48,end_loca_lng:114.223,phone_number:"475624242",end_address:"6 University Dr"})
+
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
