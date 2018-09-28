@@ -122,3 +122,14 @@ fabric.properties
 
 # Docker
 /db-data
+
+/config/master.key
+/public/packs
+/public/packs-test
+yarn-debug.log*
+.yarn-integrity
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
