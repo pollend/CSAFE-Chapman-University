@@ -1,42 +1,18 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Make sure gem mysql2 is INSTALLED
-# Ensure the MySQL gem is defined in your Gemfile
-#   gem 'mysql2'
-#
-default: &default
-  adapter: mysql2
-  encoding: utf8
-  pool: 5
-  username: TBA
-  password: TBA
-  host: mysql
-
-development:
-  <<: *default
+---
+development: &default
+  adapter: postgresql
+  encoding: unicode
   database: csafe_dev
+  pool: 5
+  username: postgres
+  password:
+  host: localhost # running app and tests from the host
+  # host: db # running all in services
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test:
   <<: *default
   database: csafe_test
 
-#UPLOAD DATABSE TO SERVER
-#DATABASE = MTLAB SERVER FROM RENE or SERVER DEPLOYED ON
-#USERNAME since on MTLAB se320
-#PASSWORD: CSafe2018
-#THESE CREDENTIALS CAN CHANGE
-
 production:
   <<: *default
-  adapter: mysql2
-  encoding: utf8
-  database: <$= ENV['RDS_DB_NAME'] %>
-  username: <$= ENV['RDS_USER_NAME'] %>
-  password: <$= ENV['RDS_PASS_WORD'] %>
-  host: <$= ENV['RDS_HOST'] %>
-  port: <$= ENV['RDS_PORT'] %>
-  database: csafe_prod
+  database: csafe_production

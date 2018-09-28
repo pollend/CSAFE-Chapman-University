@@ -1,21 +1,22 @@
 Rails.application.routes.draw do
   devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
   devise_scope :user do
-   authenticated :user do
-     root 'login#index', as: :authenticated_root
+    authenticated :user do
+      root 'login#index', as: :authenticated_root
     end
 
     unauthenticated do
       root 'devise/sessions#new', as: :unauthenticated_root
     end
   end
+
   get 'admin' => 'admin#admin'
   get 'ride/request_ride' => "ride#request_ride"
   get 'admin/bounds' => "admin#bounds"
   get 'admin/charts' => "admin#charts"
-
-
 
   namespace 'api' do
     namespace 'v1' do
@@ -33,6 +34,4 @@ Rails.application.routes.draw do
   end
 
   mount ActionCable.server => '/cable'
-
-
 end

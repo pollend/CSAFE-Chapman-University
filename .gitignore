@@ -122,3 +122,23 @@ fabric.properties
 
 # Docker
 /db-data
+
+/config/master.key
+/public/packs
+/public/packs-test
+yarn-debug.log*
+.yarn-integrity
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development
+/storage/*

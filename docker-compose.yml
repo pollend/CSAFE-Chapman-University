@@ -1,28 +1,47 @@
-version: '2'
+version: "3"
 services:
-  app:
-    build: .
-    command: bin/rails server --port 3000 --binding 0.0.0.0
+  db:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
     volumes:
-      - .:/app
-      - /tmp/bundle:/bundle
-    environment:
-      RAILS_ENV: development
+      - postgres:/var/lib/postgresql/data
+  redis:
+    image: redis:3.0.5
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/var/lib/redis/data
+  web:
+    build:
+      context: .
+      dockerfile: ops/dev/Dockerfile
+    image: app
+    command: bash -c "yarn && bundle exec rails s -b 0.0.0.0"
+    volumes:
+      - ./:/app
     ports:
       - "3000:3000"
-    links:
-      - mysql
-  mysql:
-    image: mysql:5.7.18
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_ROOT_HOST=%
-    ports:
-      - "3306:3306"
+    env_file:
+      - ./compose-files/docker-compose.env
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+      - redis
+  sidekiq:
+    build:
+      context: .
+      dockerfile: ops/dev/Dockerfile
+    command: bundle exec sidekiq
+    depends_on:
+      - db
+      - redis
     volumes:
-      - ./db-data:/var/lib/mysql
+      - ./:/app
+    env_file:
+      - ./compose-files/docker-compose.env
 volumes:
-  db-data:
-    driver: local
-  bundle:
-    driver: local
+  redis:
+  postgres:
+
