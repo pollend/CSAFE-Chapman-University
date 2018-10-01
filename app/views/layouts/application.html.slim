@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title CSAFE
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    = csrf_meta_tags
+    = csp_meta_tag
+    = action_cable_meta_tag
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body
+    = render partial: "shared/flash"
+
+    .container[style="display:flex;justify-content:between"]
+      - if user_signed_in?
+        = render partial: "shared/sidebar"
+
+      .content
+        = yield
+

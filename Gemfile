@@ -20,7 +20,7 @@ gem 'slim-rails'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'uglifier', '>= 1.3.0'
-gem 'webpacker'
+gem 'webpacker', '~> 3.5'
 
 gem 'jquery_mask_rails' # more details at http://bit.ly/jquery-mask-gem
 gem 'chartkick' #https://github.com/ankane/chartkick
