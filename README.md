@@ -1,160 +1,56 @@
 # CSAFE-Chapman-University
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/UXSoc/CSAFE-Chapman-University/blob/master/LICENSE.txt)
 
-Chapman University SE320 Project Spring 2018
+## Introduction
 
-# Getting started
+CSAFE is a tool for transporting Chapman students safely.
 
-## Setting up git
+This project is fully open sourced and licensed under Apache 2.0.
 
-Make sure you have Git installed on your local machine. See how to install Git [here](https://help.github.com/articles/set-up-git/). In the Terminal, type the following:
+## Development
 
-```
-$ git clone https://github.com/andreperkins12/CSAFE-Chapman-University
-$ git checkout dev
-```
+### Requirements
 
-### Pushing your changes to GitHub
+Boilerplate based on Docker container. To start using them, first, we have to make sure that Docker and docker-compose are installed.
 
-Always make sure you are on the `dev` branch for active development. Please don't commit and push accidentally to `master`.
+- docker-compose 1.6.0+
+- Docker 1.10.0+
 
-```
-$ git pull
-$ git add .
-$ git commit -m "Commit message"
-$ git push origin dev
-```
+### Build
 
-## Setting up your rails dev environment
-
-TL;DR Version
-```
+```bash
 $ docker-compose build
-$ docker-compose run app bundle
-$ docker-compose run app rails db:create
-$ docker-compose run app rails db:migrate
+$ docker-compose run web bundle
+$ docker-compose run web rails db:create
+$ docker-compose run web rails db:migrate
 ```
 
-We use [Docker](https://www.docker.com/) to set up our rails dev environment. We referenced instructions from [here](https://blog.codeship.com/running-rails-development-environment-docker/) and [here](https://engineering.adwerx.com/rails-on-docker-compose-7e2cf235fa0e) to build this documentation.
+### Getting Started
 
-First, the commands in this section are done inside `/csafe-app`. Make sure you're inside that directory. Then, build the container using this command:
+To start the server, run the following magic command:
 
-`docker-compose build app`
-
-This command opens an interactive shell inside of your container, where you can run `rake` commands. Run this inside `/csafe-app`. This command spins up both the rails and mysql server.
-
-```
-docker-compose run --rm --service-ports app bash
-rake db:setup
-exit
-```
-
-To start all the containers:
-
-`docker-compose up`
-
-**To connect to the mysql server,** use DataGrip on `localhost:3306` using `username: root`, `password: root`, `db: csafe_dev`. This should be changed in a production environment.
-
-### OSX
-
-1. Download Docker [here](https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac). Get the stable version and install `Docker.dmg`.
-
-2. Run the Docker app. Make sure you have the whale icon on the top right. This signifies that the docker daemon is running.
-
-3. Install Docker Machine by typing these commands in Terminal:
-
-```
-$ curl -L https://github.com/docker/machine/releases/download/v0.13.0/docker-machine-`uname -s`-`uname -m` >/usr/local/bin/docker-machine
-$ chmod +x /usr/local/bin/docker-machine
-```
-
-4. Check if the installation worked:
-
-`$ docker-machine version`
-
-5. Go to the root of the repoistory. Type the following commands:
-
-```
-$ git pull
-$ git checkout dev
-$ cd csafe-app
+```bash
 $ docker-compose up
 ```
 
-Keep the terminal running. Then, open another terminal window and type:
+Alternatively, you can setup the database using docker-compose and use rails on your machine.
 
-`$ docker ps`
-
-You should see the following:
-
-| CONTAINER ID | IMAGE | COMMAND | CREATED | STATUS | PORTS | NAMES |
-| --- | --- | --- | --- | --- | --- | --- |
-| eb018d2ca6e2 | demo | "bundle exec 'rails | 10 seconds ago | Up 9 seconds | 0.0.0.0:32769->3000/tcp | pensive_ritchie |
-
-Look at the port. In this case it is **32769**.
-
-6. Access the rails app on your browser by navigating to: `localhost:32769`
-
-### Windows
-
-1. Install [Docker Toolbox](https://docs.docker.com/toolbox/overview/) if you're not on Win10 Pro, Enterprise or Education. Otherwise use [Docker for Windows](https://docs.docker.com/docker-for-windows/install/).
-
-2. In the Start Menu (Windows Button), open a Docker Quickstart Terminal.
-
-3. Go to the root of the repoistory. Type the following commands:
-
-```
-$ git pull
-$ git checkout dev
-$ cd csafe-app
-$ docker-compose up
+```bash
+$ docker-compose up db
+$ bin/setup
+$ bundle exec rails s
 ```
 
-Keep the terminal running. Then, open another Docker Quickstart Terminal window and type:
+### Update Gemset
 
-`$ docker ps`
+To avoid installing gems from scratch in each time when Gemfile will be updated, boilerplate has implemented persistent, cross-container dedicated volume for gems. Now in case when new entry to Gemfile is added, just run below command to update state:
 
-You should see the following:
-
-| CONTAINER ID | IMAGE | COMMAND | CREATED | STATUS | PORTS | NAMES |
-| --- | --- | --- | --- | --- | --- | --- |
-| eb018d2ca6e2 | demo | "bundle exec 'rails | 10 seconds ago | Up 9 seconds | 0.0.0.0:32769->3000/tcp | pensive_ritchie |
-
-Look at the port. In this case it is **32769**.
-
-4. Type `docker-machine ip default` to find the IP that docker is deploying to.
-
-6. Access the rails app on your browser by navigating to: `ipaddress:32769`
-
-## Executing commands in your rails dev environment
-
-http://phase2.github.io/devtools/common-tasks/ssh-into-a-container/
-- Use `docker ps` to get the name of the existing container
-- Use the command `docker exec -it <container name> /bin/bash` to get a bash shell in the container
-- Generically, use `docker exec -it <container name> <command>` to execute whatever command you specify in the container.
-
-If you are running Docker on Linux, the files rails new created are owned by root. This happens because the container runs as the root user. If this is the case, change the ownership of the new files.
-
-`sudo chown -R $USER:$USER .`
-
-How to use docker without using `sudo`: https://docs.docker.com/install/linux/linux-postinstall/
-
-## New Gems & Migrations Instructions
-
-If new gems are added, you would need to rebuild the docker image.
-
-```
-$ cd csafe-app
-$ docker-compose build app
+```bash
+$ docker-compose run web bundle
 ```
 
-If you get a PendingMigrationsError, that means new models have been added and you will need to run migrations. When your container is running, find its name by doing a `docker ps`
+## Maintainers
 
-Then, run the migrations using this command: `docker exec -it <container name> rake db:migrate` and replace the container name.
+The current maintainers of this repository are:
 
-## Running the seeds task
-
-`docker exec -it container_name rake db:drop db:create db:migrate db:seed`
-
-## Problems with Another Server Runnning
-
-`sudo rm tmp/pids/server.pid `
+- Xavi Ablaza (xlablaza@gmail.com)
